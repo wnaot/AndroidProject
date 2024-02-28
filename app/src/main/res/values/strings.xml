@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AndroidProject</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="user_name">Username</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="password">Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="already_member">Already a member?</string>
+    <string name="forgot_password">Forgot</string>
+    <string name="create_account">Create an</string>
+    <string name="account">Account</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="code">Code</string>
+</resources>

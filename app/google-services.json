@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "593983566247",
+    "firebase_url": "https://productappchat-default-rtdb.firebaseio.com",
+    "project_id": "productappchat",
+    "storage_bucket": "productappchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593983566247:android:b4503d11a8d5f34223c682",
+        "android_client_info": {
+          "package_name": "com.example.androidproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfyJ2KtPfDgZ9h8glma8o6DIVGbrBrI3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
