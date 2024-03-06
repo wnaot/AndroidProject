@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="746dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_arrow_back"
+            android:drawablePadding="8dp"
+            android:text="Tôi"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal">
+
+            <!-- Circle ImageView -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/circle"
+                app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+            <!-- Camera ImageView -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageCamera"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="70dp"
+                android:src="@drawable/ic_camera"
+                app:shapeAppearanceOverlay="@style/roundedImageView" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Nguyen Linh"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Viết ghi chú"
+                android:textColor="#0C2EDF" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageDark"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dark"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Chế độ tối"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageUsername"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_username"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Tên người dùng"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageAction"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_action"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Trạng thái hoạt động"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="170dp"
+                android:text="Tùy chọn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageAvatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_avatar"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Avatar"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="250dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageNotify"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_notify"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Thông báo và âm thanh"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="300dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageImg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_img"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Ảnh và phương tiện"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="370dp"
+                android:text="An toàn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="400dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageAva"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_changeaccount"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60dp"
+                    android:text="Chuyển tài khoản"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
