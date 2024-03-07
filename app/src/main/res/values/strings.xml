@@ -14,4 +14,32 @@
     <string name="account">Account</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="code">Code</string>
+
+
+
+
+    <string name="action_phone">Gọi thoại</string>
+    <string name="action_videocall">Gọi video</string>
+    <string name="action_see_profile">Trang cá nhân</string>
+    <string name="action_notification">Tắt thông báo</string>
+
+    <string name="action_custom_chude">Chủ đề</string>
+    <string name="action_custom_emotion">Cảm xúc nhanh</string>
+    <string name="action_custom_nickname">Biệt danh</string>
+    <string name="action_custom_text_effect">Hiệu ứng từ ngữ</string>
+    <string name="action_custom_see_file">Xem file phương tiện, file &amp; liên kết</string>
+    <string name="action_custom_message_clip">Xem tin nhắn đã ghim</string>
+    <string name="action_custom_find_message">Tìm kiếm trong cuộc trò chuyện</string>
+    <string name="action_custom_notification">Thông báo &amp; âm thanh</string>
+    <string name="action_custom_notification_volumn">Âm thanh thông báo</string>
+    <string name="action_custom_private_chat">Đi đến cuộc trò chuyện bí mật</string>
+    <string name="action_custom_create_group">Tạo nhóm chat với %s</string>
+    <string name="action_custom_share">Chia sẻ thông tin liên hệ</string>
+    <string name="action_custom_notification_read">Thông báo đã đọc</string>
+    <string name="action_custom_limit">Hạn chế</string>
+    <string name="action_custom_block">Chặn</string>
+    <string name="action_custom_report">Báo cáo</string>
+
+    <string name="default_static">Đang bật</string>
+    <string name="default_report">Góp ý và báo cáo cuộc trò chuyện</string>
 </resources>
