@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/light_gray" /> <!-- Màu nền cho background -->
+            <corners android:radius="20dp" /> <!-- Điều chỉnh độ cong của góc nếu cần -->
+        </shape>
+    </item>
+    <!-- Icon -->
+    <item
+        android:drawable="@drawable/phone_solid"
+        android:gravity="center"
+        android:width="16dp"
+        android:height="16dp" >
+    </item>
+
+
+</layer-list>
