@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_layout"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_light_background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/avatar_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/avar_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="User"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/avatar_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/setting_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="310dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/message_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/msg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="50dp"
+            android:text="Đoạn chat"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/username_text" />
+
+        <ImageView
+            android:id="@+id/waitmessage_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="140dp"
+            android:src="@drawable/message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/waitmessage_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="110dp"
+            android:text="Tin nhắn đang chờ"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/username_text" />
+
+        <ImageView
+            android:id="@+id/Warehouse_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/warehouse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/Warehouse_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="170dp"
+            android:text="Kho lưu trữ"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/username_text" />
+
+        <TextView
+            android:id="@+id/messagepublic_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="230dp"
+            android:text="Cộng đồng"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/username_text" />
+
+        <TextView
+            android:id="@+id/editmessage_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="230dp"
+            android:text="Chỉnh sửa"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/username_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
