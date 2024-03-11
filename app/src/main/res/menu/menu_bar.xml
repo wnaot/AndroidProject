@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_chats"
+        android:title="@string/action_chats"
+        android:icon="@drawable/messenger"></item>
+
+    <item
+        android:id="@+id/action_calls"
+        android:title="@string/action_calls"
+        android:icon="@drawable/video"></item>
+
+    <item
+        android:id="@+id/action_contacts"
+        android:title="@string/action_contacts"
+        android:icon="@drawable/users"></item>
+
+    <item
+        android:id="@+id/action_news"
+        android:title="@string/action_news"
+        android:icon="@drawable/news"></item>
+
+</menu>

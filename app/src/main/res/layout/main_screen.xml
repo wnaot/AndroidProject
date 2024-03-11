@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/head_app"
+        android:background="#017D67"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:scaleType="fitCenter"
+            android:src="@drawable/menu"
+            android:id="@+id/btn_menu"
+            android:layout_margin="12dp"
+            android:background="@drawable/btn_menu"
+            android:layout_height="32dp"
+            android:layout_width="32dp">
+        </ImageButton>
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_toRightOf="@+id/btn_menu"
+            android:text="Chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <ImageButton
+            android:padding="6dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/edit"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btn_edit"
+            android:layout_margin="12dp"
+            android:background="@drawable/btn_menu"
+            android:layout_height="32dp"
+            android:layout_width="32dp">
+        </ImageButton>
+
+    </RelativeLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_below="@+id/head_app"
+        android:layout_above="@+id/menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/menu_bar"
+        app:menu="@menu/menu_bar"
+        app:labelVisibilityMode="labeled"
+        app:itemBackground="@color/cardview_light_background"
+        app:itemIconTint="@color/custom_bottom_nav"
+        app:itemTextColor="@color/custom_bottom_nav">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</RelativeLayout>

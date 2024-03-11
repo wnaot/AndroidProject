@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:scaleType="fitCenter"
+            android:src="@drawable/dog"
+            android:id="@+id/item_imgView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#009688"
+            app:shapeAppearanceOverlay="@style/circular">
+        </com.google.android.material.imageview.ShapeableImageView>
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_margin="12dp"
+            android:layout_toRightOf="@id/item_imgView"
+            android:id="@+id/item_name"
+            android:textStyle="bold"
+            android:text="Kerry Lakin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/item_imgView"
+            android:layout_below="@id/item_name"
+            android:id="@+id/item_desc"
+            android:textColor="#878787"
+            android:text="Love it!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_margin="15dp"
+            android:text="10/03"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+
+<!--    app:strokeColor="#000"-->
+<!--    app:strokeWidth="5dp"-->

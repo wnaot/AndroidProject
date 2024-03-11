@@ -42,4 +42,10 @@
 
     <string name="default_static">Đang bật</string>
     <string name="default_report">Góp ý và báo cáo cuộc trò chuyện</string>
+
+<!--    Nguyen Van Dung -->
+    <string name="action_chats">Chats</string>
+    <string name="action_calls">Calls</string>
+    <string name="action_contacts">Contacts</string>
+    <string name="action_news">News</string>
 </resources>

@@ -12,4 +12,8 @@
 
     <color name="app_text_color">#FF000000</color>
 
+<!--    Nguyễn Văn Dũng-->
+    <color name="check_menu">#017D67</color>
+    <color name="uncheck_menu">#605F5F</color>
+
 </resources>
