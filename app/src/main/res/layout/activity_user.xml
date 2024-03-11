@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="746dp"
+        android:layout_width="350dp"
+        android:layout_height="680dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -102,7 +102,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Chế độ tối"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -124,7 +124,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Tên người dùng"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -146,7 +146,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Trạng thái hoạt động"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
 
             <TextView
@@ -174,7 +174,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Avatar"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -196,7 +196,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Thông báo và âm thanh"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -218,7 +218,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Ảnh và phương tiện"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
 
             <TextView
@@ -246,7 +246,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60dp"
                     android:text="Chuyển tài khoản"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
