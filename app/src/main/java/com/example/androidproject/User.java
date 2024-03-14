@@ -5,21 +5,22 @@ public class User {
     String email;
     String phone;
     String address;
-    String passWord;
+    String password;
+    String lastActive;
+    String profilePicture;
 
-    public User(String userName, String email, String phone, String address, String passWord, String confirm) {
+    public User(String userName, String email, String phone, String address, String password, String lastActive, String profilePicture) {
         this.userName = userName;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.passWord = passWord;
-        this.confirm = confirm;
-    }
-    public User(){
-
+        this.password = password;
+        this.lastActive = lastActive;
+        this.profilePicture = profilePicture;
     }
 
-    String confirm;
+    public User() {
+    }
 
     public String getUserName() {
         return userName;
@@ -53,19 +54,28 @@ public class User {
         this.address = address;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getConfirm() {
-        return confirm;
+    public String getLastActive() {
+        return lastActive;
     }
 
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
+    public void setLastActive(String lastActive) {
+        this.lastActive = lastActive;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
+

@@ -50,14 +50,14 @@ public class ConfirmEmail extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(emailCode.equals(editTextConfirmCode.getText().toString())){
-                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
-                        String userId = currentUser != null ? currentUser.getUid() : "";
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference usersRef = database.getReference("users");
-                        User user = new User(userName, emailSignIn, phone, address, passWord, confirm);
-                        //User user = new User("tranMinhToan", "abc@gmail.com", "0987654321", "67C LTB", "300802", "300802");
-                        usersRef.child(userId).setValue(user);
+//                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                        FirebaseUser currentUser = mAuth.getCurrentUser();
+//                        String userId = currentUser != null ? currentUser.getUid() : "";
+//                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                        DatabaseReference usersRef = database.getReference("users");
+//                        User user = new User(userName, emailSignIn, phone, address, passWord, confirm);
+//                        //User user = new User("tranMinhToan", "abc@gmail.com", "0987654321", "67C LTB", "300802", "300802");
+//                        usersRef.child(userId).setValue(user);
                     }
                     else{
                         Toast.makeText(ConfirmEmail.this, "Sai mã xác nhận.", Toast.LENGTH_SHORT).show();
