@@ -1,6 +1,8 @@
 package com.example.androidproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 public class MainScreen extends AppCompatActivity {
     private BottomNavigationView mbottomNavigationView;
     private ViewPager2 mviewPager;
-
+    private ViewPager2 widgetMenu;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
 
 
@@ -32,19 +34,19 @@ public class MainScreen extends AppCompatActivity {
         ImageView imgView_edit = (ImageView) findViewById(R.id.btn_edit);
         mbottomNavigationView = findViewById(R.id.menu_bar);
         mviewPager = findViewById(R.id.view_pager);
+        widgetMenu = findViewById(R.id.widgetMenu);
+
 
         fragmentArrayList.add(new ChatFragment());
         fragmentArrayList.add(new CallFragment());
         fragmentArrayList.add(new ContactFragment());
         fragmentArrayList.add(new NewFragment());
 
-
-
-
         imgView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainScreen.this, "Menu", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainScreen.this,MenuMainScreen.class);
+                startActivity(intent);
             }
         });
 
@@ -103,5 +105,6 @@ public class MainScreen extends AppCompatActivity {
                 super.onPageSelected(position);
             }
         });
+
     }
 }

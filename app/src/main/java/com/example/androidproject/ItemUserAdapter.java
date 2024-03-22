@@ -1,10 +1,14 @@
 package com.example.androidproject;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +17,7 @@ import java.util.List;
 
 public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHolder>{
     private List<ItemUser> listItemUser;
-
+    Context context;
     public void setData(List<ItemUser> listItemUser) {
         this.listItemUser = listItemUser;
         notifyDataSetChanged();
@@ -39,6 +43,13 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         holder.txtChat.setText((itemUser.getItemChat()));
         holder.txtTime.setText(itemUser.getItemTime());
 
+        holder.layoutMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MessageBox.class);
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
@@ -56,6 +67,8 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         private TextView txtChat;
         private TextView txtTime;
 
+        private RelativeLayout layoutMessage;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -63,6 +76,7 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             txtName = itemView.findViewById(R.id.item_name);
             txtChat = itemView.findViewById(R.id.item_desc);
             txtTime = itemView.findViewById(R.id.item_time);
+            layoutMessage = itemView.findViewById(R.id.layoutMessage);
         }
     }
 }

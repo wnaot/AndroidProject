@@ -40,6 +40,22 @@
             android:exported="true"
             />
         <activity
+            android:name=".MainScreen"
+            android:exported="true"
+            />
+        <activity
+            android:name=".detailAccountActivity"
+            android:exported="true"
+            />
+        <activity
+            android:name=".MessageBox"
+            android:exported="true"
+            />
+        <activity
+            android:name=".MenuMainScreen"
+            android:exported="true"
+            />
+        <activity
             android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>

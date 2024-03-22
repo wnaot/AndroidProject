@@ -77,46 +77,52 @@ public class SignUpActivity extends AppCompatActivity {
                 String passWord = editTextPassWord.getText().toString();
                 String confirm = editTextConfirm.getText().toString();
 
-//                if (TextUtils.isEmpty(userName)) {
-//                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập tên người dùng", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (userName.matches(".*\\d.*") || !userName.matches("[a-zA-Z\\s]+")) {
-//                    Toast.makeText(SignUpActivity.this, "Tên người dùng không được chứa số hoặc ký tự đặc biệt, nhưng có thể chứa khoảng trắng", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(email)) {
-//                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập địa chỉ email", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (!isValidEmail(email)) {
-//                    Toast.makeText(SignUpActivity.this, "Email không hợp lệ abc@gmail.com", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(phone)) {
-//                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập số điện thoại", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (!isValidPhoneNumber(phone)) {
-//                    Toast.makeText(SignUpActivity.this, "Số điện thoại không hợp lệ bắt đầu là 0 và có 10 số 0987655432", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(address)) {
-//                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập địa chỉ", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                if (TextUtils.isEmpty(passWord)) {
-//                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                // Nếu cần kiểm tra mật khẩu xác nhận, hãy thêm điều kiện ở đây
-//                if (!passWord.equals(confirm)) {
-//                    Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-                //register(userName,email,phone,address,passWord);
-                register("MinhTonf","toan07122019@gmail.com","01223624615Thai","168 ba hat","144 kafas");
+                if (TextUtils.isEmpty(userName)) {
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập tên người dùng", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (userName.matches(".*\\d.*") || !userName.matches("[a-zA-Z\\s]+")) {
+                    Toast.makeText(SignUpActivity.this, "Tên người dùng không được chứa số hoặc ký tự đặc biệt, nhưng có thể chứa khoảng trắng", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập địa chỉ email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!isValidEmail(email)) {
+                    Toast.makeText(SignUpActivity.this, "Email không hợp lệ abc@gmail.com", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập số điện thoại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!isValidPhoneNumber(phone)) {
+                    Toast.makeText(SignUpActivity.this, "Số điện thoại không hợp lệ bắt đầu là 0 và có 10 số 0987655432", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(address)) {
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập địa chỉ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(passWord)) {
+                    Toast.makeText(SignUpActivity.this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Nếu cần kiểm tra mật khẩu xác nhận, hãy thêm điều kiện ở đây
+                if (!passWord.equals(confirm)) {
+                    Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //register("MinTonf", "thanhthien300802@gmail.com","123456","0987654111","168 ba hat");
+                checkEmailAndPhone(email, phone,userName,address,passWord);
+                //checkEmailAndPhone("example@gmail.com", "168 ba hat","MinTonf","168 ba hat","123456");
+                //checkEmailAndPhone(email, phone,userName,address,passWord);
+
+
+
             }
         });
         setIcon(editTextPassWord);
@@ -199,6 +205,51 @@ public class SignUpActivity extends AppCompatActivity {
         return (!TextUtils.isEmpty(target) && target.toString().matches(phoneNumberPattern));
     }
 
+    private void checkEmailAndPhone(String email, String phone, String username,String address, String password) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        // Kiểm tra email
+        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot emailSnapshot) {
+                if (emailSnapshot.exists()) {
+                    Toast.makeText(SignUpActivity.this, "This email is already registered", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Nếu email chưa được sử dụng, kiểm tra số điện thoại
+                    usersRef.orderByChild("phone").equalTo(phone).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot phoneSnapshot) {
+                            if (phoneSnapshot.exists()) {
+                                Toast.makeText(SignUpActivity.this, "This phone is already registered", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //Chuyển sang trang xác nhận email
+                                navigateToConfirmEmail(username,email,password,phone,address);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Xử lý lỗi nếu cần thiết
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi nếu cần thiết
+            }
+        });
+    }
+    public void navigateToConfirmEmail(String username, String email, String password, String phone, String address){
+        Intent intent = new Intent(SignUpActivity.this, ConfirmEmail.class);
+        //username, email, password, phone, address
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("EMAIL", email);
+        intent.putExtra("PASSWORD", password);
+        intent.putExtra("PHONE", phone);
+        intent.putExtra("ADDRESS", address);
+        startActivity(intent);
+    }
+
     public void register(String username, String email, String password, String phone, String address) {
         // Đăng ký người dùng với email và mật khẩu
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -214,7 +265,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
                                 // Tạo một HashMap chứa thông tin của người dùng
                                 HashMap<String, String> userMap = new HashMap<>();
-                                userMap.put("userId",userId);
+                                userMap.put("userId", userId);
                                 userMap.put("userName", username);
                                 userMap.put("email", email);
                                 userMap.put("phone", phone);
@@ -223,34 +274,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 userMap.put("lastActive", "default");
                                 userMap.put("profilePicture", "default");
                                 // Thêm thông tin người dùng vào collection "Users"
-                                reference.setValue(userMap)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    firebaseUser.sendEmailVerification()
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        // Email xác nhận đã được gửi thành công
-                                                                        Toast.makeText(SignUpActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
-                                                                    } else {
-                                                                        // Không thể gửi email xác nhận
-                                                                        Toast.makeText(SignUpActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                }
-
-                                                            });
-                                                    if(firebaseUser.isEmailVerified()){
-                                                        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    }
-                                                }
-                                            }
-                                        });
+                                reference.setValue(userMap);
                             }
                         } else {
                             // Đăng ký người dùng thất bại
@@ -259,7 +283,5 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 }
 

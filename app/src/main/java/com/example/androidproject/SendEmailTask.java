@@ -12,8 +12,11 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmailTask extends AsyncTask<Void, Void, Void> {
     private static final String EMAIL_HOST = "smtp.gmail.com";
-    private static final String EMAIL_USERNAME = "toan07122019@gmail.com";
-    private static final String EMAIL_PASSWORD = "hdkcnlacxkhahexa";
+    //private static final String EMAIL_USERNAME = "toan07122019@gmail.com";
+    private static final String EMAIL_USERNAME = "tranminhtoan6422@gmail.com";
+
+    //private static final String EMAIL_PASSWORD = "vwrfycrgrbvgcohp";
+    private static final String EMAIL_PASSWORD = "vtivlqdwjkiwtmqy";
 
     private String recipientEmail;
     private String subject;

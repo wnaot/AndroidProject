@@ -47,8 +47,6 @@ public class ChatFragment extends Fragment {
         list.add(new ItemUser(R.drawable.linda_nguyen, "Linda Nguyen", "Have good day!", "09/03"));
         list.add(new ItemUser(R.drawable.le_minh, "Le Minh", "Đúng rồi bạn", "09/03"));
         list.add(new ItemUser(R.drawable.tram_nguyen, "Nguyen Tram", "Chiều nay đi được không?", "08/03"));
-
-
         return list;
     }
 }

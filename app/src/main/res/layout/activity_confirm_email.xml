@@ -56,17 +56,38 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewSignIn"
                 tools:ignore="RtlSymmetry" />
 
-            <Button
-                android:id="@+id/btnConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:text="Confirm"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/btnResend"
+                android:layout_width="105.333dp"
+                android:layout_height="37.333dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_button_bg"
+                android:fontFamily="@font/inter_extrabold"
+                android:gravity="center"
+                android:text="Resend"
+                android:textColor="#0C2EDF"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textConfirmCode" />
+
+            <TextView
+                android:id="@+id/btnConfirm"
+                android:layout_width="105.333dp"
+                android:layout_height="37.333dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_button_confirm"
+                android:fontFamily="@font/inter_extrabold"
+                android:gravity="center"
+                android:text="Confirm"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.83"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textConfirmCode" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

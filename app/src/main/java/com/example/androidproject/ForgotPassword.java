@@ -29,10 +29,16 @@ public class ForgotPassword extends AppCompatActivity {
         editTextEmail = findViewById(R.id.textForgotPassword);
         btnConfirm = findViewById(R.id.btnConfirm);
 
+        Intent intent = getIntent();
+        // SignUp
+        String email = intent.getStringExtra("EMAIL");
+        if(email != null){
+            editTextEmail.setText(email);
+        }
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
                 usersRef.orderByChild("email").equalTo(editTextEmail.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -40,7 +46,7 @@ public class ForgotPassword extends AppCompatActivity {
                                 String srtRamdom = ramdomString();
                                 SendEmailTask sendEmailTask = new SendEmailTask(editTextEmail.getText().toString(), "Code forgot password","Authentication code forgot password.\n "+ srtRamdom);
                                 sendEmailTask.execute();
-                                navigateToConfirmEmail(srtRamdom,editTextEmail.getText().toString());
+                                navigateToConfirmEmail(editTextEmail.getText().toString(),srtRamdom);
 
                         } else {
                             // Email không tồn tại trong cơ sở dữ liệu
@@ -66,10 +72,10 @@ public class ForgotPassword extends AppCompatActivity {
         String randomString = stringBuilder.toString();
         return randomString;
     }
-    public void navigateToConfirmEmail(String emailCode,String email) {
+    public void navigateToConfirmEmail(String email,String code) {
         Intent intent = new Intent(this, ConfirmEmail.class);
-        intent.putExtra("EMAIL", email);
-        intent.putExtra("EMAIL_CODE_PASSWORD", emailCode);
+        intent.putExtra("EMAIL_FORGOT_PASSWORD", email);
+        intent.putExtra("CODE", code);
         startActivity(intent);
     }
 

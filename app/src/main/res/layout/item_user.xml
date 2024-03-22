@@ -8,6 +8,7 @@
     android:layout_marginEnd="5dp">
 
     <RelativeLayout
+        android:id="@+id/layoutMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

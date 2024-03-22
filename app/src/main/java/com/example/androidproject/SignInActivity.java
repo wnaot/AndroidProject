@@ -33,15 +33,16 @@ import com.google.firebase.database.ValueEventListener;
 public class SignInActivity extends AppCompatActivity {
     private boolean passwordVisible = false;
     TextView sign_in_btn;
-    TextView forgotPassword;
 
-
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         EditText editTextUserName = findViewById(R.id.textUsername);
         EditText editText = findViewById(R.id.textPassword);
+
+        auth = FirebaseAuth.getInstance();
         sign_in_btn = findViewById(R.id.sign_in_btn);
         sign_in_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,35 +50,27 @@ public class SignInActivity extends AppCompatActivity {
                 String email = editTextUserName.getText().toString().trim();
                 String password = editText.getText().toString().trim();
 
-                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
-                usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                String storedPassword = userSnapshot.child("passWord").getValue(String.class);
-                                if (storedPassword.equals(password)) {
-                                    // Mật khẩu đúng, thực hiện đăng nhập
-                                    Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                                    //Intent intent = new Intent(SignInActivity.this, SuccessfulSignInActivity.class);
-                                    //startActivity(intent);
-                                } else {
-                                    // Mật khẩu không đúng
-                                    Toast.makeText(SignInActivity.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
-                                }
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+                    Toast.makeText(SignInActivity.this,"All fileds are required",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(SignInActivity.this,"Sign in successful",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignInActivity.this,MainScreen.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
                             }
-                        } else {
-                            // Email không tồn tại trong cơ sở dữ liệu
-                            Toast.makeText(SignInActivity.this, "Email không tồn tại!", Toast.LENGTH_SHORT).show();
+                            else{
+                                Toast.makeText(SignInActivity.this,"Authentication failed!",Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
+                    });
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Xảy ra lỗi khi truy vấn cơ sở dữ liệu
-                        Log.e("SignInActivity", "Error: " + databaseError.getMessage());
-                    }
-                });
             }
         });
 
