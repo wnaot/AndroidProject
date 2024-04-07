@@ -120,9 +120,6 @@ public class SignUpActivity extends AppCompatActivity {
                 checkEmailAndPhone(email, phone,userName,address,passWord);
                 //checkEmailAndPhone("example@gmail.com", "168 ba hat","MinTonf","168 ba hat","123456");
                 //checkEmailAndPhone(email, phone,userName,address,passWord);
-
-
-
             }
         });
         setIcon(editTextPassWord);

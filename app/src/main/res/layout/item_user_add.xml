@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layoutMessage"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_imgViewAdd"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/dog"
+            app:shapeAppearanceOverlay="@style/circular"
+            app:strokeColor="#009688"
+            app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
+
+        <TextView
+            android:id="@+id/item_nameAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_toRightOf="@id/item_imgViewAdd"
+            android:text="Kerry Lakin"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/btnAddUser"
+            android:layout_width="120.333dp"
+            android:layout_height="37.333dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_button_confirm"
+            android:fontFamily="@font/inter_extrabold"
+            android:gravity="center"
+            android:text="Thêm bạn bè"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.83"
+            app:layout_constraintStart_toStartOf="parent"
+             />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+
+    <!--    app:strokeColor="#000"-->
+    <!--    app:strokeWidth="5dp"-->

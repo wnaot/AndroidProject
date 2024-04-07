@@ -13,17 +13,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHolder>{
-    private List<ItemUser> listItemUser;
+    private List<User> listItemUser;
     Context context;
-    public void setData(List<ItemUser> listItemUser) {
+    public void setData(List<User> listItemUser) {
         this.listItemUser = listItemUser;
         notifyDataSetChanged();
-
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,15 +33,14 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ItemUser itemUser = listItemUser.get(position);
+        User itemUser = listItemUser.get(position);
         if(itemUser == null) {
             return;
         }
-
-        holder.imgAvatar.setImageResource(itemUser.getItemImg());
-        holder.txtName.setText(itemUser.getItemName());
-        holder.txtChat.setText((itemUser.getItemChat()));
-        holder.txtTime.setText(itemUser.getItemTime());
+        Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
+        holder.txtName.setText(itemUser.getUserName());
+        holder.txtChat.setText("Chat.....");
+        holder.txtTime.setText("Time.....");
 
         holder.layoutMessage.setOnClickListener(new View.OnClickListener() {
             @Override

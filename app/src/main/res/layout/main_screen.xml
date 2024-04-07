@@ -13,19 +13,21 @@
 
     <RelativeLayout
         android:id="@+id/head_app"
-        android:background="#017D67"
+        android:background="#0C2EDF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:scaleType="fitCenter"
-            android:src="@drawable/menu"
             android:id="@+id/btn_menu"
-            android:layout_margin="12dp"
-            android:background="@drawable/btn_menu"
+            android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_width="32dp">
-        </ImageButton>
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/btn_menu"
+            android:scaleType="fitCenter"
+            android:src="@drawable/menu"></ImageButton>
 
         <TextView
             android:layout_marginLeft="5dp"
@@ -40,26 +42,41 @@
         </TextView>
 
         <ImageButton
-            android:padding="6dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/edit"
-            android:layout_alignParentRight="true"
             android:id="@+id/btn_edit"
-            android:layout_margin="12dp"
-            android:background="@drawable/btn_menu"
+            android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_width="32dp">
-        </ImageButton>
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/btn_menu"
+            android:padding="6dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/edit"></ImageButton>
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_toLeftOf="@id/btn_edit"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/btn_menu"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_person_add_alt_1_24"></ImageButton>
 
     </RelativeLayout>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
-        android:layout_below="@+id/head_app"
         android:layout_above="@+id/menu_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/head_app"
+        >
     </androidx.viewpager2.widget.ViewPager2>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
