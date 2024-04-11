@@ -1,5 +1,7 @@
 package com.example.androidproject;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.androidproject.Utils.AndroidUtil;
+import com.example.androidproject.Utils.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,21 +46,15 @@ public class MainScreen extends AppCompatActivity {
     private ViewPager2 widgetMenu;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
 
-
     DatabaseReference usersRef;
     private List<User> userList;
     List<User> friendList;
 
 
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intent = getIntent();
-        String userId = intent.getStringExtra("userId");
-        Bundle bundle = new Bundle();
-        bundle.putString("userId", userId);
-
         setContentView(R.layout.main_screen);
 
         ImageView imgView_menu = (ImageView) findViewById(R.id.btn_menu);
@@ -66,11 +66,10 @@ public class MainScreen extends AppCompatActivity {
 
         fragmentArrayList.add(new ChatFragment());
         fragmentArrayList.add(new CallFragment());
-        fragmentArrayList.add(ContactFragment.newInstance(userId));
+        fragmentArrayList.add(new ContactFragment());
         fragmentArrayList.add(new NewFragment());
 
-        //new LoadFriendListTask().execute(userId);
-
+        getToken();
         imgView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,13 +137,12 @@ public class MainScreen extends AppCompatActivity {
                 super.onPageSelected(position);
             }
         });
-        getToken();
     }
     private void getToken(){
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                String token = task.getResult();
-                Log.i("My token: ",token);
+                String token =task.getResult();
+                FirebaseUtil.currentUserDetails().child("fcmToken").setValue(token);
             }
         });
     }

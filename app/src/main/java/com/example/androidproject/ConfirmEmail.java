@@ -14,6 +14,7 @@
     import androidx.annotation.Nullable;
     import androidx.appcompat.app.AppCompatActivity;
 
+    import com.example.androidproject.Utils.AndroidUtil;
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
     import com.google.firebase.auth.AuthResult;
@@ -85,9 +86,10 @@
                         if (code.equals(editTextConfirmCode.getText().toString())) {
 
                             //Nhập mã xác nhận đúng
-                            Toast.makeText(ConfirmEmail.this, "Đăng ký thành công. Bạn hãy bắt đầu đăng nhập và sử dụng!", Toast.LENGTH_SHORT).show();
+                            AndroidUtil.showToast(ConfirmEmail.this,"Đăng ký thành công. Bạn hãy bắt đầu đăng nhập và sử dụng!");
+                            //Toast.makeText(ConfirmEmail.this, "Đăng ký thành công. Bạn hãy bắt đầu đăng nhập và sử dụng!", Toast.LENGTH_SHORT).show();
                             register(userName, emailSignUp, passWord, phone, address);
-                                                                                                navigateToSignIn();
+                            navigateToSignIn();
                         } else {
                             Toast.makeText(ConfirmEmail.this, "Sai mã xác nhận. Vui lòng nhập lại!", Toast.LENGTH_SHORT).show();
                         }

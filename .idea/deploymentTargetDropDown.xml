@@ -5,9 +5,6 @@
       <entry key="InfoUser">
         <State />
       </entry>
-      <entry key="MainActivity">
-        <State />
-      </entry>
       <entry key="MainScreen">
         <State>
           <targetSelectedWithDropDown>
@@ -27,6 +24,12 @@
       <entry key="MenuMainScreen">
         <State />
       </entry>
+      <entry key="SignInActivity">
+        <State />
+      </entry>
+      <entry key="SplashActivity">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -40,7 +43,19 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-14T05:42:09.136461300Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-11T14:20:57.423508400Z" />
+          <multipleDevicesSelectedInDropDown value="true" />
+          <targetsSelectedWithDialog>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\MINH TOAN\.android\avd\Pixel_3_API_30.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetsSelectedWithDialog>
         </State>
       </entry>
     </value>

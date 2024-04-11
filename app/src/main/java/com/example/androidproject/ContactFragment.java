@@ -1,5 +1,6 @@
 package com.example.androidproject;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidproject.Utils.FirebaseUtil;
+import com.example.androidproject.Utils.UserUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,53 +22,56 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 public class ContactFragment extends Fragment {
-    private String userId;
     private MainScreen mainActivity;
     RecyclerView rcvContract;
     List<User> listUsers,listFriend;
     DatabaseReference usersRef;
     View mView;
+    private ListFriendAdapter listFriendAdapter;
 
-
-    public static ContactFragment newInstance(String userId) {
-        ContactFragment fragment = new ContactFragment();
-        Bundle args = new Bundle();
-        args.putString("userId", userId);
-        fragment.setArguments(args);
-        return fragment;
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contact_fragment, container, false);
-        if (getArguments() != null) {
-            userId = getArguments().getString("userId");
-        }
+
+        String userId = FirebaseUtil.currentUserId();
         mView = view; // Gán giá trị cho mView
         mainActivity = (MainScreen) getActivity();
-        rcvContract = view.findViewById(R.id.recycle_contract); // Sửa từ mView thành view
+        rcvContract = view.findViewById(R.id.recycle_contract);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mainActivity);
         rcvContract.setLayoutManager(linearLayoutManager);
 
         // Khởi tạo usersRef
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        listUsers = new ArrayList<>();
+        listFriend = new ArrayList<>();
+        listFriendAdapter = new ListFriendAdapter();
+        listFriendAdapter.setData(listFriend);
+        rcvContract.setAdapter(listFriendAdapter);
 
         FriendListData(userId);
         return view;
     }
-
     public void FriendListData(String userId){
-        listUsers = new ArrayList<>();
-        listFriend = new ArrayList<>();
         Query query = usersRef.orderByChild("userId").equalTo(userId);
-        // Thực hiện truy vấn
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,24 +79,7 @@ public class ContactFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     // Duyệt qua tất cả các nút con trong DataSnapshot
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        // Lấy thông tin của người dùng từ DataSnapshot
-                        String userId = snapshot.child("userId").getValue(String.class);
-                        String userName = snapshot.child("userName").getValue(String.class);
-                        String email = snapshot.child("email").getValue(String.class);
-                        String phone = snapshot.child("phone").getValue(String.class);
-                        String address = snapshot.child("address").getValue(String.class);
-                        String profilePicture = snapshot.child("profilePicture").getValue(String.class);
-                        String lastActive = snapshot.child("lastActive").getValue(String.class);
-
-                        HashMap<String, Boolean> friendListMap = new HashMap<>();
-                        HashMap<String, Boolean> blockListMap = new HashMap<>();
-                        for (DataSnapshot friendSnapshot : snapshot.child("friendList").getChildren()) {
-                            friendListMap.put(friendSnapshot.getKey(), friendSnapshot.getValue(Boolean.class));
-                        }
-                        for (DataSnapshot blockSnapshot : snapshot.child("blockList").getChildren()) {
-                            blockListMap.put(blockSnapshot.getKey(), blockSnapshot.getValue(Boolean.class));
-                        }
-                        User user = new User(userId,userName,email,phone,address,"",profilePicture,friendListMap,blockListMap,lastActive);
+                        User user = UserUtil.getUserFromSnapshot(snapshot);
                         listUsers.add(user);
                     }
                     for (User user : listUsers) {
@@ -101,33 +90,14 @@ public class ContactFragment extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if (dataSnapshot.exists()) {
-                                            // Lấy thông tin của người dùng từ dataSnapshot
-                                            String userId = dataSnapshot.child("userId").getValue(String.class);
-                                            String userName = dataSnapshot.child("userName").getValue(String.class);
-                                            String email = dataSnapshot.child("email").getValue(String.class);
-                                            String phone = dataSnapshot.child("phone").getValue(String.class);
-                                            String address = dataSnapshot.child("address").getValue(String.class);
-                                            String profilePicture = dataSnapshot.child("profilePicture").getValue(String.class);
-                                            String lastActive = dataSnapshot.child("lastActive").getValue(String.class);
-                                            HashMap<String, Boolean> friendListMap = new HashMap<>();
-                                            HashMap<String, Boolean> blockListMap = new HashMap<>();
-                                            for (DataSnapshot friendSnapshot : dataSnapshot.child("friendList").getChildren()) {
-                                                friendListMap.put(friendSnapshot.getKey(), friendSnapshot.getValue(Boolean.class));
-                                            }
-                                            for (DataSnapshot blockSnapshot : dataSnapshot.child("blockList").getChildren()) {
-                                                blockListMap.put(blockSnapshot.getKey(), blockSnapshot.getValue(Boolean.class));
-                                            }
-                                            User user = new User(userId,userName,email,phone,address,"",profilePicture,friendListMap,blockListMap,lastActive);
+                                            User user = UserUtil.getUserFromSnapshot(dataSnapshot);
                                             listFriend.add(user);
-                                        } else {
-
                                         }
-                                        updateFriendListOnRecyclerView();
+                                        listFriendAdapter.notifyDataSetChanged();
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        // Xử lý khi truy vấn bị hủy
+
                                     }
                                 });
                             }
@@ -144,11 +114,6 @@ public class ContactFragment extends Fragment {
             }
         });
     }
-    public void updateFriendListOnRecyclerView() {
 
-        ListFriendAdapter listFriendAdapter = new ListFriendAdapter();
-        listFriendAdapter.setData(listFriend);
-        rcvContract.setAdapter(listFriendAdapter);
-    }
 
 }

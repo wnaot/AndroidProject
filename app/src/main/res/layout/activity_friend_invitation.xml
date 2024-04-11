@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/imageViewBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/arrow_back"
+            >
+        </ImageView>
+        <TextView
+            android:id="@+id/textViewTitile"
+            android:layout_width="359dp"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/imageViewBack"
+            android:text="Lời mời kết bạn"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="7dp"
+            android:fontFamily="monospace"
+            >
+        </TextView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/belowHeader"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lời mời kết bạn"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            >
+        </TextView>
+        <TextView
+            android:id="@+id/count_invitation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/title"
+            android:text=""
+            android:textColor="#d81b00"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginLeft="7dp">
+        </TextView>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/textEmpty"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="110dp"
+        android:layout_below="@+id/belowHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Không có lời mời kết nào!!!"
+        android:visibility="invisible">
+
+    </TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_invitation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/belowHeader">
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

@@ -10,12 +10,17 @@ public class User {
     private String address;
     private String password;
     private String profilePicture;
-    private Map<String, Boolean> friendList; // Thay đổi kiểu dữ liệu của friendList
-    private Map<String, Boolean> blockList; // Thay đổi kiểu dữ liệu của blockList
+    private Map<String, Boolean> friendList;
+    private Map<String, Boolean> blockList;
     private String lastActive;
-
+    private String fcmToken;
     // Constructor
-    public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive) {
+
+    public User(){
+
+    }
+
+    public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive, String fcmToken) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -26,6 +31,7 @@ public class User {
         this.friendList = friendList;
         this.blockList = blockList;
         this.lastActive = lastActive;
+        this.fcmToken = fcmToken;
     }
 
     // Getters and setters
@@ -107,5 +113,13 @@ public class User {
 
     public void setLastActive(String lastActive) {
         this.lastActive = lastActive;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 }

@@ -45,7 +45,6 @@ public class ChatFragment extends Fragment {
         if (bundle != null) {
             String userId = bundle.getString("userId");
             loadListData(userId);
-
         }
         return mView;
     }

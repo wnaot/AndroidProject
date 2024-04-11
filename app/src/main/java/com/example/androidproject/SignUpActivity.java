@@ -115,11 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                //register("MinTonf", "thanhthien300802@gmail.com","123456","0987654111","168 ba hat");
                 checkEmailAndPhone(email, phone,userName,address,passWord);
-                //checkEmailAndPhone("example@gmail.com", "168 ba hat","MinTonf","168 ba hat","123456");
-                //checkEmailAndPhone(email, phone,userName,address,passWord);
+
             }
         });
         setIcon(editTextPassWord);
@@ -211,7 +208,6 @@ public class SignUpActivity extends AppCompatActivity {
                 if (emailSnapshot.exists()) {
                     Toast.makeText(SignUpActivity.this, "This email is already registered", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Nếu email chưa được sử dụng, kiểm tra số điện thoại
                     usersRef.orderByChild("phone").equalTo(phone).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot phoneSnapshot) {
@@ -245,40 +241,6 @@ public class SignUpActivity extends AppCompatActivity {
         intent.putExtra("PHONE", phone);
         intent.putExtra("ADDRESS", address);
         startActivity(intent);
-    }
-
-    public void register(String username, String email, String password, String phone, String address) {
-        // Đăng ký người dùng với email và mật khẩu
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Người dùng được đăng ký thành công
-                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            if (firebaseUser != null) {
-                                // Lấy ID của người dùng
-                                String userId = firebaseUser.getUid();
-                                reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-                                // Tạo một HashMap chứa thông tin của người dùng
-                                HashMap<String, String> userMap = new HashMap<>();
-                                userMap.put("userId", userId);
-                                userMap.put("userName", username);
-                                userMap.put("email", email);
-                                userMap.put("phone", phone);
-                                userMap.put("address", address);
-                                userMap.put("password", password);
-                                userMap.put("lastActive", "default");
-                                userMap.put("profilePicture", "default");
-                                // Thêm thông tin người dùng vào collection "Users"
-                                reference.setValue(userMap);
-                            }
-                        } else {
-                            // Đăng ký người dùng thất bại
-                            Toast.makeText(SignUpActivity.this, "You can't register with this email or password", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 }
 

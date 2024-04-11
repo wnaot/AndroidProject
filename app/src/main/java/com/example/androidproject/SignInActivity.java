@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidproject.Utils.AndroidUtil;
+import com.example.androidproject.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -31,10 +33,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
 public class SignInActivity extends AppCompatActivity {
     private boolean passwordVisible = false;
     TextView sign_in_btn;
-
     FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +62,43 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                if (firebaseUser != null) {
-                                    String userId = firebaseUser.getUid();
-                                    Toast.makeText(SignInActivity.this, "Sign in successful", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SignInActivity.this, MainScreen.class);
-                                    intent.putExtra("userId", userId);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                }
+                                Intent intent = new Intent(SignInActivity.this, MainScreen.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+
+
+//                                String UID = FirebaseUtil.currentUserId();
+//                                FirebaseUtil.allUserDatabaseReference().child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        if (snapshot.exists()) {
+//                                            User user = snapshot.getValue(User.class);
+//                                            if (user != null) {
+//                                                Object friendListObj = snapshot.child("friendList").getValue();
+//                                                Object blockListObj = snapshot.child("blockList").getValue();
+//
+//                                                if (friendListObj != null && friendListObj instanceof Map) {
+//                                                    Map<String, Boolean> friendListMap = (Map<String, Boolean>) friendListObj;
+//                                                    user.setFriendList(friendListMap);
+//                                                }
+//                                                if (blockListObj != null && blockListObj instanceof Map) {
+//                                                    Map<String, Boolean> blockListMap = (Map<String, Boolean>) blockListObj;
+//                                                    user.setBlockList(blockListMap);
+//                                                }
+//
+//
+//                                                Intent intent = new Intent(SignInActivity.this, MainScreen.class);
+////                                              AndroidUtil.passUserModelAsIntent(intent, user);
+//                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                                startActivity(intent);
+//                                            }
+//                                        }
+//                                    }
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
                             }
                             else{
                                 Toast.makeText(SignInActivity.this,"Authentication failed!",Toast.LENGTH_SHORT).show();
@@ -79,7 +109,6 @@ public class SignInActivity extends AppCompatActivity {
 
             }
         });
-
         setIcon(editText);
 
         editText.setOnTouchListener(new View.OnTouchListener() {
