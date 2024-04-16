@@ -1,73 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:padding="10dp"
+        android:id="@+id/message_box_chat_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/avatar_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/avar_user"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/circular"
+            android:layout_centerVertical="true"
+            android:id="@+id/avatar_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/dog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/tv_sender_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="16dp"
-        android:text="Nguyễn Linh"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_toRightOf="@id/avatar_image"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_sender_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nguyễn Linh"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/phone_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="256dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_phone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_marginRight="12dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/phone_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_toLeftOf="@id/info_image"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/info_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_info"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/info_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="#E4D6FD"
+        android:layout_above="@+id/message_input_layout"
+        android:layout_below="@id/message_box_chat_header"
         android:id="@+id/lv_messages"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/message_input_layout"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sender_name" />
+         />
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/message_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,16 +100,19 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <EditText
+            android:layout_centerVertical="true"
             android:id="@+id/et_message"
-            android:layout_width="0dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="#DDDDDD"
             android:hint="Nhập tin nhắn..."
             android:padding="8dp"
             android:textSize="16sp" />
 
         <Button
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,6 +120,6 @@
             android:text="Gửi"
             android:textColor="@color/white" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

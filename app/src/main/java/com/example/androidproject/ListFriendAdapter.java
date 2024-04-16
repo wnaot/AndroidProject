@@ -1,5 +1,7 @@
 package com.example.androidproject;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidproject.Model.User;
 import com.squareup.picasso.Picasso;
@@ -35,12 +38,26 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        int index_user = position;
+
         User user = listUser.get(position);
         if(user == null) {
             return;
         }
         Picasso.get().load(user.getProfilePicture()).into(holder.image);
         holder.itemName.setText(user.getUserName());
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), listUser.get(index_user).getUserId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), MessageBox.class);
+                intent.putExtra("FriendID", listUser.get(index_user).getUserId());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
