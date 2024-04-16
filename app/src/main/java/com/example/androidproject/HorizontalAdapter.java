@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidproject.Model.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

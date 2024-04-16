@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.androidproject.User;
+import com.example.androidproject.Model.User;
 
 import java.util.HashMap;
 import java.util.Map;

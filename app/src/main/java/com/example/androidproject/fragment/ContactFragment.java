@@ -1,8 +1,6 @@
-package com.example.androidproject;
+package com.example.androidproject.fragment;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidproject.ListFriendAdapter;
+import com.example.androidproject.MainScreen;
+import com.example.androidproject.R;
+import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.FirebaseUtil;
 import com.example.androidproject.Utils.UserUtil;
 import com.google.firebase.database.DataSnapshot;
@@ -22,21 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 public class ContactFragment extends Fragment {

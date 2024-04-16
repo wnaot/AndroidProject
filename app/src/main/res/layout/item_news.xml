@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_marginTop="10dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginLeft="3dp"
+    android:background="@drawable/custom_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/circle"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/dog"
+        android:id="@+id/imgNews"
+        android:layout_centerVertical="true"
+        android:layout_width="70dp"
+        android:layout_height="70dp">
+    </com.google.android.material.imageview.ShapeableImageView>
+
+    <TextView
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="10dp"
+        android:padding="3dp"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_toRightOf="@id/imgNews"
+        android:id="@+id/tv_title_news"
+        android:text="Đánh bại Liverpool, Crystal Palace làm được điều khiến Man City phải ao ước"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:paddingBottom="2dp"
+        android:layout_marginBottom="2dp"
+        android:paddingRight="3dp"
+        android:paddingLeft="3dp"
+        android:layout_marginLeft="12dp"
+        android:textSize="9dp"
+        android:layout_below="@id/tv_title_news"
+        android:layout_toRightOf="@id/imgNews"
+        android:id="@+id/tv_desc_news"
+        android:text="Chiến thắng 1-0 trước Liverpool giúp Crystal Palace trở thành CLB đầu tiên ở Premier League giành chiến thắng 3 trận trên sân Anfield dưới thời HLV Jurgen Klopp."
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
+    </TextView>
+
+</RelativeLayout>

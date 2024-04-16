@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:background="#8BC34A"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:textStyle="bold"
-        android:padding="10dp"
-        android:background="#FFEB3B"
-        android:text="News"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tvNews"
+        android:text="NEWS"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </TextView>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/tvNews"
+        android:id="@+id/recycleViewNews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

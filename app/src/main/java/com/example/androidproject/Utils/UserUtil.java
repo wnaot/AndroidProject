@@ -1,10 +1,9 @@
 package com.example.androidproject.Utils;
 
-import com.example.androidproject.User;
+import com.example.androidproject.Model.User;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class UserUtil {
 

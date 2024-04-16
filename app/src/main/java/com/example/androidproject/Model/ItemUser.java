@@ -1,4 +1,4 @@
-package com.example.androidproject;
+package com.example.androidproject.Model;
 
 public class ItemUser {
     private int itemImg;

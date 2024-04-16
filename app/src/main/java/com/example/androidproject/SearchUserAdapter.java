@@ -1,6 +1,5 @@
 package com.example.androidproject;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import java.util.Map;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.FirebaseUtil;
 import com.example.androidproject.Utils.UserUtil;
 import com.google.firebase.database.DataSnapshot;

@@ -1,4 +1,4 @@
-package com.example.androidproject;
+package com.example.androidproject.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,15 +12,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.androidproject.HorizontalAdapter;
+import com.example.androidproject.ItemUserAdapter;
+import com.example.androidproject.MainScreen;
+import com.example.androidproject.R;
+import com.example.androidproject.Model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChatFragment extends Fragment {
     private RecyclerView rcvChat;
@@ -29,7 +30,7 @@ public class ChatFragment extends Fragment {
     private MainScreen mainActivity;
     private ItemUserAdapter itemUserAdapter;
 
-    private  HorizontalAdapter horizontalAdapter;
+    private HorizontalAdapter horizontalAdapter;
 
     private DatabaseReference mDatabase;
     private List<User> userList,friendUsers;

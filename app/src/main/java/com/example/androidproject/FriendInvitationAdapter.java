@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.Model.FriendInvitation;
+import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.FirebaseUtil;
 import com.example.androidproject.Utils.UserUtil;
 import com.google.firebase.database.DataSnapshot;
@@ -20,20 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class FriendInvitationAdapter extends RecyclerView.Adapter<FriendInvitationAdapter.ViewHolder> {
 
