@@ -26,11 +26,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class MessageBox extends AppCompatActivity {
     ImageView imageInfo;
@@ -96,13 +103,6 @@ public class MessageBox extends AppCompatActivity {
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mData = FirebaseDatabase.getInstance().getReference("Users").child(idFriend);
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        messageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(messageList);
-        recyclerView.setAdapter(messageAdapter);
 
         // Lấy dữ liệu bạn bè theo ID và hiện username và image lên chat box
         mData.addValueEventListener(new ValueEventListener() {
@@ -151,6 +151,15 @@ public class MessageBox extends AppCompatActivity {
             chatData.child(messageId).child("messageText").setValue(messageText);
             chatData.child(messageId).child("SenderID").setValue(sender_id);
             chatData.child(messageId).child("ReceiverID").setValue(receiver_id);
+
+            // Lấy thời gian hiện tại
+            Calendar calendar = Calendar.getInstance();
+            Date currentDate = calendar.getTime();
+            // Định dạng thời gian theo ý muốn
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            String formattedDateTime = dateFormat.format(currentDate);
+            // Lưu chuỗi vào Firebase
+            chatData.child(messageId).child("time").setValue(formattedDateTime);
 
             Toast.makeText(MessageBox.this, "Đã gửi", Toast.LENGTH_SHORT).show();
             Toast.makeText(MessageBox.this, sender_id, Toast.LENGTH_SHORT).show();
