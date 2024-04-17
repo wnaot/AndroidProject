@@ -1,8 +1,11 @@
 package com.example.androidproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,8 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.Model.User;
+import com.example.androidproject.Utils.MessageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MessageBox extends AppCompatActivity {
     ImageView imageInfo;
 
@@ -31,8 +40,17 @@ public class MessageBox extends AppCompatActivity {
     TextView tv_sender_name;
 
     // Firebase
-    DatabaseReference mData;
+    DatabaseReference mData, chatData, chatRef;
     FirebaseUser mUser;
+    EditText et_message;
+    Button btn_send;
+    String idFriend;
+
+
+    RecyclerView recyclerView;
+    MessageAdapter messageAdapter;
+    List<String> messageList;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +92,17 @@ public class MessageBox extends AppCompatActivity {
 
         // Lấy dữ liệu bạn bè theo ID để hiện thông tin bạn bè trên màn hình chat
         Intent intent = getIntent();
-        String idFriend = intent.getStringExtra("FriendID"); // ID của bạn sẽ dùng chat với bạn là đây
+        idFriend = intent.getStringExtra("FriendID"); // ID của bạn sẽ dùng chat với bạn là đây
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mData = FirebaseDatabase.getInstance().getReference("Users").child(idFriend);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        messageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(messageList);
+        recyclerView.setAdapter(messageAdapter);
 
         // Lấy dữ liệu bạn bè theo ID và hiện username và image lên chat box
         mData.addValueEventListener(new ValueEventListener() {
@@ -99,9 +124,42 @@ public class MessageBox extends AppCompatActivity {
 
             }
         });
+        et_message = findViewById(R.id.et_message);
+        btn_send = findViewById(R.id.btn_send);
+        chatData = FirebaseDatabase.getInstance().getReference("Chats");
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage();
+            }
+        });
+    }
+    private void sendMessage() {
+        // Lay noi dung tin nhan tu EditText
+        String messageText = et_message.getText().toString().trim();
+        // Lay user_id hien tai
+        String sender_id = mUser.getUid();
+        // Lay friendid hien tai dang chat
+        String receiver_id = idFriend;
 
+        //Kiem tra neu tin nhan rong
+        if(!messageText.isEmpty()) {
+            //Tao mot ID duy nhat cho tin nhan moi
+            String messageId = chatData.child("Chats").push().getKey();
 
+            //Luu tin nhan vao Firebase Realtime DB
+            chatData.child(messageId).child("messageText").setValue(messageText);
+            chatData.child(messageId).child("SenderID").setValue(sender_id);
+            chatData.child(messageId).child("ReceiverID").setValue(receiver_id);
 
+            Toast.makeText(MessageBox.this, "Đã gửi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MessageBox.this, sender_id, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MessageBox.this, receiver_id, Toast.LENGTH_SHORT).show();
 
+            //Xoa noi dung trong EditText sau khi luu
+            et_message.setText("");
+        } else {
+            Toast.makeText(MessageBox.this, "Vui long nhap tin nhan", Toast.LENGTH_SHORT).show();
+        }
     }
 }

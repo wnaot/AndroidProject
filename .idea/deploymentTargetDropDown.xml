@@ -2,61 +2,8 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="InfoUser">
-        <State />
-      </entry>
-      <entry key="MainScreen">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\MINH TOAN\.android\avd\Pixel_6_API_33.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-06T15:20:25.803073900Z" />
-        </State>
-      </entry>
-      <entry key="MenuMainScreen">
-        <State />
-      </entry>
-      <entry key="SignInActivity">
-        <State />
-      </entry>
-      <entry key="SplashActivity">
-        <State />
-      </entry>
       <entry key="app">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\MINH TOAN\.android\avd\Pixel_3_API_30.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-11T14:20:57.423508400Z" />
-          <multipleDevicesSelectedInDropDown value="true" />
-          <targetsSelectedWithDialog>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\MINH TOAN\.android\avd\Pixel_3_API_30.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetsSelectedWithDialog>
-        </State>
+        <State />
       </entry>
     </value>
   </component>
