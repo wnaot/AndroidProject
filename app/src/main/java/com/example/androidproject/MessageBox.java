@@ -1,6 +1,7 @@
 package com.example.androidproject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,9 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.Model.User;
-import com.example.androidproject.Utils.MessageAdapter;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,16 +50,16 @@ public class MessageBox extends AppCompatActivity {
     TextView tv_sender_name;
 
     // Firebase
-    DatabaseReference mData, chatData, chatRef;
+    DatabaseReference mData, chatData, messageRef;
     FirebaseUser mUser;
     EditText et_message;
     Button btn_send;
     String idFriend;
 
-
     RecyclerView recyclerView;
-    MessageAdapter messageAdapter;
-    List<String> messageList;
+    List<Message> messageList;
+    ChatAdapter messageAdapter;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +113,6 @@ public class MessageBox extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 tv_sender_name.setText(user.getUserName());
-
                 if("default".equals(user.getProfilePicture())) {
                     avatar_image.setImageResource(R.drawable.dog);
                 }
@@ -133,6 +135,17 @@ public class MessageBox extends AppCompatActivity {
                 sendMessage();
             }
         });
+        // Khởi tạo danh sách tin nhắn
+        messageList = new ArrayList<>();
+
+        // Khởi tạo adapter và gán cho RecyclerView
+        recyclerView = findViewById(R.id.lv_messages);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        messageAdapter = new ChatAdapter();
+        recyclerView.setAdapter(messageAdapter);
+
+        // Cập nhật danh sách tin nhắn
+        loadMessage();
     }
     private void sendMessage() {
         // Lay noi dung tin nhan tu EditText
@@ -167,8 +180,42 @@ public class MessageBox extends AppCompatActivity {
 
             //Xoa noi dung trong EditText sau khi luu
             et_message.setText("");
+            loadMessage();
         } else {
             Toast.makeText(MessageBox.this, "Vui long nhap tin nhan", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void loadMessage() {
+        messageRef = FirebaseDatabase.getInstance().getReference().child("Chats");
+        messageRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                // Xử lý khi có tin nhắn mới được thêm vào
+                Message message = snapshot.getValue(Message.class);
+                messageList.add(message);
+                messageAdapter.setData(messageList);
+                recyclerView.smoothScrollToPosition(messageList.size() - 1);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                // Xử lý khi có sự thay đổi trong tin nhắn
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                // Xử lý khi có tin nhắn bị xóa
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                // Xử lý khi có tin nhắn được di chuyển
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý khi có lỗi xảy ra
+            }
+        });
     }
 }
