@@ -50,7 +50,12 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         int index_user = position;
 
         //đổ data chat ra giao diện item
-       holder.txtChat.setText(listItemUser.get(position).getChat().getMessageText());
+        String messChat = listItemUser.get(position).getChat().getMessageText();
+        String newMess = messChat;
+        if(messChat.length() > 25) {
+           newMess  = messChat.substring(0,23) + "...";
+        }
+       holder.txtChat.setText(newMess);
         String dateTimeMess = listItemUser.get(position).getChat().getTime();
 
         String[] parts = dateTimeMess.split(" ");
