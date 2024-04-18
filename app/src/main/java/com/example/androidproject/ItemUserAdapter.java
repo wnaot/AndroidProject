@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidproject.Model.Chat;
 import com.example.androidproject.Model.User;
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +21,12 @@ import java.util.List;
 public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHolder>{
     private List<User> listItemUser;
     Context context;
+
+    public ItemUserAdapter(List<User> listItemUser, Context context) {
+        this.listItemUser = listItemUser;
+        this.context = context;
+    }
+
     public void setData(List<User> listItemUser) {
         this.listItemUser = listItemUser;
         notifyDataSetChanged();
@@ -39,13 +46,38 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         }
         Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
         holder.txtName.setText(itemUser.getUserName());
-        holder.txtChat.setText("Chat.....");
-        holder.txtTime.setText("Time.....");
 
-        holder.layoutMessage.setOnClickListener(new View.OnClickListener() {
+        int index_user = position;
+
+        //đổ data chat ra giao diện item
+        String messChat = listItemUser.get(position).getChat().getMessageText();
+        String newMess = messChat;
+        if(messChat.length() > 25) {
+           newMess  = messChat.substring(0,23) + "...";
+        }
+       holder.txtChat.setText(newMess);
+        String dateTimeMess = listItemUser.get(position).getChat().getTime();
+
+        String[] parts = dateTimeMess.split(" ");
+        String dateLastMess = parts[0];
+        String timeLastMess = parts[1];
+        holder.txtTime.setText(dateLastMess);
+        holder.txtTimeMess.setText(timeLastMess);
+
+//        holder.layoutMessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(v.getContext(), MessageBox.class);
+//                v.getContext().startActivity(intent);
+//            }
+//        });
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MessageBox.class);
+                intent.putExtra("FriendID", listItemUser.get(index_user).getUserId());
                 v.getContext().startActivity(intent);
             }
         });
@@ -66,6 +98,8 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         private TextView txtChat;
         private TextView txtTime;
 
+        private TextView txtTimeMess;
+
         private RelativeLayout layoutMessage;
 
         public ViewHolder(@NonNull View itemView) {
@@ -75,6 +109,7 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             txtName = itemView.findViewById(R.id.item_name);
             txtChat = itemView.findViewById(R.id.item_desc);
             txtTime = itemView.findViewById(R.id.item_time);
+            txtTimeMess = itemView.findViewById(R.id.time_mess);
             layoutMessage = itemView.findViewById(R.id.layoutMessage);
         }
     }

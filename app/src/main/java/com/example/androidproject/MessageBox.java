@@ -111,7 +111,11 @@ public class MessageBox extends AppCompatActivity {
         mData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+                String userName = snapshot.child("userName").getValue(String.class);
+                String profilePicture = snapshot.child("profilePicture").getValue(String.class);
+
+                User user = new User(userName, profilePicture);
+//                User user = snapshot.getValue(User.class);
                 tv_sender_name.setText(user.getUserName());
                 if("default".equals(user.getProfilePicture())) {
                     avatar_image.setImageResource(R.drawable.dog);
@@ -133,7 +137,7 @@ public class MessageBox extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendMessage();
-            }
+               }
         });
         // Khởi tạo danh sách tin nhắn
         messageList = new ArrayList<>();
