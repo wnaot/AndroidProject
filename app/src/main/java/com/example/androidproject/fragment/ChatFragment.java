@@ -82,10 +82,10 @@ public class ChatFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
-                    if(chat.getSenderID().equals(mUser.getUid())) {
+                    if(mUser.getUid().equals(chat.getSenderID())) {
                         listIDFriendChat.add(chat.getReceiverID());
                     }
-                    if(chat.getReceiverID().equals(mUser.getUid())) {
+                    if(mUser.getUid().equals(chat.getReceiverID())) {
                         listIDFriendChat.add(chat.getSenderID());
                     }
                 }
@@ -147,8 +147,8 @@ public class ChatFragment extends Fragment {
                 for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
                     Chat chat  = dataSnapshot1.getValue(Chat.class);
 
-                    if(chat.getReceiverID().equals(mUser.getUid()) && chat.getSenderID().equals(userId) ||
-                            chat.getReceiverID().equals(userId) && chat.getSenderID().equals(mUser.getUid())) {
+                    if(mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
+                            userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
                         listChat.add(chat);
                     }
 
