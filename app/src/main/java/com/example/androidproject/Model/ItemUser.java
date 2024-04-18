@@ -4,13 +4,25 @@ public class ItemUser {
     private int itemImg;
     private String itemName;
     private String itemChat;
-    private String itemTime;
 
-    public ItemUser(int itemImg, String itemName, String itemChat, String itemTime) {
+    private Chat chat;
+
+    public ItemUser() {
+    }
+
+    public ItemUser(int itemImg, String itemName, String itemChat, Chat chat) {
         this.itemImg = itemImg;
         this.itemName = itemName;
         this.itemChat = itemChat;
-        this.itemTime = itemTime;
+        this.chat = chat;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 
     public int getItemImg() {
@@ -37,11 +49,4 @@ public class ItemUser {
         this.itemChat = itemChat;
     }
 
-    public String getItemTime() {
-        return itemTime;
-    }
-
-    public void setItemTime(String itemTime) {
-        this.itemTime = itemTime;
-    }
 }
