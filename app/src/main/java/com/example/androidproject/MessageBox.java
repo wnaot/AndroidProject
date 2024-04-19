@@ -1,27 +1,25 @@
 package com.example.androidproject;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import static android.text.format.DateUtils.formatDateTime;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.Model.User;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -37,30 +34,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class MessageBox extends AppCompatActivity {
-    ImageView imageInfo;
-
-    RelativeLayout layoutMainScreen;
-    ImageView imageBack,avatar_image;
+    ImageView imageInfo, imageBack, avatar_image;
     TextView tv_sender_name;
-
-    // Firebase
-    DatabaseReference mData, chatData, messageRef;
-    FirebaseUser mUser;
     EditText et_message;
     Button btn_send;
+    RecyclerView recyclerView;
+    ChatAdapter messageAdapter;
     String idFriend;
 
-    RecyclerView recyclerView;
+    DatabaseReference chatData, messageRef;
+    FirebaseUser mUser;
     List<Message> messageList;
-    ChatAdapter messageAdapter;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,44 +59,54 @@ public class MessageBox extends AppCompatActivity {
         imageBack = findViewById(R.id.btnBack);
         tv_sender_name = findViewById(R.id.tv_sender_name);
         avatar_image = findViewById(R.id.avatar_image);
-        imageInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessageBox.this, detailAccountActivity.class);
-                startActivity(intent);
-            }
-        });
-        imageBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessageBox.this,MainScreen.class);
-                startActivity(intent);
-            }
-        });
-        tv_sender_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessageBox.this, detailAccountActivity.class);
-                startActivity(intent);
-            }
-        });
-        avatar_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessageBox.this, detailAccountActivity.class);
-                startActivity(intent);
-            }
-        });
+        et_message = findViewById(R.id.et_message);
+        btn_send = findViewById(R.id.btn_send);
+        recyclerView = findViewById(R.id.lv_messages);
 
-
-        // Lấy dữ liệu bạn bè theo ID để hiện thông tin bạn bè trên màn hình chat
+        // Lấy dữ liệu bạn bè theo ID để hiển thị thông tin bạn bè trên màn hình chat
         Intent intent = getIntent();
-        idFriend = intent.getStringExtra("FriendID"); // ID của bạn sẽ dùng chat với bạn là đây
+        idFriend = intent.getStringExtra("FriendID");
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        mData = FirebaseDatabase.getInstance().getReference("Users").child(idFriend);
+        chatData = FirebaseDatabase.getInstance().getReference("Chats");
+        // Lắng nghe sự thay đổi trong nút "Chats" của cả hai người dùng
+        chatData.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Message message = snapshot.getValue(Message.class);
+                if (message != null) {
+                    String senderID = message.getSenderID();
+                    String receiverID = message.getReceiverID();
+                    if ((senderID.equals(mUser.getUid()) && receiverID.equals(idFriend)) ||
+                            (senderID.equals(idFriend) && receiverID.equals(mUser.getUid()))) {
+                        // Kiểm tra xem tin nhắn có tồn tại trong danh sách chưa
+                        if (!messageList.contains(message)) {
+                            // Thêm tin nhắn vào danh sách và cập nhật giao diện
+                            messageList.add(message);
+                            messageAdapter.setData(messageList);
+                            recyclerView.smoothScrollToPosition(messageList.size() - 1);
+                        }
+                    }
+                }
+            }
 
-        // Lấy dữ liệu bạn bè theo ID và hiện username và image lên chat box
+            // Các phương thức khác của ChildEventListener không cần thiết cho trường hợp này
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+
+        // Lấy dữ liệu bạn bè từ Firebase và hiển thị thông tin
+        DatabaseReference mData = FirebaseDatabase.getInstance().getReference("Users").child(idFriend);
         mData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -115,117 +114,106 @@ public class MessageBox extends AppCompatActivity {
                 String profilePicture = snapshot.child("profilePicture").getValue(String.class);
 
                 User user = new User(userName, profilePicture);
-//                User user = snapshot.getValue(User.class);
                 tv_sender_name.setText(user.getUserName());
-                if("default".equals(user.getProfilePicture())) {
+                if ("default".equals(user.getProfilePicture())) {
                     avatar_image.setImageResource(R.drawable.dog);
-                }
-                else {
+                } else {
                     Picasso.get().load(user.getProfilePicture()).into(avatar_image);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-        et_message = findViewById(R.id.et_message);
-        btn_send = findViewById(R.id.btn_send);
-        chatData = FirebaseDatabase.getInstance().getReference("Chats");
+
+        // Gửi tin nhắn khi nhấn nút Gửi
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendMessage();
             }
         });
-        // Khởi tạo danh sách tin nhắn
-        messageList = new ArrayList<>();
 
-        // Khởi tạo adapter và gán cho RecyclerView
-        recyclerView = findViewById(R.id.lv_messages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Khởi tạo danh sách tin nhắn và adapter
+        messageList = new ArrayList<>();
         messageAdapter = new ChatAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(messageAdapter);
 
-        // Cập nhật danh sách tin nhắn
-        loadMessage();
+        // Load tin nhắn từ Firebase
+        //loadMessage();
     }
+
     private void sendMessage() {
-        // Lay noi dung tin nhan tu EditText
         String messageText = et_message.getText().toString().trim();
-        // Lay user_id hien tai
-        String sender_id = mUser.getUid();
-        // Lay friendid hien tai dang chat
-        String receiver_id = idFriend;
+        String sender_id = mUser.getUid(); // ID của người gửi tin nhắn
+        String receiver_id = idFriend; // ID của người nhận tin nhắn
 
-        //Kiem tra neu tin nhan rong
-        if(!messageText.isEmpty()) {
-            //Tao mot ID duy nhat cho tin nhan moi
-            String messageId = chatData.child("Chats").push().getKey();
-
-            //Luu tin nhan vao Firebase Realtime DB
-            chatData.child(messageId).child("messageText").setValue(messageText);
-            chatData.child(messageId).child("SenderID").setValue(sender_id);
-            chatData.child(messageId).child("ReceiverID").setValue(receiver_id);
-
-            // Lấy thời gian hiện tại
-            Calendar calendar = Calendar.getInstance();
-            Date currentDate = calendar.getTime();
-            // Định dạng thời gian theo ý muốn
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-            String formattedDateTime = dateFormat.format(currentDate);
-            // Lưu chuỗi vào Firebase
-            chatData.child(messageId).child("time").setValue(formattedDateTime);
-
-            Toast.makeText(MessageBox.this, "Đã gửi", Toast.LENGTH_SHORT).show();
-            Toast.makeText(MessageBox.this, sender_id, Toast.LENGTH_SHORT).show();
-            Toast.makeText(MessageBox.this, receiver_id, Toast.LENGTH_SHORT).show();
-
-            //Xoa noi dung trong EditText sau khi luu
-            et_message.setText("");
-            loadMessage();
+        if (!messageText.isEmpty()) {
+            String messageId = chatData.push().getKey();
+            if (messageId != null) {
+                // Lấy thời gian hiện tại và định dạng
+                long currentTimeMillis = System.currentTimeMillis();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                String formattedDateTime = dateFormat.format(new Date(currentTimeMillis));
+                Message message = new Message(receiver_id, sender_id, messageText, formattedDateTime);
+                chatData.child(messageId).setValue(message)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    // Tin nhắn được gửi thành công
+                                    et_message.setText(""); // Xóa nội dung tin nhắn trong EditText
+                                    // Thêm tin nhắn mới vào danh sách và cập nhật giao diện
+//                                    messageList.add(message);
+//                                    messageAdapter.setData(messageList);
+//                                    recyclerView.smoothScrollToPosition(messageList.size() - 1);
+                                } else {
+                                    // Xử lý nếu gửi tin nhắn không thành công
+                                    Toast.makeText(MessageBox.this, "Gửi tin nhắn không thành công", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
         } else {
-            Toast.makeText(MessageBox.this, "Vui long nhap tin nhan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MessageBox.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
         }
     }
+
     public void loadMessage() {
         messageRef = FirebaseDatabase.getInstance().getReference().child("Chats");
-        String receiver_id = idFriend;
-        messageRef.addChildEventListener(new ChildEventListener() {
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // Xử lý khi có tin nhắn mới được thêm vào
-                Message message = snapshot.getValue(Message.class);
-                if ((message.getSenderID().equals(mUser.getUid()) && message.getReceiverID().equals(receiver_id)) ||
-                        (message.getSenderID().equals(receiver_id) && message.getReceiverID().equals(mUser.getUid()))) {
-                    // Tin nhắn thuộc về người dùng mong muốn, thêm vào danh sách và cập nhật RecyclerView
-                    messageList.add(message);
-                    messageAdapter.setData(messageList);
-                    messageAdapter.notifyDataSetChanged(); // Thêm dòng này để cập nhật giao diện người dùng
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean hasMessages = false; // Biến để kiểm tra xem có tin nhắn nào hay không
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Message message = dataSnapshot.getValue(Message.class);
+                    if (message != null) {
+                        String senderID = message.getSenderID();
+                        String receiverID = message.getReceiverID();
+                        if ((senderID.equals(mUser.getUid()) && receiverID.equals(idFriend)) ||
+                                (senderID.equals(idFriend) && receiverID.equals(mUser.getUid()))) {
+                            // Kiểm tra xem tin nhắn đã tồn tại trong danh sách chưa
+                            if (!messageList.contains(message)) {
+                                messageList.add(message);
+                                hasMessages = true; // Có tin nhắn được tìm thấy
+                            }
+                        }
+                    }
+                }
+                messageAdapter.setData(messageList);
+                if (hasMessages) {
+                    // Nếu có tin nhắn, cuộn đến vị trí cuối cùng
                     recyclerView.smoothScrollToPosition(messageList.size() - 1);
                 }
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // Xử lý khi có sự thay đổi trong tin nhắn
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                // Xử lý khi có tin nhắn bị xóa
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // Xử lý khi có tin nhắn được di chuyển
-            }
-
-            @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý khi có lỗi xảy ra
+                // Xử lý lỗi nếu cần
             }
         });
     }
+
 }
