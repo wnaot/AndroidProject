@@ -40,5 +40,15 @@ public class detailAccountActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnActionCustomCreateGroup = findViewById(R.id.btn_action_custom_create_group);
+
+        btnActionCustomCreateGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(detailAccountActivity.this, CreateGroupChat.class);
+
+                startActivity(intent);
+            }
+        });
     }
 }

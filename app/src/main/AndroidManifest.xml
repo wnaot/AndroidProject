@@ -74,6 +74,10 @@
             android:exported="true"
             />
         <activity
+            android:name=".CreateGroupChat"
+            android:exported="true"
+            />
+        <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>

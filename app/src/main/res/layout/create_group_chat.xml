@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/creategroupchat_head_control"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+        <ImageView
+            android:id="@+id/creategroupchat_btnPrevios"
+            android:src="@drawable/ic_arrow_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            >
+        </ImageView>
+        <TextView
+            android:layout_toEndOf="@+id/creategroupchat_btnPrevios"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Chọn bạn bè"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            >
+        </TextView>
+        <Button
+            android:id="@+id/creategroupchat_btn_ok"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:text="OK"
+            >
+        </Button>
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/creategroupchat_groupname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Tên nhóm (Không bắt buộc)"
+        android:textSize="20sp"
+        android:layout_below="@+id/creategroupchat_head_control"
+        android:paddingStart="10dp"
+        android:inputType="text"
+        >
+    </EditText>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/creategroupchat_recycleview_userSelected"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/creategroupchat_groupname">
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/creategroupchat_goiy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gợi ý"
+        android:textSize="20sp"
+        android:layout_below="@+id/creategroupchat_recycleview_userSelected"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        >
+    </TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/creategroupchat_recycleview_listuser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/creategroupchat_goiy">
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

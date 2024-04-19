@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layout_creategroupchat_userselect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:scaleType="fitCenter"
+            android:src="@drawable/dog"
+            android:id="@+id/creategroupchat_userSelect_imgView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#009688"
+            app:shapeAppearanceOverlay="@style/circular">
+        </com.google.android.material.imageview.ShapeableImageView>
+
+
+        <TextView
+            android:id="@+id/creategroupchat_select_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_toEndOf="@id/creategroupchat_userSelect_imgView"
+            android:text="Kerry Lakin"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true">
+        </TextView>
+
+        <RadioButton
+            android:id="@+id/creategroupchat_radiobtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_centerVertical="true"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            >
+        </RadioButton>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+

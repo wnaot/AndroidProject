@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layout_creategroupchat_userselected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:scaleType="fitCenter"
+            android:src="@drawable/dog"
+            android:id="@+id/creategroupchat_userselected_imgView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#009688"
+            app:shapeAppearanceOverlay="@style/circular">
+        </com.google.android.material.imageview.ShapeableImageView>
+
+        <TextView
+            android:id="@+id/creategroupchat_userselected_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/creategroupchat_userselected_imgView"
+            android:layout_marginTop="0dp"
+            android:text="Tên user">
+
+        </TextView>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:scaleType="fitCenter"
+            android:src="@drawable/cancel"
+            android:id="@+id/creategroupchat_userselected_btnDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#009688"
+            app:shapeAppearanceOverlay="@style/circular"
+            android:layout_alignEnd="@id/creategroupchat_userselected_imgView"
+            android:layout_alignTop="@id/creategroupchat_userselected_imgView">
+        </com.google.android.material.imageview.ShapeableImageView>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
