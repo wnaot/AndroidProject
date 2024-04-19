@@ -137,7 +137,7 @@ public class MessageBox extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendMessage();
-               }
+            }
         });
         // Khởi tạo danh sách tin nhắn
         messageList = new ArrayList<>();
@@ -191,14 +191,20 @@ public class MessageBox extends AppCompatActivity {
     }
     public void loadMessage() {
         messageRef = FirebaseDatabase.getInstance().getReference().child("Chats");
+        String receiver_id = idFriend;
         messageRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // Xử lý khi có tin nhắn mới được thêm vào
                 Message message = snapshot.getValue(Message.class);
-                messageList.add(message);
-                messageAdapter.setData(messageList);
-                recyclerView.smoothScrollToPosition(messageList.size() - 1);
+                if ((message.getSenderID().equals(mUser.getUid()) && message.getReceiverID().equals(receiver_id)) ||
+                        (message.getSenderID().equals(receiver_id) && message.getReceiverID().equals(mUser.getUid()))) {
+                    // Tin nhắn thuộc về người dùng mong muốn, thêm vào danh sách và cập nhật RecyclerView
+                    messageList.add(message);
+                    messageAdapter.setData(messageList);
+                    messageAdapter.notifyDataSetChanged(); // Thêm dòng này để cập nhật giao diện người dùng
+                    recyclerView.smoothScrollToPosition(messageList.size() - 1);
+                }
             }
 
             @Override
