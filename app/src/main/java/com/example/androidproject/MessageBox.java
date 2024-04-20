@@ -116,7 +116,7 @@ public class MessageBox extends AppCompatActivity {
                 User user = new User(userName, profilePicture);
                 tv_sender_name.setText(user.getUserName());
                 if ("default".equals(user.getProfilePicture())) {
-                    avatar_image.setImageResource(R.drawable.dog);
+                    avatar_image.setImageResource(R.drawable.default_avatar);
                 } else {
                     Picasso.get().load(user.getProfilePicture()).into(avatar_image);
                 }
