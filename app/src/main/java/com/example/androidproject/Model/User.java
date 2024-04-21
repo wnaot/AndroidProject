@@ -14,32 +14,31 @@ public class User {
     private Map<String, Boolean> blockList;
     private String lastActive;
     private String fcmToken;
-
     private Chat chat;
-    // Constructor
+
 
     public User(){
 
     }
-
+    // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
     public User(String userName, String profilePicture) {
         this.userName = userName;
         this.profilePicture = profilePicture;
     }
-
+    // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
     public User(String userId, String userName, String profilePicture) {
         this.userId = userId;
         this.userName = userName;
         this.profilePicture = profilePicture;
     }
-
+    // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
     public User(String userId, String userName, String profilePicture, Chat chat) {
         this.userId = userId;
         this.userName = userName;
         this.profilePicture = profilePicture;
         this.chat = chat;
     }
-
+    // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
     public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive, String fcmToken) {
         this.userId = userId;
         this.userName = userName;
@@ -53,7 +52,7 @@ public class User {
         this.lastActive = lastActive;
         this.fcmToken = fcmToken;
     }
-
+    // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
     public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive, String fcmToken, Chat chat) {
         this.userId = userId;
         this.userName = userName;
@@ -77,9 +76,6 @@ public class User {
         this.chat = chat;
     }
 
-
-
-    // Getters and setters
     public String getUserId() {
         return userId;
     }

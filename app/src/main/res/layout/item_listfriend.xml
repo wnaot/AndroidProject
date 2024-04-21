@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:layout_marginRight="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="8dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginEnd="5dp"
-    >
+    app:cardCornerRadius="8dp">
 
     <RelativeLayout
         android:id="@+id/layoutListFriend"
@@ -14,6 +13,7 @@
         android:layout_height="60dp">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:layout_centerVertical="true"
             android:id="@+id/item_imgViewLFriend"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -25,6 +25,7 @@
             app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/item_nameLFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

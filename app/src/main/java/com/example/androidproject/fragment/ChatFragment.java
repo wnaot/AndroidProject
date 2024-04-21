@@ -28,7 +28,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class ChatFragment extends Fragment {
@@ -47,7 +52,7 @@ public class ChatFragment extends Fragment {
 
     private List<Chat> listChat;
 
-    private List<User> listUserChat;
+    private ArrayList<User> listUserChat;
     private List<String> listIDFriendChat;
 
     Chat lastChat;
@@ -82,14 +87,13 @@ public class ChatFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
-                    if(mUser.getUid().equals(chat.getSenderID())) {
+                    if (mUser.getUid().equals(chat.getSenderID())) {
                         listIDFriendChat.add(chat.getReceiverID());
                     }
-                    if(mUser.getUid().equals(chat.getReceiverID())) {
+                    if (mUser.getUid().equals(chat.getReceiverID())) {
                         listIDFriendChat.add(chat.getSenderID());
                     }
                 }
-                //
                 readFriendChatted();
             }
 
@@ -98,8 +102,6 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
-
         return mView;
     }
 
@@ -115,17 +117,16 @@ public class ChatFragment extends Fragment {
                     String userId = dataSnapshot.child("userId").getValue(String.class);
                     String userName = dataSnapshot.child("userName").getValue(String.class);
                     String profilePicture = dataSnapshot.child("profilePicture").getValue(String.class);
-
-
-
                     // Đã có id người bạn đã chat
                     // Check node id chat cuối cùng là mình với bạn mình để gán vào Object Chat
-
-
-                    codeHiHi(userId, userName, profilePicture);
-
-
+                    getUserChattedToChats(userId, userName, profilePicture);
                 }
+
+
+
+                // sắp xếp lại thời gian mới nhất
+
+
                 itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
                 rcvChat.setAdapter(itemUserAdapter);
             }
@@ -138,7 +139,7 @@ public class ChatFragment extends Fragment {
     }
 
 
-    private void codeHiHi(String userId, String userName, String profilePicture) {
+    private void getUserChattedToChats(String userId, String userName, String profilePicture) {
         mDatabase = FirebaseDatabase.getInstance().getReference("Chats");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -147,17 +148,17 @@ public class ChatFragment extends Fragment {
                 for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
                     Chat chat  = dataSnapshot1.getValue(Chat.class);
 
-                    if(mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
-                            userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
-                        listChat.add(chat);
+                    if(chat != null) {
+                        if(mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
+                                userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
+                            listChat.add(chat);
+                        }
                     }
-
                 }
 
                 if (!listChat.isEmpty()) {
                     int lastIndex = listChat.size() - 1;
                     lastChat = listChat.get(lastIndex);
-                    Toast.makeText(getContext(), "" + lastChat.getMessageText(), Toast.LENGTH_SHORT).show();
                 }
 
                 User user = new User(userId, userName, profilePicture, lastChat);
@@ -181,9 +182,25 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 }
-
+//                Toast.makeText(getContext(), "" + listUserChat, Toast.LENGTH_SHORT).show();
+//                Arrays.sort(listUserChat, new Comparator<User>() {
+//
+//                    @Override
+//                    public int compare(User o1, User o2) {
+//                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//                        try {
+//                            Date date1 = sdf.parse(o1.getChat().getTime());
+//                            Date date2 = sdf.parse(o2.getChat().getTime());
+//
+//                            return date2.compareTo(date1);
+//                        }
+//                        catch (ParseException e) {
+//                            e.printStackTrace();
+//                            return  0;
+//                        }
+//                    }
+//                });
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
