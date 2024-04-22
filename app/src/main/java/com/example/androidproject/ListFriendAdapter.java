@@ -22,13 +22,15 @@ import com.squareup.picasso.Picasso;
 public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.ViewHolder> {
 
     private List<User> listUser;
-
-
-    // data is passed into the constructor
-    public void setData(List<User> listUser) {
-        this.listUser = listUser;
-        notifyDataSetChanged();
+    private Context context;
+    public ListFriendAdapter() {
     }
+
+    public ListFriendAdapter(List<User> listUser, Context context) {
+        this.listUser = listUser;
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public ListFriendAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,17 +44,14 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
         int index_user = position;
 
         User user = listUser.get(position);
-        if(user == null) {
-            return;
-        }
+
         Picasso.get().load(user.getProfilePicture()).into(holder.image);
         holder.itemName.setText(user.getUserName());
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), listUser.get(index_user).getUserId(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), listUser.get(index_user).getUserId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), MessageBox.class);
                 intent.putExtra("FriendID", listUser.get(index_user).getUserId());
                 v.getContext().startActivity(intent);
@@ -62,21 +61,18 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
 
     @Override
     public int getItemCount() {
-        if(listUser != null) {
-            return listUser.size();
-        }
-        return 0;
+        return listUser.size();
     }
 
-    // stores and recycles views as they are scrolled off screen
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView itemName;
         ViewHolder(View itemView) {
             super(itemView);
+
             image = itemView.findViewById(R.id.item_imgViewLFriend);
             itemName = itemView.findViewById(R.id.item_nameLFriend);
-
         }
     }
 }

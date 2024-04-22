@@ -81,7 +81,6 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
                 v.getContext().startActivity(intent);
             }
         });
-
     }
 
     @Override
