@@ -43,18 +43,25 @@ public class MainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
 
+        ImageView btnNoti = (ImageView) findViewById(R.id.btn_notification);
         ImageView imgView_menu = (ImageView) findViewById(R.id.btn_menu);
         ImageView imgView_edit = (ImageView) findViewById(R.id.btn_edit);
         ImageView imgView_search = (ImageView) findViewById(R.id.btn_search);
         mbottomNavigationView = findViewById(R.id.menu_bar);
         mviewPager = findViewById(R.id.view_pager);
         widgetMenu = findViewById(R.id.widgetMenu);
-
         fragmentArrayList.add(new ChatFragment());
         fragmentArrayList.add(new CallFragment());
         fragmentArrayList.add(new ContactFragment());
         fragmentArrayList.add(new NewFragment());
 
+        btnNoti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainScreen.this, CreateGroupChat.class);
+                startActivity(i);
+            }
+        });
         getToken();
         imgView_menu.setOnClickListener(new View.OnClickListener() {
             @Override

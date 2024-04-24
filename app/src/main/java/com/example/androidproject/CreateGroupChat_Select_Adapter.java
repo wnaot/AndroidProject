@@ -72,7 +72,6 @@ public class CreateGroupChat_Select_Adapter extends RecyclerView.Adapter<CreateG
             @Override
             public void onClick(View view) {
                 listener.onItemClick(itemUser);
-//                holder.rdb_select.setChecked(true);
             }
         });
 
@@ -95,8 +94,6 @@ public class CreateGroupChat_Select_Adapter extends RecyclerView.Adapter<CreateG
         private ImageView imgAvatar;
         private TextView txtName;
 
-        private RadioButton rdb_select;
-
         private RelativeLayout layout_creategroupchat;
 
         public ViewHolder(@NonNull View itemView) {
@@ -104,7 +101,6 @@ public class CreateGroupChat_Select_Adapter extends RecyclerView.Adapter<CreateG
 
             imgAvatar = itemView.findViewById(R.id.creategroupchat_userSelect_imgView);
             txtName = itemView.findViewById(R.id.creategroupchat_select_user_name);
-            rdb_select = itemView.findViewById(R.id.creategroupchat_radiobtn);
             layout_creategroupchat = itemView.findViewById(R.id.layout_creategroupchat_userselect);
         }
     }

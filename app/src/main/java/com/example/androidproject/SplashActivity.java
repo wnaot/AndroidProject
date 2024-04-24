@@ -48,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             },1000);
         }
-
+//        onStop();
     }
 //    @Override
 //    protected void onStop() {

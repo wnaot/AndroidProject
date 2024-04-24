@@ -22,10 +22,16 @@ import java.util.List;
 public class CreateGroupChat_Selected_Adapter extends RecyclerView.Adapter<CreateGroupChat_Selected_Adapter.ViewHolder>{
     private List<User> listItemUser;
     Context context;
+    private OnItemClickListener listener;
 
     public CreateGroupChat_Selected_Adapter(List<User> listItemUser, Context context) {
         this.listItemUser = listItemUser;
         this.context = context;
+    }
+    public CreateGroupChat_Selected_Adapter(List<User> userList, Context context, OnItemClickListener listener) {
+        this.listItemUser = userList;
+        this.context = context;
+        this.listener = listener;
     }
 
     public void setData(List<User> listItemUser) {
@@ -54,16 +60,14 @@ public class CreateGroupChat_Selected_Adapter extends RecyclerView.Adapter<Creat
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(v.getContext(), CreateGroupChat.class);
-                intent.putExtra("UserID", listItemUser.get(index_user).getUserId());
-                v.getContext().startActivity(intent);
-
+                listener.onItemClick(itemUser);
             }
         });
 
     }
-
+    public interface OnItemClickListener {
+        void onItemClick(User user);
+    }
     @Override
     public int getItemCount() {
         if(listItemUser != null) {

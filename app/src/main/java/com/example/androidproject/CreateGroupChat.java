@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class CreateGroupChat extends AppCompatActivity {
     private EditText groupchat_name;
 
     private List<User> listUsers;
+    private DatabaseReference usersRef;
+    private TextView emptySearch;
 
     private RecyclerView rcv_selected,rcv_select;
     private CreateGroupChat_Select_Adapter selectAdapter;
@@ -56,53 +60,160 @@ public class CreateGroupChat extends AppCompatActivity {
         groupchat_name = (EditText) findViewById((R.id.creategroupchat_groupname));
         rcv_select = findViewById(R.id.creategroupchat_recycleview_listuser);
         rcv_selected = findViewById(R.id.creategroupchat_recycleview_userSelected);
+        SearchView searchView = findViewById(R.id.SearchViewAddGroup);
+        emptySearch = findViewById(R.id.searchNull);
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         LinearLayoutManager selectLayoutManager  = new LinearLayoutManager(this);
         LinearLayoutManager selectedLayoutManager  = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         listUserSelected = new ArrayList<>();
         listUsers = new ArrayList<>();
-        listuserSeletedtmp = new ArrayList<>();
-        selectedAdapter = new CreateGroupChat_Selected_Adapter(listUserSelected,this);
+
+        selectedAdapter = new CreateGroupChat_Selected_Adapter(listUserSelected, this, new CreateGroupChat_Selected_Adapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(User user) {
+                if(listUserSelected.contains(user)){
+                    listUserSelected.remove(user);
+                }
+                selectedAdapter.notifyDataSetChanged();
+            }
+        });
         selectAdapter = new CreateGroupChat_Select_Adapter(listUsers, this, new CreateGroupChat_Select_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
-                // Xử lý sự kiện khi người dùng nhấn vào một mục
-                if(listuserSeletedtmp.contains(user)){
-                    listuserSeletedtmp.remove(user);
-                } else{
-                    listuserSeletedtmp.add(user);
-                }
-                // Gọi lại phương thức để cập nhật danh sách người dùng được chọn
-                getUserSelected();
+                select_itemClick(user);
             }
         });
 
+        getAddUser();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.isEmpty()){
+                    getAddUser();
+                } else{
+                    SearchUserWithName(newText);
+                }
+                return true;
+            }
+        });
         rcv_select.setLayoutManager(selectLayoutManager);
         rcv_selected.setLayoutManager(selectedLayoutManager);
         rcv_selected.setAdapter(selectedAdapter);
         rcv_select.setAdapter(selectAdapter);
-        getFriendList();
 
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(listuserSeletedtmp.size() > 1){
-                    createGroupChat(listuserSeletedtmp,"Test group 1","");
+                if(listUserSelected.size() > 1){
+                    if(groupchat_name.getText().toString().isEmpty()){
+                        groupchat_name.setText("Nhóm mới");
+                    }
+                    createGroupChat(listUserSelected,groupchat_name.getText().toString().trim(),"");
+                    finish();
                 } else {
-                    Toast.makeText(CreateGroupChat.this,"Vui lòng chọn ít nhất 2 thành viên",Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateGroupChat.this,"Vui lòng chọn ít nhất 2 thành viên",Toast.LENGTH_SHORT).show();
                 }
             }
         });
         btn_previos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CreateGroupChat.this,MessageBox.class);
-                startActivity(intent);
+//                Intent intent = new Intent(CreateGroupChat.this,MessageBox.class);
+//                startActivity(intent);
+                finish();
             }
         });
 
 
 
+    }
+    public void select_itemClick(User user){
+        // Xử lý sự kiện khi người dùng nhấn vào một mục
+        boolean userExists = false;
+        for (User i : listUserSelected) {
+            if (i.getUserName().equals(user.getUserName())) {
+                userExists = true;
+                break;
+            }
+        }
+        if (userExists) {
+            for(User i : listUserSelected){
+                if (i.getUserName().equals(user.getUserName())) {
+                    listUserSelected.remove(i);
+                    break;
+                }
+            }
+            Toast.makeText(CreateGroupChat.this, "Đã xóa "+ user.getUserName() +" khỏi danh sách", Toast.LENGTH_SHORT).show();
+        } else {
+            listUserSelected.add(user);
+            Toast.makeText(CreateGroupChat.this, "Đã thêm "+ user.getUserName() +" vào danh sách", Toast.LENGTH_SHORT).show();
+        }
+//                 Gọi lại phương thức để cập nhật danh sách người dùng được chọn
+        selectedAdapter.notifyDataSetChanged();
+    }
+    public void getAddUser(){
+        FirebaseUtil.allUserDatabaseReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listUsers.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot snapshots : snapshot.getChildren()) {
+                        User user = UserUtil.getUserFromSnapshot(snapshots);
+                        if (!user.getUserId().equals(FirebaseUtil.currentUserId())) {
+                            listUsers.add(user);
+                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
+                        }
+                    }
+                    emptySearch.setVisibility(View.GONE);
+                    selectAdapter.notifyDataSetChanged();
+                }
+                if(listUsers.size() < 1){
+                    emptySearch.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void SearchUserWithName(String name){
+        Query query = usersRef.orderByChild("userName");
+        // Thực hiện truy vấn
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listUsers.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        User user = UserUtil.getUserFromSnapshot(snapshot);
+                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                            listUsers.add(user);
+                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
+                        }
+                    }
+                    emptySearch.setVisibility(View.GONE);
+                    selectAdapter.notifyDataSetChanged();
+                }
+                if(listUsers.size() < 1){
+                    emptySearch.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
+            }
+        });
     }
     private void createGroupChat(List<User> listU, String groupname, String groupPicture){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("GroupChats");
@@ -141,44 +252,4 @@ public class CreateGroupChat extends AppCompatActivity {
                 });
 
     }
-    private void getUserSelected(){
-        // Xóa dữ liệu hiện có trong danh sách người dùng được chọn
-        listUserSelected.clear();
-        // Thêm tất cả người dùng từ danh sách mới vào danh sách người dùng được chọn
-        listUserSelected.addAll(listuserSeletedtmp);
-        // Cập nhật adapter của danh sách người dùng được ch
-        selectedAdapter.setData(listUserSelected);
-        }
-    private void getFriendList() {
-        listUsers = new ArrayList<>();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseUtil.currentUserId()).child("friendList");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    DatabaseReference UserDB = FirebaseDatabase.getInstance().getReference().child("Users").child(childSnapshot.getKey());
-                    UserDB.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            listUsers.add(UserUtil.getUserFromSnapshot(snapshot));
-                            selectAdapter.setData(listUsers);
-                            selectedAdapter.setData(listUsers);
-                            Log.e("thông tin user: ",UserUtil.getUserFromSnapshot(snapshot).getUserName());
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.e("Thông tin user:","Không tồn tại");
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi nếu có
-                Log.e("FriendInvitationId", "Error: " + error.getMessage());
-            }
-        });
-    }
-
 }
