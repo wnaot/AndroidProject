@@ -22,6 +22,9 @@ public class FirebaseUtil {
     public static DatabaseReference allUserDatabaseReference() {
         return FirebaseDatabase.getInstance().getReference().child("Users");
     }
+    public static DatabaseReference allGroupChat(){
+        return FirebaseDatabase.getInstance().getReference().child("GroupChats");
+    }
     public static DatabaseReference currentFriendInvitation(){
         return FirebaseDatabase.getInstance().getReference().child("friendInvitations").child(currentUserId());
     }

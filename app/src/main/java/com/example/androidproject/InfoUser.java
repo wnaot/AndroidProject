@@ -9,21 +9,29 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidproject.Model.User;
+import com.example.androidproject.Utils.FirebaseUtil;
+import com.example.androidproject.Utils.UserUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,7 +42,7 @@ import java.util.UUID;
 public class InfoUser extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     ShapeableImageView shapeableImageView,imageView;
-
+    private TextView userName;
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +51,9 @@ public class InfoUser extends AppCompatActivity {
 
         shapeableImageView = findViewById(R.id.imageCamera);
         imageView = findViewById(R.id.imageView);
+        userName = findViewById(R.id.user_name);
+
+        loadData();
         shapeableImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +84,7 @@ public class InfoUser extends AppCompatActivity {
 
             // Upload ảnh lên Firebase Storage
             uploadImageToFirebaseStorage(uri);
+
         }
     }
     private void uploadImageToFirebaseStorage(Uri uri) {
@@ -105,9 +117,10 @@ public class InfoUser extends AppCompatActivity {
                             String imageUrl = uri.toString();
 
                             // Lưu URL của ảnh vào Firebase Realtime Database
-                            updateUserProfilePicture("RlnKd2FPkbRstPZyBUfZrx3HgEd2",imageUrl);
+                            updateUserProfilePicture(FirebaseUtil.currentUserId(),imageUrl);
 
                             Toast.makeText(InfoUser.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
+                            loadData();
                         }
                     });
                     progressDialog.dismiss();
@@ -142,6 +155,7 @@ public class InfoUser extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 // Xử lý khi cập nhật thành công
                 Toast.makeText(InfoUser.this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show();
+                loadData();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -172,5 +186,21 @@ public class InfoUser extends AppCompatActivity {
         }
 
         return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, true);
+    }
+    public void loadData(){
+        FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    User user = UserUtil.getUserFromSnapshot(snapshot);
+                    Picasso.get().load(user.getProfilePicture()).into(imageView);
+                    userName.setText(user.getUserName());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

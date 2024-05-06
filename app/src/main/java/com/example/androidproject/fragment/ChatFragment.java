@@ -1,6 +1,7 @@
 package com.example.androidproject.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.example.androidproject.MainScreen;
 import com.example.androidproject.Model.Chat;
 import com.example.androidproject.R;
 import com.example.androidproject.Model.User;
+import com.example.androidproject.Utils.AndroidUtil;
+import com.example.androidproject.Utils.FirebaseUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -64,12 +67,8 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.chat_fragment, container, false);
-//        userList = new ArrayList<>();
-//        Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            String userId = bundle.getString("userId");
-//            loadListData(userId);
-//        }
+
+        getUserInGroup();
         // Nguyen Van Dung
         rcvChat = (RecyclerView) mView.findViewById(R.id.recycle_chat);
         rcvChat.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -121,85 +120,65 @@ public class ChatFragment extends Fragment {
                     // Check node id chat cuối cùng là mình với bạn mình để gán vào Object Chat
                     getUserChattedToChats(userId, userName, profilePicture);
                 }
-
-
-
                 // sắp xếp lại thời gian mới nhất
-
-
                 itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
                 rcvChat.setAdapter(itemUserAdapter);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
-
-
-    private void getUserChattedToChats(String userId, String userName, String profilePicture) {
+    private void getUserChattedToChats(final String userId, final String userName, final String profilePicture) {
+        if (mUser == null) {
+            return;
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference("Chats");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listChat.clear();
-                for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
-                    Chat chat  = dataSnapshot1.getValue(Chat.class);
+                if(snapshot.exists()){
+                        for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                            Chat chat = dataSnapshot1.getValue(Chat.class);
 
-                    if(chat != null) {
-                        if(mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
-                                userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
-                            listChat.add(chat);
-                        }
-                    }
-                }
-
-                if (!listChat.isEmpty()) {
-                    int lastIndex = listChat.size() - 1;
-                    lastChat = listChat.get(lastIndex);
-                }
-
-                User user = new User(userId, userName, profilePicture, lastChat);
-
-                for (String id : listIDFriendChat) {
-                    if(user.getUserId().equals(id)) {
-                        if(listUserChat.size() != 0) {
-                            boolean userExists = false;
-                            for (User user1 : listUserChat) {
-                                if(user.getUserId().equals(user1.getUserId())) {
-                                    userExists = true;
-                                    break;
+                            if (mUser != null && mUser.getUid() != null && chat != null && chat.getReceiverID() != null && chat.getSenderID() != null && userId != null) {
+                                if (mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
+                                        userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
+                                    listChat.add(chat);
                                 }
                             }
-                            if(!userExists) {
+                        }
+
+                    if (!listChat.isEmpty()) {
+                        int lastIndex = listChat.size() - 1;
+                        lastChat = listChat.get(lastIndex);
+                    }
+
+                    User user = new User(userId, userName, profilePicture, lastChat);
+
+                    for (String id : listIDFriendChat) {
+                        if (id != null && user.getUserId() != null && user.getUserId().equals(id)) {
+                            if (listUserChat.size() != 0) {
+                                boolean userExists = false;
+                                for (User user1 : listUserChat) {
+                                    if (user1.getUserId() != null && user.getUserId().equals(user1.getUserId())) {
+                                        userExists = true;
+                                        break;
+                                    }
+                                }
+                                if (!userExists) {
+                                    listUserChat.add(user);
+                                }
+                            } else {
                                 listUserChat.add(user);
                             }
                         }
-                        else {
-                            listUserChat.add(user);
-                        }
                     }
+
                 }
-//                Toast.makeText(getContext(), "" + listUserChat, Toast.LENGTH_SHORT).show();
-//                Arrays.sort(listUserChat, new Comparator<User>() {
-//
-//                    @Override
-//                    public int compare(User o1, User o2) {
-//                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-//                        try {
-//                            Date date1 = sdf.parse(o1.getChat().getTime());
-//                            Date date2 = sdf.parse(o2.getChat().getTime());
-//
-//                            return date2.compareTo(date1);
-//                        }
-//                        catch (ParseException e) {
-//                            e.printStackTrace();
-//                            return  0;
-//                        }
-//                    }
-//                });
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -207,79 +186,20 @@ public class ChatFragment extends Fragment {
             }
         });
     }
+    public void getUserInGroup(){
+        FirebaseUtil.allGroupChat().child("members").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
 
+                }
+            }
 
-    private void loadListData(String userId){
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-//        mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    User user = dataSnapshot.getValue(User.class);
-//                    if (user != null) {
-//                        userList.add(user);
-//                        updateUI(userList);
-//                            Map<String, Boolean> friendList = user.getFriendList();
-//                            List<User> friendUsers = new ArrayList<>();
-//                            for (Map.Entry<String, Boolean> entry : friendList.entrySet()) {
-//                                String friendUserId = entry.getKey();
-//                                Boolean isFriend = entry.getValue();
-//                                if (isFriend) {
-//                                    mDatabase.child(friendUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                        @Override
-//                                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                                            if (dataSnapshot.exists()) {
-//                                                User friendUser = dataSnapshot.getValue(User.class);
-//                                                if (friendUser != null) {
-//                                                    friendUsers.add(friendUser);
-//                                                    // Nếu đã lấy dữ liệu của tất cả các bạn bè, cập nhật giao diện
-//                                                    if (friendUsers.size() == friendList.size()) {
-//                                                        ///updateUI(friendUsers);
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//                                        @Override
-//                                        public void onCancelled(DatabaseError databaseError) {
-//                                            // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
-//            }
-//        });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
-//    private void updateUI(List<User> friendUsers) {
-//        mainActivity = (MainScreen) getActivity();
-//        if (mainActivity != null) {
-//            sView = mView.findViewById(R.id.simpleSearchView);
-//
-//            rcvChat = mView.findViewById(R.id.recycle_chat);
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mainActivity);
-//            rcvChat.setLayoutManager(linearLayoutManager);
-//
-//            itemUserAdapter = new ItemUserAdapter();
-//            itemUserAdapter.setData(friendUsers);
-//
-//            rcvChat.setAdapter(itemUserAdapter);
-//
-//            RecyclerView rcvOnline = mView.findViewById(R.id.horizontalRecyclerView);
-//            LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false);
-//            rcvOnline.setLayoutManager(horizontalLayoutManager);
-//
-//            horizontalAdapter = new HorizontalAdapter();
-//            horizontalAdapter.setData(friendUsers);
-//
-//            rcvOnline.setAdapter(horizontalAdapter);
-//        }
-//    }
-
 
 }

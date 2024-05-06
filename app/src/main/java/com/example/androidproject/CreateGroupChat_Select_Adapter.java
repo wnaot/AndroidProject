@@ -58,12 +58,7 @@ public class CreateGroupChat_Select_Adapter extends RecyclerView.Adapter<CreateG
         if(itemUser == null) {
             return;
         }
-//        if (itemUser.getProfilePicture() != null && !itemUser.getProfilePicture().isEmpty()) {
-//            Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
-//        } else {
-////            Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
-//        }
-//        Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
+        Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
         holder.txtName.setText(itemUser.getUserName());
 
         int index_user = position;

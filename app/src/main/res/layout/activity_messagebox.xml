@@ -86,7 +86,6 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/message_input_layout"
          />
-
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/message_input_layout"

@@ -37,9 +37,7 @@ import java.util.Map;
 public class ContactFragment extends Fragment {
     private MainScreen mainActivity;
     RecyclerView rcvContact;
-//    List<User> listUsers,listFriend;
-//    DatabaseReference usersRef;
-//    View mView;
+
 
     ArrayList<User> listUsersFriend;
     ArrayList<String> listIDFriend;
@@ -90,6 +88,7 @@ public class ContactFragment extends Fragment {
                 }
 
                 for (String id : listIDFriend) {
+                    System.out.println("ID" + id);
                     mData.child(id).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

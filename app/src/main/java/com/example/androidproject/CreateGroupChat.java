@@ -23,6 +23,8 @@ import com.example.androidproject.Utils.FirebaseUtil;
 import com.example.androidproject.Utils.UserUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,7 @@ public class CreateGroupChat extends AppCompatActivity {
 
     private List<User> listUsers;
     private DatabaseReference usersRef;
+    private FirebaseUser mUser;
     private TextView emptySearch;
 
     private RecyclerView rcv_selected,rcv_select;
@@ -49,6 +52,7 @@ public class CreateGroupChat extends AppCompatActivity {
     private CreateGroupChat_Selected_Adapter selectedAdapter;
 
     private List<User> listUserSelected;
+    private List<String> listIdUser;
     List<User> listuserSeletedtmp;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class CreateGroupChat extends AppCompatActivity {
         LinearLayoutManager selectedLayoutManager  = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         listUserSelected = new ArrayList<>();
         listUsers = new ArrayList<>();
+        listIdUser = new ArrayList<>();
 
         selectedAdapter = new CreateGroupChat_Selected_Adapter(listUserSelected, this, new CreateGroupChat_Selected_Adapter.OnItemClickListener() {
             @Override
@@ -158,32 +163,87 @@ public class CreateGroupChat extends AppCompatActivity {
         selectedAdapter.notifyDataSetChanged();
     }
     public void getAddUser(){
-        FirebaseUtil.allUserDatabaseReference().addValueEventListener(new ValueEventListener() {
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        usersRef.child(mUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Khởi tạo danh sách trước khi sử dụng
+                List<String> listIdUser = new ArrayList<>();
+                List<User> listUsers = new ArrayList<>();
+
+                // Xóa danh sách để làm sạch trước khi thêm dữ liệu mới
+                listIdUser.clear();
                 listUsers.clear();
-                if (snapshot.exists()) {
-                    for (DataSnapshot snapshots : snapshot.getChildren()) {
-                        User user = UserUtil.getUserFromSnapshot(snapshots);
-                        if (!user.getUserId().equals(FirebaseUtil.currentUserId())) {
-                            listUsers.add(user);
-                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
-                        }
-                    }
-                    emptySearch.setVisibility(View.GONE);
-                    selectAdapter.notifyDataSetChanged();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    listIdUser.add(dataSnapshot.getKey());
                 }
-                if(listUsers.size() < 1){
+
+                if(listIdUser.size() < 1){
                     emptySearch.setVisibility(View.VISIBLE);
                 }
 
+                for (String id : listIdUser) {
+                    usersRef.child(id).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String userID = id;
+                            String userName = snapshot.child("userName").getValue(String.class);
+                            String avatar = snapshot.child("profilePicture").getValue(String.class);
+
+                            User user = new User(userID, userName, avatar);
+                            listUsers.add(user);
+
+                            // Di chuyển notifyDataSetChanged() vào đây để đảm bảo gọi sau khi dữ liệu được thêm vào danh sách
+                            selectAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
+                        }
+                    });
+                }
+
+                // Ẩn emptySearch khi có dữ liệu
+                emptySearch.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
             }
         });
+
+
+
+//        FirebaseUtil.allUserDatabaseReference().addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                listUsers.clear();
+//                if (snapshot.exists()) {
+//                    for (DataSnapshot snapshots : snapshot.getChildren()) {
+//                        User user = UserUtil.getUserFromSnapshot(snapshots);
+//
+//
+//                        listUsers.add(user);
+//
+//                    }
+//                    emptySearch.setVisibility(View.GONE);
+//                    selectAdapter.notifyDataSetChanged();
+//                }
+//                if(listUsers.size() < 1){
+//                    emptySearch.setVisibility(View.VISIBLE);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
     public void SearchUserWithName(String name){
         Query query = usersRef.orderByChild("userName");
@@ -218,9 +278,11 @@ public class CreateGroupChat extends AppCompatActivity {
     private void createGroupChat(List<User> listU, String groupname, String groupPicture){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("GroupChats");
         List<String> listIdUser = new ArrayList<>();
+        listIdUser.add(FirebaseUtil.currentUserId());
         for(User i : listU){
             listIdUser.add(i.getUserId());
         }
+
     // Tạo một key mới cho GroupChat
         String groupChatId = mDatabase.push().getKey();
 
@@ -230,7 +292,8 @@ public class CreateGroupChat extends AppCompatActivity {
         groupChatMap.put("groupchatPicture", groupPicture); // Đặt giá trị ban đầu cho hình ảnh nhóm
         groupChatMap.put("members", listIdUser); // Khởi tạo một danh sách trống cho các thành viên
         groupChatMap.put("messages", new ArrayList<String>()); // Khởi tạo một danh sách trống cho các tin nhắn
-        groupChatMap.put("name", groupname); // Đặt giá trị ban đầu cho tên nhóm
+        groupChatMap.put("name", groupname);
+        // Đặt giá trị ban đầu cho tên nhóm
 
     // Đưa dữ liệu vào Firebase Database
         mDatabase.child(groupChatId).setValue(groupChatMap)

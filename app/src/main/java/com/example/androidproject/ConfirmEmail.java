@@ -186,7 +186,7 @@
                                     userMap.put("friendList", "");
                                     userMap.put("blockList", "");
                                     userMap.put("lastActive", "default");
-                                    userMap.put("profilePicture", "default");
+                                    userMap.put("profilePicture", "https://firebasestorage.googleapis.com/v0/b/productappchat.appspot.com/o/images%2Favatar-default.png?alt=media&token=6b103445-3c5c-4f76-8ad6-d62fab194574");
                                     // Thêm thông tin người dùng vào collection "Users"
                                     reference.setValue(userMap);
                                 }

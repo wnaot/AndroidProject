@@ -20,18 +20,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.androidproject.Utils.AndroidUtil;
-import com.example.androidproject.Utils.FirebaseUtil;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
@@ -65,40 +58,6 @@ public class SignInActivity extends AppCompatActivity {
                                 Intent intent = new Intent(SignInActivity.this, MainScreen.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
-
-
-//                                String UID = FirebaseUtil.currentUserId();
-//                                FirebaseUtil.allUserDatabaseReference().child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        if (snapshot.exists()) {
-//                                            User user = snapshot.getValue(User.class);
-//                                            if (user != null) {
-//                                                Object friendListObj = snapshot.child("friendList").getValue();
-//                                                Object blockListObj = snapshot.child("blockList").getValue();
-//
-//                                                if (friendListObj != null && friendListObj instanceof Map) {
-//                                                    Map<String, Boolean> friendListMap = (Map<String, Boolean>) friendListObj;
-//                                                    user.setFriendList(friendListMap);
-//                                                }
-//                                                if (blockListObj != null && blockListObj instanceof Map) {
-//                                                    Map<String, Boolean> blockListMap = (Map<String, Boolean>) blockListObj;
-//                                                    user.setBlockList(blockListMap);
-//                                                }
-//
-//
-//                                                Intent intent = new Intent(SignInActivity.this, MainScreen.class);
-////                                              AndroidUtil.passUserModelAsIntent(intent, user);
-//                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                                startActivity(intent);
-//                                            }
-//                                        }
-//                                    }
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                    }
-//                                });
                             }
                             else{
                                 Toast.makeText(SignInActivity.this,"Authentication failed!",Toast.LENGTH_SHORT).show();

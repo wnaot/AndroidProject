@@ -26,13 +26,14 @@
         </com.google.android.material.imageview.ShapeableImageView>
 
         <TextView
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
             android:id="@+id/creategroupchat_userselected_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/creategroupchat_userselected_imgView"
             android:layout_marginTop="0dp"
             android:text="Tên user">
-
         </TextView>
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -43,7 +44,6 @@
             android:layout_height="30dp"
             android:padding="5dp"
             app:strokeWidth="1dp"
-            app:strokeColor="#009688"
             app:shapeAppearanceOverlay="@style/circular"
             android:layout_alignEnd="@id/creategroupchat_userselected_imgView"
             android:layout_alignTop="@id/creategroupchat_userselected_imgView">

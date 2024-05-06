@@ -71,12 +71,13 @@
         app:iconifiedByDefault="false"
         app:queryBackground="@null"
         android:layout_below="@+id/creategroupchat_recycleview_userSelected"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/creategroupchat_recycleview_listuser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/SearchViewAddGroup">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/SearchViewAddGroup"
+        android:layout_marginTop="27dp"></androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/searchNull"
