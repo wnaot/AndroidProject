@@ -99,7 +99,7 @@ public class ContactFragment extends Fragment {
                             User user = new User(userID, userName, avatar);
                             listUsersFriend.add(user);
 
-                            listFriendAdapter = new ListFriendAdapter(listUsersFriend, getContext());
+                            listFriendAdapter = new ListFriendAdapter(listUsersFriend, getContext(), false);
                             rcvContact.setAdapter(listFriendAdapter);
                         }
 

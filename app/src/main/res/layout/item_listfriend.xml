@@ -12,17 +12,44 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/item_imgViewLFriend"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:padding="5dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/dog"
-            app:shapeAppearanceOverlay="@style/circular"
-            app:strokeColor="#009688"
-            app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
+            android:layout_marginStart="12dp"
+            android:id="@+id/imageLayout">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/item_imgViewLFriend"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/dog"
+                app:shapeAppearanceOverlay="@style/circular"
+                app:strokeColor="#009688"
+                app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
+
+            <ImageView
+                android:id="@+id/img_on"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/circle_shape_onl"/>
+
+            <ImageView
+                android:id="@+id/img_off"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/circle_shape_off"/>
+        </FrameLayout>
 
         <TextView
             android:layout_centerVertical="true"
@@ -34,7 +61,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_toRightOf="@id/item_imgViewLFriend"
+            android:layout_toRightOf="@id/imageLayout"
             android:text="Kerry Lakin"
             android:textColor="@color/black"
             android:textSize="18sp"

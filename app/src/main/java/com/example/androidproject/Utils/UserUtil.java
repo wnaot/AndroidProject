@@ -27,7 +27,7 @@ public class UserUtil {
                 blockListMap.put(blockSnapshot.getKey(), blockSnapshot.getValue(Boolean.class));
             }
             String fcmToken = dataSnapshot.child("fcmToken").getValue(String.class);
-            return new User(userId, userName, email, phone, address, "", profilePicture, friendListMap, blockListMap, lastActive,fcmToken);
+            return new User(userId, userName, email, phone, address, "", profilePicture, friendListMap, blockListMap, lastActive,fcmToken, "status");
         } else {
             return null;
         }

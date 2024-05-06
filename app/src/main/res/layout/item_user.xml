@@ -13,23 +13,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:scaleType="fitCenter"
-            android:src="@drawable/dog"
-            android:id="@+id/item_imgView"
+        <FrameLayout
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:padding="5dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#009688"
-            app:shapeAppearanceOverlay="@style/circular">
-        </com.google.android.material.imageview.ShapeableImageView>
+            android:layout_marginStart="12dp"
+            android:id="@+id/imageLayout">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/item_imgView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/dog"
+                app:shapeAppearanceOverlay="@style/circular"
+                app:strokeColor="#009688"
+                app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
+
+            <ImageView
+                android:id="@+id/img_on"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/circle_shape_onl"/>
+
+            <ImageView
+                android:id="@+id/img_off"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/circle_shape_off"/>
+        </FrameLayout>
 
         <TextView
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_margin="12dp"
-            android:layout_toRightOf="@id/item_imgView"
+            android:layout_toRightOf="@id/imageLayout"
             android:id="@+id/item_name"
             android:textStyle="bold"
             android:text="Kerry Lakin"
@@ -40,7 +67,7 @@
         <TextView
             android:layout_marginLeft="12dp"
             android:textSize="15sp"
-            android:layout_toRightOf="@id/item_imgView"
+            android:layout_toRightOf="@id/imageLayout"
             android:layout_below="@id/item_name"
             android:id="@+id/item_desc"
             android:textColor="#878787"

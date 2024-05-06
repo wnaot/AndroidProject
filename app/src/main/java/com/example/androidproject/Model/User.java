@@ -15,7 +15,7 @@ public class User {
     private String lastActive;
     private String fcmToken;
     private Chat chat;
-
+    private String status;
 
     public User(){
 
@@ -32,14 +32,15 @@ public class User {
         this.profilePicture = profilePicture;
     }
     // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
-    public User(String userId, String userName, String profilePicture, Chat chat) {
+    public User(String userId, String userName, String profilePicture, Chat chat, String status) {
         this.userId = userId;
         this.userName = userName;
         this.profilePicture = profilePicture;
         this.chat = chat;
+        this.status = status;
     }
     // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
-    public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive, String fcmToken) {
+    public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive, String fcmToken, String status) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -51,21 +52,7 @@ public class User {
         this.blockList = blockList;
         this.lastActive = lastActive;
         this.fcmToken = fcmToken;
-    }
-    // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
-    public User(String userId, String userName, String email, String phone, String address, String password, String profilePicture, Map<String, Boolean> friendList, Map<String, Boolean> blockList, String lastActive, String fcmToken, Chat chat) {
-        this.userId = userId;
-        this.userName = userName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.password = password;
-        this.profilePicture = profilePicture;
-        this.friendList = friendList;
-        this.blockList = blockList;
-        this.lastActive = lastActive;
-        this.fcmToken = fcmToken;
-        this.chat = chat;
+        this.status = status;
     }
 
     public Chat getChat() {
@@ -162,5 +149,13 @@ public class User {
 
     public void setFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

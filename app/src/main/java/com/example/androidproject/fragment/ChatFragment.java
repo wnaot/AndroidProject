@@ -121,7 +121,7 @@ public class ChatFragment extends Fragment {
                     getUserChattedToChats(userId, userName, profilePicture);
                 }
                 // sắp xếp lại thời gian mới nhất
-                itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
+                itemUserAdapter = new ItemUserAdapter(listUserChat, getContext(), false);
                 rcvChat.setAdapter(itemUserAdapter);
             }
             @Override
@@ -156,7 +156,7 @@ public class ChatFragment extends Fragment {
                         lastChat = listChat.get(lastIndex);
                     }
 
-                    User user = new User(userId, userName, profilePicture, lastChat);
+                    User user = new User(userId, userName, profilePicture, lastChat, "status");
 
                     for (String id : listIDFriendChat) {
                         if (id != null && user.getUserId() != null && user.getUserId().equals(id)) {

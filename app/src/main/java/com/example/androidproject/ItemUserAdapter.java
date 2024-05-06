@@ -21,10 +21,12 @@ import java.util.List;
 public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHolder>{
     private List<User> listItemUser;
     Context context;
+    private boolean isChat;
 
-    public ItemUserAdapter(List<User> listItemUser, Context context) {
+    public ItemUserAdapter(List<User> listItemUser, Context context, boolean isChat) {
         this.listItemUser = listItemUser;
         this.context = context;
+        this.isChat = isChat;
     }
 
     public void setData(List<User> listItemUser) {
@@ -44,6 +46,22 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         if(itemUser == null) {
             return;
         }
+
+        if (isChat) {
+            if (itemUser.getStatus().equals("online")) {
+                holder.img_on.setVisibility(View.VISIBLE);
+                holder.img_off.setVisibility(View.GONE);
+            }
+            else {
+                holder.img_on.setVisibility(View.GONE);
+                holder.img_off.setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            holder.img_on.setVisibility(View.GONE);
+            holder.img_off.setVisibility(View.GONE);
+        }
+
         Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
         holder.txtName.setText(itemUser.getUserName());
 
@@ -100,6 +118,8 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         private TextView txtTimeMess;
 
         private RelativeLayout layoutMessage;
+        private ImageView img_on;
+        private ImageView img_off;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +130,8 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             txtTime = itemView.findViewById(R.id.item_time);
             txtTimeMess = itemView.findViewById(R.id.time_mess);
             layoutMessage = itemView.findViewById(R.id.layoutMessage);
+            img_on = itemView.findViewById(R.id.img_on);
+            img_off = itemView.findViewById(R.id.img_off);
         }
     }
 }
