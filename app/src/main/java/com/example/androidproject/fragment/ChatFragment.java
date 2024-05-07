@@ -81,7 +81,11 @@ public class ChatFragment extends Fragment {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference("Chats");
 
+        listUserChat = new ArrayList<>();
+        listChat = new ArrayList<>();
+
         mDatabase.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listIDFriendChat.clear();
@@ -110,8 +114,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void readFriendChatted() {
-        listUserChat = new ArrayList<>();
-        listChat = new ArrayList<>();
+
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -128,8 +131,7 @@ public class ChatFragment extends Fragment {
                     getUserChattedToChats(userId, userName, profilePicture,status);
                 }
                 // sắp xếp lại thời gian mới nhất
-                itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
-                rcvChat.setAdapter(itemUserAdapter);
+
 
             }
             @Override
@@ -166,6 +168,7 @@ public class ChatFragment extends Fragment {
 
                     User user = new User(userId, userName, profilePicture, lastChat, "status");
 
+
                     for (String id : listIDFriendChat) {
                         if (id != null && user.getUserId() != null && user.getUserId().equals(id)) {
                             if (listUserChat.size() != 0) {
@@ -184,6 +187,11 @@ public class ChatFragment extends Fragment {
                             }
                         }
                     }
+
+
+                    itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
+                    rcvChat.setAdapter(itemUserAdapter);
+
 
                 }
 
