@@ -191,8 +191,8 @@ public class CreateGroupChat extends AppCompatActivity {
                             String userID = id;
                             String userName = snapshot.child("userName").getValue(String.class);
                             String avatar = snapshot.child("profilePicture").getValue(String.class);
-
-                            User user = new User(userID, userName, avatar);
+                            String status = snapshot.child("Status").getValue(String.class);
+                            User user = new User(userID, userName, avatar,status);
                             listUsers.add(user);
 
                             // Di chuyển notifyDataSetChanged() vào đây để đảm bảo gọi sau khi dữ liệu được thêm vào danh sách

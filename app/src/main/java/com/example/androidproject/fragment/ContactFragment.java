@@ -88,18 +88,18 @@ public class ContactFragment extends Fragment {
                 }
 
                 for (String id : listIDFriend) {
-                    System.out.println("ID" + id);
                     mData.child(id).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String userID = id;
                             String userName = snapshot.child("userName").getValue(String.class);
                             String avatar = snapshot.child("profilePicture").getValue(String.class);
+                            String status = snapshot.child("Status").getValue(String.class);
 
-                            User user = new User(userID, userName, avatar);
+                            User user = new User(userID, userName, avatar,status);
                             listUsersFriend.add(user);
 
-                            listFriendAdapter = new ListFriendAdapter(listUsersFriend, getContext(), false);
+                            listFriendAdapter = new ListFriendAdapter(listUsersFriend, getContext());
                             rcvContact.setAdapter(listFriendAdapter);
                         }
 

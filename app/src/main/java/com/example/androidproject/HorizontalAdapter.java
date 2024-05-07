@@ -19,6 +19,10 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
 
     private List<User> listItemUser;
     Context context;
+    public HorizontalAdapter(List<User> listItemUser, Context context) {
+        this.listItemUser = listItemUser;
+        this.context = context;
+    }
     public void setData(List<User> listItemUser) {
         this.listItemUser = listItemUser;
     }
@@ -36,11 +40,10 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
         if(itemUser == null) {
             return;
         }
-        String fullName = itemUser.getUserName();
-        String[] parts = fullName.split(" ");
-        String firstName = parts[0]; // Lấy phần đầu tiên của tên
+
+        holder.txtName.setText(itemUser.getUserName());
         Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
-        holder.txtName.setText(firstName);
+
     }
 
     @Override

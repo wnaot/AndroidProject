@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <com.google.android.material.imageview.ShapeableImageView
+        android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
         android:src="@drawable/dog"
         android:id="@+id/item_imgView1"
@@ -15,7 +16,11 @@
         app:strokeWidth="1dp"
         app:strokeColor="#009688"
         app:shapeAppearanceOverlay="@style/circular">
+
     </com.google.android.material.imageview.ShapeableImageView>
+
+
+
     <TextView
         android:layout_centerHorizontal="true"
         android:id="@+id/TextViewName1"

@@ -26,10 +26,11 @@ public class User {
         this.profilePicture = profilePicture;
     }
     // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
-    public User(String userId, String userName, String profilePicture) {
+    public User(String userId, String userName, String profilePicture,String status) {
         this.userId = userId;
         this.userName = userName;
         this.profilePicture = profilePicture;
+        this.status = status;
     }
     // CONTRUCTOR NHIỀU THAM SỐ ĐỂ VÀ ĐANG SÀI, KHÔNG ĐƯỢC XÓA NHA MẤY BA. p/s:NVD
     public User(String userId, String userName, String profilePicture, Chat chat, String status) {

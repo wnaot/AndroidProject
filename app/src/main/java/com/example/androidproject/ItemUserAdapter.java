@@ -21,12 +21,12 @@ import java.util.List;
 public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHolder>{
     private List<User> listItemUser;
     Context context;
-    private boolean isChat;
 
-    public ItemUserAdapter(List<User> listItemUser, Context context, boolean isChat) {
+
+    public ItemUserAdapter(List<User> listItemUser, Context context) {
         this.listItemUser = listItemUser;
         this.context = context;
-        this.isChat = isChat;
+
     }
 
     public void setData(List<User> listItemUser) {
@@ -47,20 +47,6 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             return;
         }
 
-        if (isChat) {
-            if (itemUser.getStatus().equals("online")) {
-                holder.img_on.setVisibility(View.VISIBLE);
-                holder.img_off.setVisibility(View.GONE);
-            }
-            else {
-                holder.img_on.setVisibility(View.GONE);
-                holder.img_off.setVisibility(View.VISIBLE);
-            }
-        }
-        else {
-            holder.img_on.setVisibility(View.GONE);
-            holder.img_off.setVisibility(View.GONE);
-        }
 
         Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
         holder.txtName.setText(itemUser.getUserName());

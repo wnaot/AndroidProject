@@ -15,7 +15,7 @@
         <FrameLayout
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:padding="5dp"
+
             android:layout_marginStart="12dp"
             android:id="@+id/imageLayout">
 
@@ -28,29 +28,30 @@
                 android:src="@drawable/dog"
                 app:shapeAppearanceOverlay="@style/circular"
                 app:strokeColor="#009688"
-                app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
+                app:strokeWidth="1dp">
+
+            </com.google.android.material.imageview.ShapeableImageView>
 
             <ImageView
                 android:id="@+id/img_on"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:visibility="gone"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="4dp"
-                android:src="@drawable/circle_shape_onl"/>
+                android:layout_marginRight="23dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/circle_shape_onl"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/img_off"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:visibility="gone"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="4dp"
-                android:src="@drawable/circle_shape_off"/>
+                android:layout_marginRight="23dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/circle_shape_off"
+                android:visibility="gone" />
         </FrameLayout>
-
         <TextView
             android:layout_centerVertical="true"
             android:id="@+id/item_nameLFriend"
@@ -65,7 +66,9 @@
             android:text="Kerry Lakin"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold">
+
+        </TextView>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

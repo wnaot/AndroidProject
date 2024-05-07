@@ -23,14 +23,14 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
 
     private List<User> listUser;
     private Context context;
-    private boolean isChat;
+
     public ListFriendAdapter() {
     }
 
-    public ListFriendAdapter(List<User> listUser, Context context, boolean isChat) {
+    public ListFriendAdapter(List<User> listUser, Context context) {
         this.listUser = listUser;
         this.context = context;
-        this.isChat = isChat;
+
     }
 
     @NonNull
@@ -46,22 +46,14 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
         int index_user = position;
 
         User user = listUser.get(position);
-
-        if (isChat) {
-            if (user.getStatus().equals("online")) {
-                holder.img_on.setVisibility(View.VISIBLE);
-                holder.img_off.setVisibility(View.GONE);
-            }
-            else {
-                holder.img_on.setVisibility(View.GONE);
-                holder.img_off.setVisibility(View.VISIBLE);
-            }
+        if (user.getStatus().equals("online")) {
+            holder.img_on.setVisibility(View.VISIBLE);
+            holder.img_off.setVisibility(View.GONE);
         }
         else {
             holder.img_on.setVisibility(View.GONE);
-            holder.img_off.setVisibility(View.GONE);
+            holder.img_off.setVisibility(View.VISIBLE);
         }
-
         Picasso.get().load(user.getProfilePicture()).into(holder.image);
         holder.itemName.setText(user.getUserName());
 

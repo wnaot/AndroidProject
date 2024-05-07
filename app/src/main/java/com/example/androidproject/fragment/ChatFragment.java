@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.HorizontalAdapter;
 import com.example.androidproject.ItemUserAdapter;
+import com.example.androidproject.ListFriendAdapter;
 import com.example.androidproject.MainScreen;
 import com.example.androidproject.Model.Chat;
 import com.example.androidproject.R;
@@ -42,6 +43,7 @@ import java.util.List;
 public class ChatFragment extends Fragment {
 
     private RecyclerView rcvChat;
+    private RecyclerView hRecylerView;
     private SearchView sView;
     private View mView;
     private MainScreen mainActivity;
@@ -51,12 +53,12 @@ public class ChatFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private FirebaseUser mUser;
-//    private List<User> userList,friendUsers;
 
     private List<Chat> listChat;
 
     private ArrayList<User> listUserChat;
-    private List<String> listIDFriendChat;
+    private List<User> listFriend;
+    private List<String> listIDFriendChat,listIDFriend;
 
     Chat lastChat;
 
@@ -68,11 +70,12 @@ public class ChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.chat_fragment, container, false);
 
-        getUserInGroup();
         // Nguyen Van Dung
         rcvChat = (RecyclerView) mView.findViewById(R.id.recycle_chat);
         rcvChat.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        hRecylerView = (RecyclerView) mView.findViewById(R.id.horizontalRecyclerView);
+        hRecylerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listIDFriendChat = new ArrayList<>();
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -101,6 +104,8 @@ public class ChatFragment extends Fragment {
 
             }
         });
+        listFriendHorizontal();
+
         return mView;
     }
 
@@ -116,13 +121,16 @@ public class ChatFragment extends Fragment {
                     String userId = dataSnapshot.child("userId").getValue(String.class);
                     String userName = dataSnapshot.child("userName").getValue(String.class);
                     String profilePicture = dataSnapshot.child("profilePicture").getValue(String.class);
+                    String status = snapshot.child("Status").getValue(String.class);
+
                     // Đã có id người bạn đã chat
                     // Check node id chat cuối cùng là mình với bạn mình để gán vào Object Chat
-                    getUserChattedToChats(userId, userName, profilePicture);
+                    getUserChattedToChats(userId, userName, profilePicture,status);
                 }
                 // sắp xếp lại thời gian mới nhất
-                itemUserAdapter = new ItemUserAdapter(listUserChat, getContext(), false);
+                itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
                 rcvChat.setAdapter(itemUserAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -130,7 +138,7 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-    private void getUserChattedToChats(final String userId, final String userName, final String profilePicture) {
+    private void getUserChattedToChats(final String userId, final String userName, final String profilePicture,final String status) {
         if (mUser == null) {
             return;
         }
@@ -186,20 +194,60 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-    public void getUserInGroup(){
-        FirebaseUtil.allGroupChat().child("members").addListenerForSingleValueEvent(new ValueEventListener() {
+    private void listFriendHorizontal() {
+        listIDFriend = new ArrayList<>();
+        listFriend = new ArrayList<>();
+
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+
+        mDatabase.child(mUser.getUid()).child("friendList").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
+                listIDFriend.clear();
+                listFriend.clear();
 
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    listIDFriend.add(dataSnapshot.getKey());
                 }
+
+                for (String id : listIDFriend) {
+                    mDatabase.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // Lấy thông tin của người dùng từ snapshot
+                            String userName = snapshot.child("userName").getValue(String.class);
+                            String avatar = snapshot.child("profilePicture").getValue(String.class);
+                            String status = snapshot.child("Status").getValue(String.class);
+
+                            // Tạo đối tượng User từ thông tin lấy được
+
+                                User user = new User(id, userName, avatar, status);
+                                listFriend.add(user);
+
+
+                            // Khởi tạo và cập nhật adapter sau khi đã thêm tất cả bạn bè online vào danh sách
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Xử lý lỗi nếu cần
+                        }
+                    });
+                }
+                horizontalAdapter = new HorizontalAdapter(listFriend, getContext());
+                hRecylerView.setAdapter(horizontalAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Xử lý lỗi nếu cần
             }
         });
     }
+
+
+
 
 }

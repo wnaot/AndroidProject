@@ -111,7 +111,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
             }
         });
 
-
+        System.out.println("Id User"+FirebaseUtil.currentUserId());
         getToken();
 
         imgView_edit.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +268,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         if (firebaseUser != null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("activityStatus", status);
+            hashMap.put("Status", status);
             reference.updateChildren(hashMap);
         }
     }
