@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_marginTop="10dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginLeft="3dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginLeft="5dp"
     android:background="@drawable/custom_item_bg"
     android:layout_width="match_parent"
     android:layout_height="100dp"

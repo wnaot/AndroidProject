@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:background="@color/bg_chat_screen"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:background="@color/bg_chat_screen"
         android:textStyle="bold"
         android:textSize="20sp"
         android:padding="20dp"
@@ -12,11 +15,13 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/tvNews"
         android:text="NEWS"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/bg_chat_screen"
         android:layout_below="@id/tvNews"
         android:id="@+id/recycleViewNews"
         android:layout_width="match_parent"

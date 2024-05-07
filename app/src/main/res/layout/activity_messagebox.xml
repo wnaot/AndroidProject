@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:background="#FFFFFF"
         android:padding="10dp"
         android:id="@+id/message_box_chat_header"
         android:layout_width="match_parent"
@@ -77,7 +78,7 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="#E4D6FD"
+        android:background="@color/bg_chat_screen"
         android:layout_above="@+id/message_input_layout"
         android:layout_below="@id/message_box_chat_header"
         android:id="@+id/lv_messages"

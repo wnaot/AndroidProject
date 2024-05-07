@@ -14,10 +14,11 @@
         android:layout_height="wrap_content">
 
         <FrameLayout
+            android:layout_centerVertical="true"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:padding="5dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="5dp"
             android:id="@+id/imageLayout">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -29,7 +30,8 @@
                 android:src="@drawable/dog"
                 app:shapeAppearanceOverlay="@style/circular"
                 app:strokeColor="#009688"
-                app:strokeWidth="1dp"></com.google.android.material.imageview.ShapeableImageView>
+                app:strokeWidth="1dp">
+            </com.google.android.material.imageview.ShapeableImageView>
 
             <ImageView
                 android:id="@+id/img_on"
@@ -53,19 +55,19 @@
         </FrameLayout>
 
         <TextView
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_margin="12dp"
-            android:layout_toRightOf="@id/imageLayout"
             android:id="@+id/item_name"
-            android:textStyle="bold"
-            android:text="Kerry Lakin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toRightOf="@id/imageLayout"
+            android:text="Kerry Lakin"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"></TextView>
 
         <TextView
-            android:layout_marginLeft="12dp"
             android:textSize="15sp"
             android:layout_toRightOf="@id/imageLayout"
             android:layout_below="@id/item_name"
@@ -82,9 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:text="10/03/2024">
         </TextView>
 
