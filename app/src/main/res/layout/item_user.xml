@@ -65,7 +65,9 @@
             android:text="Kerry Lakin"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold">
+
+        </TextView>
 
         <TextView
             android:textSize="15sp"

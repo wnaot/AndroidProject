@@ -56,6 +56,8 @@ public class User {
         this.status = status;
     }
 
+
+
     public Chat getChat() {
         return chat;
     }

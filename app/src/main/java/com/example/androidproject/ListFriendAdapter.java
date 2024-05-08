@@ -60,7 +60,7 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(v.getContext(), listUser.get(index_user).getUserId(), Toast.LENGTH_SHORT).show();
+//              Toast.makeText(v.getContext(), listUser.get(index_user).getUserId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), MessageBox.class);
                 intent.putExtra("FriendID", listUser.get(index_user).getUserId());
                 v.getContext().startActivity(intent);

@@ -291,8 +291,8 @@ public class CreateGroupChat extends AppCompatActivity {
 
         groupChatMap.put("groupchatPicture", groupPicture); // Đặt giá trị ban đầu cho hình ảnh nhóm
         groupChatMap.put("members", listIdUser); // Khởi tạo một danh sách trống cho các thành viên
-        groupChatMap.put("messages", new ArrayList<String>()); // Khởi tạo một danh sách trống cho các tin nhắn
         groupChatMap.put("name", groupname);
+        groupChatMap.put("groupChatId",groupChatId);
         // Đặt giá trị ban đầu cho tên nhóm
 
     // Đưa dữ liệu vào Firebase Database

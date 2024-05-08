@@ -131,8 +131,6 @@ public class ChatFragment extends Fragment {
                     getUserChattedToChats(userId, userName, profilePicture,status);
                 }
                 // sắp xếp lại thời gian mới nhất
-
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

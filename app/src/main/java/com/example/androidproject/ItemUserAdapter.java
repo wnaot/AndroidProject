@@ -59,7 +59,7 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         if(messChat.length() > 25) {
            newMess  = messChat.substring(0,23) + "...";
         }
-       holder.txtChat.setText(newMess);
+        holder.txtChat.setText(newMess);
         String dateTimeMess = listItemUser.get(position).getChat().getTime();
 
         String[] parts = dateTimeMess.split(" ");

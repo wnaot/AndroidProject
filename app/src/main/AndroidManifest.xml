@@ -54,6 +54,10 @@
             android:exported="true"
             />
         <activity
+            android:name=".MessageBoxGroups"
+            android:exported="true"
+            />
+        <activity
             android:name=".MenuMainScreen"
             android:exported="true"
             />

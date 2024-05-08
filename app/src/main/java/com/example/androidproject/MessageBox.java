@@ -1,7 +1,5 @@
 package com.example.androidproject;
 
-import static android.text.format.DateUtils.formatDateTime;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidproject.Model.Message;
 import com.example.androidproject.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +31,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
