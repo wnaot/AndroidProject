@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,15 +45,25 @@ public class InfoUser extends AppCompatActivity {
     ShapeableImageView shapeableImageView,imageView;
     private TextView userName;
     ProgressDialog progressDialog;
+    ImageView btnBack;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_user2);
 
         shapeableImageView = findViewById(R.id.imageCamera);
         imageView = findViewById(R.id.imageView);
         userName = findViewById(R.id.user_name);
+        btnBack = findViewById(R.id.btn_previos_action);
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(InfoUser.this,MainScreen.class);
+//                startActivity(intent);
+                finish();
+            }
+        });
         loadData();
         shapeableImageView.setOnClickListener(new View.OnClickListener() {
             @Override

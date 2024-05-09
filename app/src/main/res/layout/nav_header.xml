@@ -10,14 +10,13 @@
     android:background="#4671FF"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <com.google.android.material.imageview.ShapeableImageView
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/dog"
         android:id="@+id/nav_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:padding="5dp"
+        android:layout_marginBottom="5dp"
         app:strokeWidth="1dp"
-        app:strokeColor="#4671FF"
         app:shapeAppearanceOverlay="@style/circular">
     </com.google.android.material.imageview.ShapeableImageView>
     <TextView

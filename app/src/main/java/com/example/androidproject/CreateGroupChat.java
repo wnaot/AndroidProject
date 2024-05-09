@@ -108,9 +108,9 @@ public class CreateGroupChat extends AppCompatActivity {
             }
         });
         rcv_select.setLayoutManager(selectLayoutManager);
+        rcv_select.setAdapter(selectAdapter);
         rcv_selected.setLayoutManager(selectedLayoutManager);
         rcv_selected.setAdapter(selectedAdapter);
-        rcv_select.setAdapter(selectAdapter);
 
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,34 +168,33 @@ public class CreateGroupChat extends AppCompatActivity {
         usersRef.child(mUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Khởi tạo danh sách trước khi sử dụng
-                List<String> listIdUser = new ArrayList<>();
-                List<User> listUsers = new ArrayList<>();
-
-                // Xóa danh sách để làm sạch trước khi thêm dữ liệu mới
-                listIdUser.clear();
-                listUsers.clear();
+                listIdUser.clear(); // Xóa danh sách id người dùng
+                listUsers.clear(); // Xóa danh sách người dùng
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     listIdUser.add(dataSnapshot.getKey());
                 }
 
-                if(listIdUser.size() < 1){
+                // Hiển thị hoặc ẩn emptySearch textview tùy thuộc vào có dữ liệu hay không
+                if (listIdUser.size() < 1) {
                     emptySearch.setVisibility(View.VISIBLE);
+                } else {
+                    emptySearch.setVisibility(View.GONE);
                 }
 
+                // Duyệt qua danh sách id người dùng và lấy thông tin người dùng
                 for (String id : listIdUser) {
-                    usersRef.child(id).addValueEventListener(new ValueEventListener() {
+                    usersRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String userID = id;
                             String userName = snapshot.child("userName").getValue(String.class);
                             String avatar = snapshot.child("profilePicture").getValue(String.class);
                             String status = snapshot.child("Status").getValue(String.class);
-                            User user = new User(userID, userName, avatar,status);
+                            User user = new User(userID, userName, avatar, status);
                             listUsers.add(user);
 
-                            // Di chuyển notifyDataSetChanged() vào đây để đảm bảo gọi sau khi dữ liệu được thêm vào danh sách
+                            // Gọi notifyDataSetChanged chỉ sau khi đã lấy tất cả thông tin người dùng
                             selectAdapter.notifyDataSetChanged();
                         }
 
@@ -205,9 +204,6 @@ public class CreateGroupChat extends AppCompatActivity {
                         }
                     });
                 }
-
-                // Ẩn emptySearch khi có dữ liệu
-                emptySearch.setVisibility(View.GONE);
             }
 
             @Override
@@ -215,35 +211,6 @@ public class CreateGroupChat extends AppCompatActivity {
                 // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
             }
         });
-
-
-
-//        FirebaseUtil.allUserDatabaseReference().addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                listUsers.clear();
-//                if (snapshot.exists()) {
-//                    for (DataSnapshot snapshots : snapshot.getChildren()) {
-//                        User user = UserUtil.getUserFromSnapshot(snapshots);
-//
-//
-//                        listUsers.add(user);
-//
-//                    }
-//                    emptySearch.setVisibility(View.GONE);
-//                    selectAdapter.notifyDataSetChanged();
-//                }
-//                if(listUsers.size() < 1){
-//                    emptySearch.setVisibility(View.VISIBLE);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
     }
     public void SearchUserWithName(String name){
         Query query = usersRef.orderByChild("userName");
@@ -289,7 +256,7 @@ public class CreateGroupChat extends AppCompatActivity {
     // Tạo một HashMap để lưu thông tin của GroupChat
         Map<String, Object> groupChatMap = new HashMap<>();
 
-        groupChatMap.put("groupchatPicture", groupPicture); // Đặt giá trị ban đầu cho hình ảnh nhóm
+        groupChatMap.put("groupchatPicture", "https://firebasestorage.googleapis.com/v0/b/productappchat.appspot.com/o/images%2Fdefault-group.png?alt=media&token=0dbd74d8-326e-4e34-b55f-3ecd76a73316"); // Đặt giá trị ban đầu cho hình ảnh nhóm
         groupChatMap.put("members", listIdUser); // Khởi tạo một danh sách trống cho các thành viên
         groupChatMap.put("name", groupname);
         groupChatMap.put("groupChatId",groupChatId);

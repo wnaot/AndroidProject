@@ -7,7 +7,7 @@
     >
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/dog"
         android:id="@+id/item_imgView1"
         android:layout_width="60dp"

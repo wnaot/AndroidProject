@@ -100,23 +100,34 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <EditText
-            android:layout_centerVertical="true"
             android:id="@+id/et_message"
-            android:layout_width="300dp"
+            android:layout_width="256dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_weight="1"
             android:background="#DDDDDD"
             android:hint="Nhập tin nhắn..."
             android:padding="8dp"
             android:textSize="16sp" />
-
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:id="@+id/image"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_toRightOf="@+id/et_message"-->
+<!--            android:layout_toLeftOf="@+id/btn_send"-->
+<!--            android:background="#DDDDDD"-->
+<!--            android:src="@drawable/ic_image"-->
+<!--            />-->
         <Button
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/design_default_color_primary_variant"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_button_confirm"
             android:text="Gửi"
             android:textColor="@color/white" />
 

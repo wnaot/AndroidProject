@@ -200,9 +200,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
 
         if(id == R.id.nav_setting){
             Intent intent = new Intent(MainScreen.this, InfoUser.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            return true;
         }
         if (id == R.id.nav_logout) {
             showLogoutConfirmationDialog();

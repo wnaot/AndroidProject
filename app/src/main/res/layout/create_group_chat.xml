@@ -30,13 +30,14 @@
             android:layout_marginStart="20dp"
             >
         </TextView>
+
         <Button
             android:id="@+id/creategroupchat_btn_ok"
-            android:layout_width="50dp"
+            android:layout_width="49dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:text="OK"
-            >
+            android:text="OK">
+
         </Button>
     </RelativeLayout>
     <EditText
@@ -50,12 +51,13 @@
         android:inputType="text|textMultiLine|textAutoCorrect"
         >
     </EditText>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/creategroupchat_recycleview_userSelected"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/creategroupchat_groupname">
+        android:layout_below="@+id/creategroupchat_groupname"
+        android:orientation="horizontal">
 
     </androidx.recyclerview.widget.RecyclerView>
 

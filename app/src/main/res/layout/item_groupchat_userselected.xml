@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@drawable/dog"
             android:id="@+id/creategroupchat_userselected_imgView"
             android:layout_width="80dp"
