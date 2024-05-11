@@ -31,9 +31,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -47,6 +50,7 @@ public class MessageBoxGroups extends AppCompatActivity {
     ChatGroupAdapter chatGroupAdapter;
     String groupChatId;
 
+    ZegoSendCallInvitationButton voiceCallBtn, videoCallBtn;
     List<MessageGroup> messageList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,13 @@ public class MessageBoxGroups extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(chatGroupAdapter);
         LoadDataGroupChat();
+
+        voiceCallBtn = findViewById(R.id.voice_call_btn);
+        videoCallBtn = findViewById(R.id.video_call_btn);
+
+//        setVoiceCall(idFriend);
+//        setVideoCall(idFriend);
+
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +143,19 @@ public class MessageBoxGroups extends AppCompatActivity {
         });
 
     }
+
+    private void setVoiceCall(String targetUserID){
+        voiceCallBtn.setIsVideoCall(false);
+        voiceCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        voiceCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+    }
+
+    private void setVideoCall(String targetUserID){
+        videoCallBtn.setIsVideoCall(true);
+        videoCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        videoCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+    }
+
     public void LoadDataGroupChat(){
         if (groupChatId != null && !groupChatId.isEmpty()) {
             FirebaseUtil.allGroupChat().child(groupChatId).addListenerForSingleValueEvent(new ValueEventListener() {
