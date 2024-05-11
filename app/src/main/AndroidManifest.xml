@@ -38,6 +38,10 @@
             android:exported="true"
             />
         <activity
+            android:name=".DetailGroupActivity"
+            android:exported="true"
+            />
+        <activity
             android:name=".ForgotPassword"
             android:exported="true"
             />
@@ -58,7 +62,7 @@
             android:exported="true"
             />
         <activity
-            android:name=".MenuMainScreen"
+            android:name=".AddUserInGroup"
             android:exported="true"
             />
         <activity
@@ -75,6 +79,10 @@
             />
         <activity
             android:name=".FriendInvitationActivity"
+            android:exported="true"
+            />
+        <activity
+            android:name=".MemberActivity"
             android:exported="true"
             />
         <activity

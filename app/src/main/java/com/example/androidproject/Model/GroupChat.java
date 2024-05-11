@@ -1,6 +1,7 @@
 package com.example.androidproject.Model;
 
 import java.util.List;
+import java.util.Map;
 
 public class GroupChat {
     private String groupChatId;
@@ -8,6 +9,8 @@ public class GroupChat {
     private List<String> members;
     private String name;
     private List<MessageGroup> messageGroups;
+
+    private Map<String, Boolean> admin;
 
     public GroupChat(){
 
@@ -19,6 +22,15 @@ public class GroupChat {
         this.name = name;
         this.messageGroups = messageGroups;
         this.groupChatId = groupChatId;
+    }
+
+    public GroupChat(String groupChatId, String groupchatPicture, List<String> members, String name, List<MessageGroup> messageGroups, Map<String, Boolean> admin) {
+        this.groupChatId = groupChatId;
+        this.groupchatPicture = groupchatPicture;
+        this.members = members;
+        this.name = name;
+        this.messageGroups = messageGroups;
+        this.admin = admin;
     }
 
     public String getGroupchatPicture() {
@@ -59,5 +71,13 @@ public class GroupChat {
 
     public void setMessageGroups(List<MessageGroup> messageGroups) {
         this.messageGroups = messageGroups;
+    }
+
+    public Map<String, Boolean> getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Map<String, Boolean> admin) {
+        this.admin = admin;
     }
 }

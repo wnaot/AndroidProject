@@ -26,67 +26,87 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class CallFragment extends Fragment {
 
     private RecyclerView rcvGroup;
-
     private GroupAdapter groupAdapter;
+    private List<GroupChat> groupChatList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.call_fragment, container, false);
-
-        rcvGroup = (RecyclerView) view.findViewById(R.id.recycle_groups);
+        rcvGroup = view.findViewById(R.id.recycle_groups);
         rcvGroup.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        loadListGroups();
-
-
+        groupChatList = new ArrayList<>();
+        groupAdapter = new GroupAdapter(groupChatList, getContext());
+        rcvGroup.setAdapter(groupAdapter);
         return view;
     }
 
-    public void loadListGroups(){
+    private void loadListGroups() {
         FirebaseUtil.allGroupChat().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<GroupChat> groupChatList = new ArrayList<>();
+                groupChatList.clear();
                 for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
-                    // Lấy giá trị của mỗi thành phần từ DataSnapshot
+                    // Lấy giá trị của mỗi nhóm chat từ DataSnapshot
                     String groupChatId = groupSnapshot.child("groupChatId").getValue(String.class);
                     String groupchatPicture = groupSnapshot.child("groupchatPicture").getValue(String.class);
                     String groupChatName = groupSnapshot.child("name").getValue(String.class);
                     List<String> members = new ArrayList<>();
                     for (DataSnapshot memberSnapshot : groupSnapshot.child("members").getChildren()) {
-                        String member = memberSnapshot.getValue(String.class);
-                        members.add(member);
+                        // Thêm các thành viên vào danh sách
+                        String memberId = memberSnapshot.getValue(String.class);
+                        members.add(memberId);
                     }
                     List<MessageGroup> messageGroups = new ArrayList<>();
                     for (DataSnapshot messageSnapshot : groupSnapshot.child("messageGroups").getChildren()) {
+                        // Lấy thông tin tin nhắn trong nhóm
                         String messageId = messageSnapshot.getKey();
                         String messageText = messageSnapshot.child("messageText").getValue(String.class);
                         String senderID = messageSnapshot.child("senderID").getValue(String.class);
                         String time = messageSnapshot.child("time").getValue(String.class);
-                        // Tạo đối tượng MessageGroup và thêm vào List<MessageGroup>
+                        // Tạo đối tượng MessageGroup và thêm vào danh sách
                         MessageGroup messageGroup = new MessageGroup(messageText, senderID, time);
                         messageGroups.add(messageGroup);
                     }
-
-                    // Tạo đối tượng GroupChat và thêm vào List<GroupChat>
-                    GroupChat groupChat = new GroupChat(groupchatPicture, members , groupChatName , messageGroups , groupChatId);
-                    groupChatList.add(groupChat);
+                    // Kiểm tra xem người dùng hiện tại có là thành viên của nhóm không
+                    if (members.contains(FirebaseUtil.currentUserId())) {
+                        GroupChat groupChat = new GroupChat(groupchatPicture, members , groupChatName , messageGroups , groupChatId);
+                        groupChatList.add(groupChat);
+                    }
                 }
-
-                groupAdapter = new GroupAdapter(groupChatList,getContext());
-                rcvGroup.setAdapter(groupAdapter);
+                // Cập nhật RecyclerView sau khi đã lấy dữ liệu
+                groupAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Xử lý khi có lỗi
             }
         });
     }
+    private ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            // Gọi lại phương thức loadListGroups() để tải lại dữ liệu khi có thay đổi
+            loadListGroups();
+        }
 
-
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            // Xử lý khi có lỗi
+        }
+    };
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUtil.allGroupChat().addValueEventListener(valueEventListener);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        FirebaseUtil.allGroupChat().removeEventListener(valueEventListener);
+    }
 }

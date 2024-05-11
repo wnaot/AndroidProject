@@ -21,6 +21,7 @@
     <string name="action_phone">Gọi thoại</string>
     <string name="action_videocall">Gọi video</string>
     <string name="action_see_profile">Trang cá nhân</string>
+    <string name="action_add_user">Thêm</string>
     <string name="action_notification">Tắt thông báo</string>
 
     <string name="action_custom_chude">Chủ đề</string>

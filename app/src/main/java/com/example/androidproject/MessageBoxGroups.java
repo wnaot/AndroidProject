@@ -76,6 +76,21 @@ public class MessageBoxGroups extends AppCompatActivity {
                 sendMessage();
             }
         });
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        imageInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessageBoxGroups.this, DetailGroupActivity.class);
+                intent.putExtra("groupChatId",groupChatId);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         FirebaseUtil.allGroupChat().child(groupChatId).child("messageGroups").addChildEventListener(new ChildEventListener() {
             @Override

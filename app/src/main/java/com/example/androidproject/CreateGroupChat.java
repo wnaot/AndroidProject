@@ -41,7 +41,6 @@ public class CreateGroupChat extends AppCompatActivity {
     private ImageView btn_previos;
     private Button btn_ok;
     private EditText groupchat_name;
-
     private List<User> listUsers;
     private DatabaseReference usersRef;
     private FirebaseUser mUser;
@@ -73,12 +72,15 @@ public class CreateGroupChat extends AppCompatActivity {
         listUserSelected = new ArrayList<>();
         listUsers = new ArrayList<>();
         listIdUser = new ArrayList<>();
-
+        rcv_selected.setVisibility(View.GONE);
         selectedAdapter = new CreateGroupChat_Selected_Adapter(listUserSelected, this, new CreateGroupChat_Selected_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
                 if(listUserSelected.contains(user)){
                     listUserSelected.remove(user);
+                    if(listUserSelected.isEmpty()){
+                        rcv_selected.setVisibility(View.GONE);
+                    }
                 }
                 selectedAdapter.notifyDataSetChanged();
             }
@@ -139,6 +141,9 @@ public class CreateGroupChat extends AppCompatActivity {
 
     }
     public void select_itemClick(User user){
+        if(listUserSelected.isEmpty()){
+            rcv_selected.setVisibility(View.VISIBLE);
+        }
         // Xử lý sự kiện khi người dùng nhấn vào một mục
         boolean userExists = false;
         for (User i : listUserSelected) {
@@ -151,6 +156,9 @@ public class CreateGroupChat extends AppCompatActivity {
             for(User i : listUserSelected){
                 if (i.getUserName().equals(user.getUserName())) {
                     listUserSelected.remove(i);
+                    if(listUserSelected.isEmpty()){
+                        rcv_selected.setVisibility(View.GONE);
+                    }
                     break;
                 }
             }
@@ -213,6 +221,7 @@ public class CreateGroupChat extends AppCompatActivity {
         });
     }
     public void SearchUserWithName(String name){
+
         Query query = usersRef.orderByChild("userName");
         // Thực hiện truy vấn
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -249,17 +258,19 @@ public class CreateGroupChat extends AppCompatActivity {
         for(User i : listU){
             listIdUser.add(i.getUserId());
         }
-
     // Tạo một key mới cho GroupChat
         String groupChatId = mDatabase.push().getKey();
 
     // Tạo một HashMap để lưu thông tin của GroupChat
         Map<String, Object> groupChatMap = new HashMap<>();
 
+        Map<String, Boolean> admin = new HashMap<>();
+        admin.put(FirebaseUtil.currentUserId(),true);
         groupChatMap.put("groupchatPicture", "https://firebasestorage.googleapis.com/v0/b/productappchat.appspot.com/o/images%2Fdefault-group.png?alt=media&token=0dbd74d8-326e-4e34-b55f-3ecd76a73316"); // Đặt giá trị ban đầu cho hình ảnh nhóm
-        groupChatMap.put("members", listIdUser); // Khởi tạo một danh sách trống cho các thành viên
+        groupChatMap.put("members", listIdUser);
         groupChatMap.put("name", groupname);
         groupChatMap.put("groupChatId",groupChatId);
+        groupChatMap.put("admin",admin);
         // Đặt giá trị ban đầu cho tên nhóm
 
     // Đưa dữ liệu vào Firebase Database
