@@ -9,12 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#ecf0f1</color>
     <color name="gray">#636e72</color>
-
+    <color name="super_light_gray">#dbdcdc</color>
     <color name="app_text_color">#FF000000</color>
 
-<!--    Nguyễn Văn Dũng-->
+    <!--    Nguyễn Văn Dũng-->
     <color name="check_menu">#017D67</color>
     <color name="uncheck_menu">#605F5F</color>
-    <color name="bg_chat_screen">#83CBEC</color>
+    <color name="bg_chat_screen">#FFFFFFFF</color>
 
 </resources>

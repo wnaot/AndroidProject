@@ -28,9 +28,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,7 +46,7 @@ public class MessageBox extends AppCompatActivity {
     RecyclerView recyclerView;
     ChatAdapter messageAdapter;
     String idFriend;
-
+    ZegoSendCallInvitationButton voiceCallBtn, videoCallBtn;
     DatabaseReference chatData, messageRef;
     FirebaseUser mUser;
     List<Message> messageList;
@@ -68,6 +71,19 @@ public class MessageBox extends AppCompatActivity {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         chatData = FirebaseDatabase.getInstance().getReference("Chats");
         // Lắng nghe sự thay đổi trong nút "Chats" của cả hai người dùng
+
+        voiceCallBtn = findViewById(R.id.voice_call_btn);
+        videoCallBtn = findViewById(R.id.video_call_btn);
+
+        setVoiceCall(idFriend);
+        setVideoCall(idFriend);
+
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         chatData.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -132,7 +148,12 @@ public class MessageBox extends AppCompatActivity {
                 sendMessage();
             }
         });
-
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // Khởi tạo danh sách tin nhắn và adapter
         messageList = new ArrayList<>();
         messageAdapter = new ChatAdapter();
@@ -141,6 +162,18 @@ public class MessageBox extends AppCompatActivity {
 
         // Load tin nhắn từ Firebase
         //loadMessage();
+    }
+
+    private void setVoiceCall(String targetUserID){
+        voiceCallBtn.setIsVideoCall(false);
+        voiceCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        voiceCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+    }
+
+    private void setVideoCall(String targetUserID){
+        videoCallBtn.setIsVideoCall(true);
+        videoCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        videoCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
     }
 
     private void sendMessage() {

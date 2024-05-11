@@ -12,10 +12,12 @@
 
         <ImageView
             android:id="@+id/btn_previos_action"
-            android:layout_width="33dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
             android:layout_alignParentStart="true"
-            android:src="@drawable/arrow_back">
+            android:src="@drawable/baseline_arrow_back_ios_24">
 
         </ImageView>
 
@@ -40,31 +42,35 @@
             android:id="@+id/main_scrollview_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:id="@+id/user_information_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:padding="20dp"
-                >
-                <ImageView
-                    android:id="@+id/user_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/empty_backgound">
-                </ImageView>
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageViewGroup"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/circle_c"
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="@dimen/text_MAX_Width"
                     android:layout_height="@dimen/text_MAX_Height"
-                    android:text="@string/user_name"
-                    android:textSize="@dimen/text_size_large"
-                    android:textColor="@color/app_text_color"
                     android:gravity="center"
-                    >
+                    android:text="@string/user_name"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_large">
+
                 </TextView>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/user_action_layout"
                 android:layout_width="match_parent"
@@ -126,56 +132,7 @@
                     </TextView>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/btn_action_seeProfile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    >
-                    <ImageView
-                        android:layout_width="@dimen/iconSize"
-                        android:layout_height="@dimen/iconSize"
-                        android:background="@drawable/layerlist_action_see_profille"
-                        >
-                    </ImageView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/action_see_profile"
-                        android:textSize="@dimen/text_size_small"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/app_text_color"
-                        >
-                    </TextView>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/btn_action_tog_notification"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    >
-                    <ImageView
-                        android:layout_width="@dimen/iconSize"
-                        android:layout_height="@dimen/iconSize"
-                        android:background="@drawable/layerlist_action_tog_notification"
-                        >
-                    </ImageView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/action_notification"
-                        android:textSize="@dimen/text_size_small"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/app_text_color"
-                        >
-                    </TextView>
-                </LinearLayout>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,86 +142,15 @@
                 android:orientation="vertical"
                 >
                 <TextView
-                    android:id="@+id/title_action_custom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tùy chỉnh"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/text_size_medium"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_chude"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_chude"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/circle_checked"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_emotion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_emotion"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/mood"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_nickname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_nickname"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/tt"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_text_effect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_text_effect"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/wand_magic"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-
-
-
-
-                <TextView
                     android:id="@+id/title_action_more_custom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Hành động khác"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/gray"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="20dp"
                     >
                 </TextView>
 
@@ -273,11 +159,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_custom_see_file"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="20dp"
                     android:textColor="@color/app_text_color"
                     android:drawableLeft="@drawable/image"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
+                    android:drawablePadding="20dp"
+                    android:padding="6dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     >
@@ -288,12 +174,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_custom_message_clip"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="20dp"
                     android:textColor="@color/app_text_color"
                     android:drawableLeft="@drawable/paperclip_solid"
-                    android:drawablePadding="10dp"
+                    android:drawablePadding="24dp"
                     android:padding="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="7dp"
                     android:layout_marginEnd="15dp"
                     >
                 </TextView>
@@ -303,242 +189,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/action_custom_find_message"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="20dp"
                     android:textColor="@color/app_text_color"
                     android:drawableLeft="@drawable/magnifying_glass_solid"
-                    android:drawablePadding="10dp"
+                    android:drawablePadding="20dp"
                     android:padding="10dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     >
                 </TextView>
 
-
-
-                <RelativeLayout
-                    android:id="@+id/btn_custom_notification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:padding="10dp">
-                    <ImageView
-                        android:id="@+id/notification_icon"
-                        android:layout_width="@dimen/iconSize"
-                        android:layout_height="@dimen/iconSize"
-                        android:src="@drawable/bell_solid"
-                        android:padding="8dp"
-                        >
-
-                    </ImageView>
-                    <TextView
-                        android:id="@+id/notification_title"
-                        android:layout_toEndOf="@+id/notification_icon"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/action_custom_notification"
-                        android:textSize="@dimen/text_size_medium"
-                        android:textColor="@color/app_text_color"
-                        android:drawablePadding="10dp"
-                        >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/notification_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/notification_title"
-                        android:layout_toEndOf="@+id/notification_icon"
-                        android:text="@string/default_static"
-                        android:textSize="@dimen/text_size_small"></TextView>
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_notification_volumn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_notification_volumn"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/bell_solid"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_private_chat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_private_chat"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/lock_solid"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_create_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_create_group"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/group"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_share"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_share"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/share_nodes_solid"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-
                 <TextView
                     android:id="@+id/title_action_privacy_support"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Quyền riêng tư &amp; hỗ trợ"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="Quyền riêng tư"
                     android:textColor="@color/gray"
-                    android:textSize="@dimen/text_size_medium">
+                    android:textSize="20dp">
 
                 </TextView>
 
-                <RelativeLayout
-                    android:id="@+id/btn_custom_notification_read"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:padding="10dp">
-                    <ImageView
-                        android:id="@+id/notification_read_icon"
-                        android:layout_width="@dimen/iconSize"
-                        android:layout_height="@dimen/iconSize"
-                        android:src="@drawable/eye_solid"
-                        android:padding="7dp"
-                        >
-
-                    </ImageView>
-                    <TextView
-                        android:id="@+id/notification_read_title"
-                        android:layout_toEndOf="@+id/notification_read_icon"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/action_custom_notification_read"
-                        android:textSize="@dimen/text_size_medium"
-                        android:textColor="@color/app_text_color"
-                        android:drawablePadding="10dp"
-                        >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/notification_read_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/notification_read_title"
-                        android:layout_toEndOf="@+id/notification_read_icon"
-                        android:text="@string/default_static"
-                        android:textSize="@dimen/text_size_small"></TextView>
-                </RelativeLayout>
-
                 <TextView
-                    android:id="@+id/btn_action_custom_limit"
+                    android:id="@+id/btn_action_exit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/action_custom_limit"
+                    android:text="Huỷ kết bạn"
                     android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/hide"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
+                    android:textColor="#FF0000"
+                    android:drawableLeft="@drawable/ic_exit"
+                    android:drawablePadding="20dp"
+                    android:padding="16dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     >
                 </TextView>
-
-                <TextView
-                    android:id="@+id/btn_action_custom_block"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_custom_block"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/app_text_color"
-                    android:drawableLeft="@drawable/circle_minus_solid"
-                    android:drawablePadding="10dp"
-                    android:padding="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    >
-                </TextView>
-
-                <RelativeLayout
-                    android:id="@+id/btn_action_custom_report"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:padding="10dp">
-                    <ImageView
-                        android:id="@+id/action_custom_report_icon"
-                        android:layout_width="@dimen/iconSize"
-                        android:layout_height="@dimen/iconSize"
-                        android:src="@drawable/warn"
-                        android:padding="10dp"
-                        >
-
-                    </ImageView>
-                    <TextView
-                        android:id="@+id/action_custom_report_title"
-                        android:layout_toEndOf="@+id/action_custom_report_icon"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/action_custom_report"
-                        android:textSize="@dimen/text_size_medium"
-                        android:textColor="@color/app_text_color"
-                        android:drawablePadding="10dp"
-                        >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/action_custom_report_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/action_custom_report_title"
-                        android:layout_toEndOf="@+id/action_custom_report_icon"
-                        android:text="@string/default_report"
-                        android:textSize="@dimen/text_size_small"></TextView>
-                </RelativeLayout>
-
-
             </LinearLayout>
 
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>

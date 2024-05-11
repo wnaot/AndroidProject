@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_chat_screen">
 
     <RelativeLayout
         android:background="#FFFFFF"
@@ -16,11 +17,11 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/arrow_back"
+            android:src="@drawable/baseline_arrow_back_ios_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +31,7 @@
             android:id="@+id/avatar_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="64dp"
+            android:layout_marginStart="55dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/dog"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,25 +53,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_marginRight="12dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/phone_image"
+        <com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton
+            android:id="@+id/voice_call_btn"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_toLeftOf="@id/info_image"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_phone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_toLeftOf="@id/video_call_btn"
+            />
+
+        <com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton
+            android:id="@+id/video_call_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@id/info_image"
+            />
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
             android:id="@+id/info_image"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_info"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -85,13 +94,13 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/message_input_layout"
-         />
+        />
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/message_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/bg_chat_screen"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,32 +109,39 @@
 
         <EditText
             android:id="@+id/et_message"
-            android:layout_width="256dp"
+            android:layout_width="266dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_weight="1"
-            android:background="#DDDDDD"
+            android:background="@drawable/rounded_edit_text"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:hint="Nhập tin nhắn..."
-            android:padding="8dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginLeft="20dp"
             android:textSize="16sp" />
-<!--        <com.google.android.material.imageview.ShapeableImageView-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:id="@+id/image"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_toRightOf="@+id/et_message"-->
-<!--            android:layout_toLeftOf="@+id/btn_send"-->
-<!--            android:background="#DDDDDD"-->
-<!--            android:src="@drawable/ic_image"-->
-<!--            />-->
+        <!--        <com.google.android.material.imageview.ShapeableImageView-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginRight="10dp"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:id="@+id/image"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_toRightOf="@+id/et_message"-->
+        <!--            android:layout_toLeftOf="@+id/btn_send"-->
+        <!--            android:background="#DDDDDD"-->
+        <!--            android:src="@drawable/ic_image"-->
+        <!--            />-->
         <Button
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:id="@+id/btn_send"
             android:layout_width="70dp"
             android:layout_height="50dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/rounded_button_confirm"
             android:text="Gửi"
             android:textColor="@color/white" />

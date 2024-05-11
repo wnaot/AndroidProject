@@ -15,16 +15,16 @@
         <!-- Header App -->
         <RelativeLayout
             android:id="@+id/head_app"
-            android:background="#0C2EDF"
+            android:background="#0096B7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/btn_menu"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/btn_menu"
@@ -37,57 +37,48 @@
                 android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:textColor="@color/white"
+                android:paddingTop="10dp"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:layout_toRightOf="@+id/btn_menu"
-                android:text="Chats"
+                android:text="Đoạn chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
 
-            <ImageButton
-                android:id="@+id/btn_edit"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginStart="6dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/btn_menu"
-                android:padding="6dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/edit">
-            </ImageButton>
-            <ImageButton
-                android:id="@+id/btn_notification"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="6dp"
-                android:layout_toLeftOf="@id/btn_edit"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="12dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/btn_menu"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_notification">
-            </ImageButton>
-            <ImageButton
-                android:id="@+id/btn_search"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_toLeftOf="@id/btn_notification"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/btn_menu"
-                android:padding="2dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/baseline_person_add_alt_1_24">
-            </ImageButton>
-
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="12dp">
+                <ImageButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_menu"
+                    android:padding="2dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/baseline_person_add_alt_1_24">
+                </ImageButton>
+                <TextView
+                    android:id="@+id/img_on"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignTop="@id/btn_search"
+                    android:layout_alignRight="@id/btn_search"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="-10dp"
+                    android:background="@drawable/rounded_button_bg_2"
+                    android:src="@drawable/circle_shape_onl"
+                    android:text="2"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
         </RelativeLayout>
         <androidx.viewpager2.widget.ViewPager2

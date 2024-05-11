@@ -7,14 +7,18 @@
 
     <TextView
         android:textStyle="bold"
-        android:text="Hello My name is Dung Cute"
+        android:text="Hello My name is Dung Cute ádasdas dasd adssdsdaadssadasds dasdasadsdasaas "
         android:id="@+id/messageText"
         android:layout_width="wrap_content"
+        android:maxWidth="300dp"
         android:layout_height="wrap_content"
         android:background="@drawable/item_chat_right"
-        android:padding="8dp"
-        android:textColor="@color/black"
-        android:textSize="15sp"
+        android:paddingTop="15dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:layout_gravity="end"/>
 
 </LinearLayout>
