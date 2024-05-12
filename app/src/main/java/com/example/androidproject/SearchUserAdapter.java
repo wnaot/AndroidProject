@@ -144,6 +144,62 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             btnAddUser = itemView.findViewById(R.id.btnAddUser);
         }
     }
+    // void sendFriendInvitation(String otherToken){
+    //     FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             if(snapshot.exists()){
+    //                 User currentUser = UserUtil.getUserFromSnapshot(snapshot);
+    //                 try{
+    //                     JSONObject jsonObject  = new JSONObject();
+
+    //                     JSONObject notificationObj = new JSONObject();
+    //                     notificationObj.put("title",currentUser.getUserName());
+    //                     notificationObj.put("body",currentUser.getUserName() +" đã gửi lời mời kết bạn cho bạn");
+
+    //                     JSONObject dataObj = new JSONObject();
+    //                     dataObj.put("userId",currentUser.getUserId());
+
+    //                     jsonObject.put("notification",notificationObj);
+    //                     jsonObject.put("data",dataObj);
+
+    //                     jsonObject.put("to",otherToken);
+
+    //                     callApi(jsonObject);
+    //                 }catch (Exception e) {
+    //                 }
+    //                 }
+    //             }
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
+
+    //         }
+    //     });
+
+    // }
+    void callApi(JSONObject jsonObject){
+        MediaType JSON = MediaType.get("application/json");
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization","Bearer AAAAikwt8ac:APA91bGG0Bya4SgXQtZ23p6EXIatM5n3cVnc57NYDWjZr6Nul_AXO5rn7cuzeGDFnXKjVfn9M_hGSElOWQ4bfcy1AJrOuh2o9KYdvG53yCoOXidwRXvNd1mHHG3DN77Nf83do6u_GNgz")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+            }
+        });
+    }
+
     void sendFriendInvitation(String otherToken){
         FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -176,27 +232,5 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             }
         });
 
-    }
-    void callApi(JSONObject jsonObject){
-        MediaType JSON = MediaType.get("application/json");
-        OkHttpClient client = new OkHttpClient();
-        String url = "https://fcm.googleapis.com/fcm/send";
-        RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .header("Authorization","Bearer AAAAikwt8ac:APA91bGG0Bya4SgXQtZ23p6EXIatM5n3cVnc57NYDWjZr6Nul_AXO5rn7cuzeGDFnXKjVfn9M_hGSElOWQ4bfcy1AJrOuh2o9KYdvG53yCoOXidwRXvNd1mHHG3DN77Nf83do6u_GNgz")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-            }
-        });
     }
 }
