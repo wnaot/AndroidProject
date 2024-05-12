@@ -173,102 +173,6 @@ public class AddUserInGroup extends AppCompatActivity {
 //                 Gọi lại phương thức để cập nhật danh sách người dùng được chọn
         selectedAdapter.notifyDataSetChanged();
     }
-    // public void getAddUser(){
-    //     FirebaseUtil.allGroupChat().child(groupChatId).addListenerForSingleValueEvent(new ValueEventListener() {
-    //         @Override
-    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
-    //             List<String> listMembers = new ArrayList<>();
-    //             for (DataSnapshot memberSnapshot : snapshot.child("members").getChildren()) {
-    //                 String member = memberSnapshot.getValue(String.class);
-    //                 listMembers.add(member);
-    //             }
-    //             mUser = FirebaseAuth.getInstance().getCurrentUser();
-    //             usersRef = FirebaseDatabase.getInstance().getReference("Users");
-    //             usersRef.child(mUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
-    //                 @Override
-    //                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-    //                     listIdUser.clear(); // Xóa danh sách id người dùng
-    //                     listUsers.clear(); // Xóa danh sách người dùng
-
-    //                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-    //                         listIdUser.add(dataSnapshot.getKey());
-    //                     }
-
-    //                     // Hiển thị hoặc ẩn emptySearch textview tùy thuộc vào có dữ liệu hay không
-    //                     if (listIdUser.size() < 1) {
-    //                         emptySearch.setVisibility(View.VISIBLE);
-    //                     } else {
-    //                         emptySearch.setVisibility(View.GONE);
-    //                     }
-
-    //                     // Duyệt qua danh sách id người dùng và lấy thông tin người dùng
-    //                     for (String id : listIdUser) {
-    //                         usersRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-    //                             @Override
-    //                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-    //                                 String userID = id;
-    //                                 String userName = snapshot.child("userName").getValue(String.class);
-    //                                 String avatar = snapshot.child("profilePicture").getValue(String.class);
-    //                                 String status = snapshot.child("Status").getValue(String.class);
-    //                                 if(!listMembers.contains(userID)){
-    //                                     User user = new User(userID, userName, avatar, status);
-    //                                     listUsers.add(user);
-    //                                 }
-    //                                 // Gọi notifyDataSetChanged chỉ sau khi đã lấy tất cả thông tin người dùng
-    //                                 selectAdapter.notifyDataSetChanged();
-    //                             }
-
-    //                             @Override
-    //                             public void onCancelled(@NonNull DatabaseError error) {
-    //                                 // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
-    //                             }
-    //                         });
-    //                     }
-    //                 }
-
-    //                 @Override
-    //                 public void onCancelled(@NonNull DatabaseError error) {
-    //                     // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
-    //                 }
-    //             });
-    //         }
-    //         @Override
-    //         public void onCancelled(@NonNull DatabaseError error) {
-    //         }
-    //     });
-
-    // }
-    public void SearchUserWithName(String name){
-        Query query = usersRef.orderByChild("userName");
-        // Thực hiện truy vấn
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listUsers.clear();
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = UserUtil.getUserFromSnapshot(snapshot);
-                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
-                            listUsers.add(user);
-                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
-                        }
-                    }
-                    emptySearch.setVisibility(View.GONE);
-                    selectAdapter.notifyDataSetChanged();
-                }
-                if(listUsers.size() < 1){
-                    emptySearch.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Xử lý lỗi nếu có
-                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
-            }
-        });
-    }
-
     public void getAddUser(){
         FirebaseUtil.allGroupChat().child(groupChatId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -334,6 +238,102 @@ public class AddUserInGroup extends AppCompatActivity {
         });
 
     }
+    public void SearchUserWithName(String name){
+        Query query = usersRef.orderByChild("userName");
+        // Thực hiện truy vấn
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listUsers.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        User user = UserUtil.getUserFromSnapshot(snapshot);
+                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                            listUsers.add(user);
+                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
+                        }
+                    }
+                    emptySearch.setVisibility(View.GONE);
+                    selectAdapter.notifyDataSetChanged();
+                }
+                if(listUsers.size() < 1){
+                    emptySearch.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    // public void getAddUser(){
+    //     FirebaseUtil.allGroupChat().child(groupChatId).addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             List<String> listMembers = new ArrayList<>();
+    //             for (DataSnapshot memberSnapshot : snapshot.child("members").getChildren()) {
+    //                 String member = memberSnapshot.getValue(String.class);
+    //                 listMembers.add(member);
+    //             }
+    //             mUser = FirebaseAuth.getInstance().getCurrentUser();
+    //             usersRef = FirebaseDatabase.getInstance().getReference("Users");
+    //             usersRef.child(mUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
+    //                 @Override
+    //                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //                     listIdUser.clear(); // Xóa danh sách id người dùng
+    //                     listUsers.clear(); // Xóa danh sách người dùng
+
+    //                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+    //                         listIdUser.add(dataSnapshot.getKey());
+    //                     }
+
+    //                     // Hiển thị hoặc ẩn emptySearch textview tùy thuộc vào có dữ liệu hay không
+    //                     if (listIdUser.size() < 1) {
+    //                         emptySearch.setVisibility(View.VISIBLE);
+    //                     } else {
+    //                         emptySearch.setVisibility(View.GONE);
+    //                     }
+
+    //                     // Duyệt qua danh sách id người dùng và lấy thông tin người dùng
+    //                     for (String id : listIdUser) {
+    //                         usersRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+    //                             @Override
+    //                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //                                 String userID = id;
+    //                                 String userName = snapshot.child("userName").getValue(String.class);
+    //                                 String avatar = snapshot.child("profilePicture").getValue(String.class);
+    //                                 String status = snapshot.child("Status").getValue(String.class);
+    //                                 if(!listMembers.contains(userID)){
+    //                                     User user = new User(userID, userName, avatar, status);
+    //                                     listUsers.add(user);
+    //                                 }
+    //                                 // Gọi notifyDataSetChanged chỉ sau khi đã lấy tất cả thông tin người dùng
+    //                                 selectAdapter.notifyDataSetChanged();
+    //                             }
+
+    //                             @Override
+    //                             public void onCancelled(@NonNull DatabaseError error) {
+    //                                 // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
+    //                             }
+    //                         });
+    //                     }
+    //                 }
+
+    //                 @Override
+    //                 public void onCancelled(@NonNull DatabaseError error) {
+    //                     // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
+    //                 }
+    //             });
+    //         }
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
+    //         }
+    //     });
+
+    // }
     
     private void createGroupChat(List<User> listUser){
         FirebaseUtil.allGroupChat().child(groupChatId).addListenerForSingleValueEvent(new ValueEventListener() {
