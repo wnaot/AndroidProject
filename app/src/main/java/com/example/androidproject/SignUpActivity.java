@@ -199,6 +199,50 @@ public class SignUpActivity extends AppCompatActivity {
         return (!TextUtils.isEmpty(target) && target.toString().matches(phoneNumberPattern));
     }
 
+    // private void checkEmailAndPhone(String email, String phone, String username,String address, String password) {
+    //     DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+    //     // Kiểm tra email
+    //     usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot emailSnapshot) {
+    //             if (emailSnapshot.exists()) {
+    //                 Toast.makeText(SignUpActivity.this, "This email is already registered", Toast.LENGTH_SHORT).show();
+    //             } else {
+    //                 usersRef.orderByChild("phone").equalTo(phone).addListenerForSingleValueEvent(new ValueEventListener() {
+    //                     @Override
+    //                     public void onDataChange(@NonNull DataSnapshot phoneSnapshot) {
+    //                         if (phoneSnapshot.exists()) {
+    //                             Toast.makeText(SignUpActivity.this, "This phone is already registered", Toast.LENGTH_SHORT).show();
+    //                         } else {
+    //                             //Chuyển sang trang xác nhận email
+    //                             navigateToConfirmEmail(username,email,password,phone,address);
+    //                         }
+    //                     }
+    //                     @Override
+    //                     public void onCancelled(@NonNull DatabaseError databaseError) {
+    //                         // Xử lý lỗi nếu cần thiết
+    //                     }
+    //                 });
+    //             }
+    //         }
+
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError databaseError) {
+    //             // Xử lý lỗi nếu cần thiết
+    //         }
+    //     });
+    // }
+    public void navigateToConfirmEmail(String username, String email, String password, String phone, String address){
+        Intent intent = new Intent(SignUpActivity.this, ConfirmEmail.class);
+        //username, email, password, phone, address
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("EMAIL", email);
+        intent.putExtra("PASSWORD", password);
+        intent.putExtra("PHONE", phone);
+        intent.putExtra("ADDRESS", address);
+        startActivity(intent);
+    }
+
     private void checkEmailAndPhone(String email, String phone, String username,String address, String password) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
         // Kiểm tra email
@@ -231,16 +275,6 @@ public class SignUpActivity extends AppCompatActivity {
                 // Xử lý lỗi nếu cần thiết
             }
         });
-    }
-    public void navigateToConfirmEmail(String username, String email, String password, String phone, String address){
-        Intent intent = new Intent(SignUpActivity.this, ConfirmEmail.class);
-        //username, email, password, phone, address
-        intent.putExtra("USERNAME", username);
-        intent.putExtra("EMAIL", email);
-        intent.putExtra("PASSWORD", password);
-        intent.putExtra("PHONE", phone);
-        intent.putExtra("ADDRESS", address);
-        startActivity(intent);
     }
 }
 
