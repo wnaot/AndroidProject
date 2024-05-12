@@ -157,11 +157,6 @@
             return randomString;
         }
 
-        public void reSendEmail(String email, String subject, String body) {
-            SendEmailTask sendEmailTask = new SendEmailTask(email, subject, body);
-            sendEmailTask.execute();
-        }
-
         public void register(String username, String email, String password, String phone, String address) {
             // Đăng ký người dùng với email và mật khẩu
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -197,4 +192,11 @@
                         }
                     });
         }
+
+        public void reSendEmail(String email, String subject, String body) {
+            SendEmailTask sendEmailTask = new SendEmailTask(email, subject, body);
+            sendEmailTask.execute();
+        }
+
+        
     }
