@@ -87,6 +87,68 @@ public class MemberActivity extends AppCompatActivity {
         });
     }
 
+    // public void loadListData() {
+    //     FirebaseUtil.allGroupChat().child(groupChatId).child("members").addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             listIdMember.clear();
+    //             for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
+    //                 String memberId = groupSnapshot.getValue(String.class);
+    //                 listIdMember.add(memberId);
+
+    //             }
+
+    //             // Khởi tạo CountDownLatch với số lượng request từ Firebase
+    //             CountDownLatch latch = new CountDownLatch(listIdMember.size());
+
+    //             for (String id : listIdMember) {
+    //                 FirebaseUtil.allUserDatabaseReference().child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+    //                     @Override
+    //                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //                         String userID = id;
+    //                         String userName = snapshot.child("userName").getValue(String.class);
+    //                         String avatar = snapshot.child("profilePicture").getValue(String.class);
+    //                         String status = snapshot.child("Status").getValue(String.class);
+    //                         if(userID.equals(FirebaseUtil.currentUserId())){
+    //                             User user = new User(userID, "Tôi", avatar, status);
+    //                             listUserAll.add(user);
+    //                         }else{
+    //                             User user = new User(userID, userName, avatar, status);
+    //                             listUserAll.add(user);
+    //                         }
+
+    //                         latch.countDown();
+
+    //                         // Nếu đã hoàn thành tất cả request, cập nhật RecyclerView
+    //                         if (latch.getCount() == 0) {
+                                
+    //                             updateRecyclerView();
+    //                         }
+    //                     }
+
+    //                     @Override
+    //                     public void onCancelled(@NonNull DatabaseError error) {
+    //                         // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
+    //                         // Cần giảm số lượng request cần hoàn thành ở đây nếu cần
+    //                         latch.countDown();
+    //                     }
+    //                 });
+    //             }
+    //         }
+
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
+    //             // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
+    //         }
+    //     });
+    // }
+
+    private void updateRecyclerView() {
+        count_member.setText(listUserAll.size()+" Thành viên");
+        memberAdapter = new MemberAdapter(listUserAll, MemberActivity.this,groupChatId);
+        recycle_member.setAdapter(memberAdapter);
+    }
+
     public void loadListData() {
         FirebaseUtil.allGroupChat().child(groupChatId).child("members").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -141,12 +203,6 @@ public class MemberActivity extends AppCompatActivity {
                 // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
             }
         });
-    }
-
-    private void updateRecyclerView() {
-        count_member.setText(listUserAll.size()+" Thành viên");
-        memberAdapter = new MemberAdapter(listUserAll, MemberActivity.this,groupChatId);
-        recycle_member.setAdapter(memberAdapter);
     }
 
     public void loadListDataAdmin() {
