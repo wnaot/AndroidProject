@@ -95,14 +95,6 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         });
     }
 
-    @Override
-    public int getItemCount() {
-        if(listItemUser != null) {
-            return listItemUser.size();
-        }
-        return 0;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgAvatar;
         private TextView txtName;
@@ -128,4 +120,14 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             img_off = itemView.findViewById(R.id.img_off);
         }
     }
+
+    @Override
+    public int getItemCount() {
+        if(listItemUser != null) {
+            return listItemUser.size();
+        }
+        return 0;
+    }
+
+    
 }
