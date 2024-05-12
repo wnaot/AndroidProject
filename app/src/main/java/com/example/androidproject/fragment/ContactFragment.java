@@ -50,22 +50,6 @@ public class ContactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contact_fragment, container, false);
 
-//        String userId = FirebaseUtil.currentUserId();
-//        mView = view; // Gán giá trị cho mView
-//        mainActivity = (MainScreen) getActivity();
-//        rcvContatc = view.findViewById(R.id.recycle_contract);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mainActivity);
-//        rcvContatc.setLayoutManager(linearLayoutManager);
-//
-//        // Khởi tạo usersRef
-//        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-//        listUsers = new ArrayList<>();
-//        listFriend = new ArrayList<>();
-//        listFriendAdapter = new ListFriendAdapter();
-//        listFriendAdapter.setData(listFriend);
-//        rcvContatc.setAdapter(listFriendAdapter);
-//
-//        FriendListData(userId);
 
         // NGUYEN VAN DUNG
         rcvContact = (RecyclerView) view.findViewById(R.id.recycle_contact);
@@ -74,33 +58,51 @@ public class ContactFragment extends Fragment {
         listIDFriend = new ArrayList<>();
         listUsersFriend = new ArrayList<>();
 
+
+
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mData = FirebaseDatabase.getInstance().getReference("Users");
 
+        loadData();
+        return view;
+    }
+    public void loadData(){
         mData.child(mUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listIDFriend.clear();
                 listUsersFriend.clear();
-
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     listIDFriend.add(dataSnapshot.getKey());
                 }
 
                 for (String id : listIDFriend) {
+
                     mData.child(id).addValueEventListener(new ValueEventListener() {
+
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             String userID = id;
                             String userName = snapshot.child("userName").getValue(String.class);
                             String avatar = snapshot.child("profilePicture").getValue(String.class);
                             String status = snapshot.child("Status").getValue(String.class);
-
+                            if(listUsersFriend.contains(userID)){
+                                listUsersFriend.remove(1);
+                            }
                             User user = new User(userID, userName, avatar,status);
+                            for (User user1 : listUsersFriend) {
+                                if (user1.getUserId().equals(userID)) {
+                                    listUsersFriend.remove(user1);
+                                    break;
+                                }
+                            }
                             listUsersFriend.add(user);
-
-                            listFriendAdapter = new ListFriendAdapter(listUsersFriend, getContext());
-                            rcvContact.setAdapter(listFriendAdapter);
+                            if (listUsersFriend.size() == listIDFriend.size()) {
+                                listFriendAdapter = new ListFriendAdapter(listUsersFriend, getContext());
+                                rcvContact.setAdapter(listFriendAdapter);
+                                listFriendAdapter.notifyDataSetChanged();
+                            }
                         }
 
                         @Override
@@ -116,52 +118,5 @@ public class ContactFragment extends Fragment {
 
             }
         });
-        return view;
     }
-//    public void FriendListData(String userId){
-//        Query query = usersRef.orderByChild("userId").equalTo(userId);
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // Kiểm tra xem có dữ liệu trả về không
-//                if (dataSnapshot.exists()) {
-//                    // Duyệt qua tất cả các nút con trong DataSnapshot
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        User user = UserUtil.getUserFromSnapshot(snapshot);
-//                        listUsers.add(user);
-//                    }
-//                    for (User user : listUsers) {
-//                        Map<String, Boolean> friendListMap = user.getFriendList();
-//                        for (String friendUserId : friendListMap.keySet()) {
-//                            if (friendListMap.get(friendUserId)) {
-//                                usersRef.child(friendUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                        if (dataSnapshot.exists()) {
-//                                            User user = UserUtil.getUserFromSnapshot(dataSnapshot);
-//                                            listFriend.add(user);
-//                                        }
-//                                        listFriendAdapter.notifyDataSetChanged();
-//                                    }
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    }
-//
-//                } else {
-//
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Xử lý khi truy vấn bị hủy
-//            }
-//        });
-//    }
-
-
 }

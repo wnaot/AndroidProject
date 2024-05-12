@@ -61,8 +61,8 @@
 
         <TextView
             android:id="@+id/img_on"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignTop="@id/btnFriendInvitation"
             android:layout_alignRight="@id/btnFriendInvitation"
             android:layout_marginTop="-5dp"

@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.Model.Chat;
 import com.example.androidproject.Model.User;
+import com.example.androidproject.Utils.FirebaseUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHolder>{
     private List<User> listItemUser;
+
     Context context;
 
 
@@ -60,14 +62,17 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         holder.txtName.setText(itemUser.getUserName());
 
         int index_user = position;
-
-        //đổ data chat ra giao diện item
         String messChat = listItemUser.get(position).getChat().getMessageText();
         String newMess = messChat;
         if(messChat.length() > 25) {
-           newMess  = messChat.substring(0,23) + "...";
+            newMess  = messChat.substring(0,15) + "...";
         }
-        holder.txtChat.setText(newMess);
+        if(itemUser.getChat().getSenderID().equals(FirebaseUtil.currentUserId())){
+            holder.txtChat.setText("Bạn: "+newMess);
+        }
+        else{
+            holder.txtChat.setText(newMess);
+        }
         String dateTimeMess = listItemUser.get(position).getChat().getTime();
 
         String[] parts = dateTimeMess.split(" ");
@@ -75,16 +80,6 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         String timeLastMess = parts[1];
         holder.txtTime.setText(dateLastMess);
         holder.txtTimeMess.setText(timeLastMess);
-
-//        holder.layoutMessage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), MessageBox.class);
-//                v.getContext().startActivity(intent);
-//            }
-//        });
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,41 +89,6 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             }
         });
     }
-
-    // public class ViewHolder extends RecyclerView.ViewHolder {
-    //     private ImageView imgAvatar;
-    //     private TextView txtName;
-    //     private TextView txtChat;
-    //     private TextView txtTime;
-
-    //     private TextView txtTimeMess;
-
-    //     private RelativeLayout layoutMessage;
-    //     private ImageView img_on;
-    //     private ImageView img_off;
-
-    //     public ViewHolder(@NonNull View itemView) {
-    //         super(itemView);
-
-    //         imgAvatar = itemView.findViewById(R.id.item_imgView);
-    //         txtName = itemView.findViewById(R.id.item_name);
-    //         txtChat = itemView.findViewById(R.id.item_desc);
-    //         txtTime = itemView.findViewById(R.id.item_time);
-    //         txtTimeMess = itemView.findViewById(R.id.time_mess);
-    //         layoutMessage = itemView.findViewById(R.id.layoutMessage);
-    //         img_on = itemView.findViewById(R.id.img_on);
-    //         img_off = itemView.findViewById(R.id.img_off);
-    //     }
-    // }
-
-    // @Override
-    // public int getItemCount() {
-    //     if(listItemUser != null) {
-    //         return listItemUser.size();
-    //     }
-    //     return 0;
-    // }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgAvatar;
         private TextView txtName;

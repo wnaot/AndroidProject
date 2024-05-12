@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 //
 
+import com.example.androidproject.Model.FriendInvitation;
 import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.AndroidUtil;
 import com.example.androidproject.Utils.FirebaseUtil;
@@ -70,9 +71,10 @@ import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
-public class MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView mbottomNavigationView;
     private ViewPager2 mviewPager;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
@@ -80,7 +82,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     private ImageView imageView;
-    private TextView textViewName,textViewEmail;
+    private TextView textViewName, textViewEmail,countFriendInvitation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
 
         ImageView imgView_search = (ImageView) findViewById(R.id.btn_search);
 
-
+        countFriendInvitation = findViewById(R.id.img_on);
         mbottomNavigationView = findViewById(R.id.menu_bar);
         mviewPager = findViewById(R.id.view_pager);
 
@@ -117,7 +119,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         loadDataNavigation();
 
         initZego();
-
+        listenForFriendInvitations();
         imgView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +132,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
             }
         });
 
-        System.out.println("Id User"+FirebaseUtil.currentUserId());
+        System.out.println("Id User" + FirebaseUtil.currentUserId());
         getToken();
 
 
@@ -188,8 +190,9 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
             }
         });
     }
-    public void initZego(){
-        if(FirebaseUtil.currentUserId().isEmpty()){
+
+    public void initZego() {
+        if (FirebaseUtil.currentUserId().isEmpty()) {
             return;
         } else {
             DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseUtil.currentUserId());
@@ -201,20 +204,21 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
 
                         String userName = snapshot.child("userName").getValue(String.class);
                         String avatarUrl = snapshot.child("profilePicture").getValue(String.class);
-                        startService(FirebaseUtil.currentUserId(),userName, avatarUrl);
+                        startService(FirebaseUtil.currentUserId(), userName, avatarUrl);
                     } else {
 
                     }
                 }
+
                 @Override
-                public void onCancelled(@NonNull DatabaseError error){
+                public void onCancelled(@NonNull DatabaseError error) {
                     Log.w("TAG", "Failed to read value.", error.toException());
                 }
             });
         }
     }
 
-    public void startService(String userID, String userName, String avatarUrl){
+    public void startService(String userID, String userName, String avatarUrl) {
         Application application = getApplication(); // Android's application context
         long appID = 242915274;   // yourAppID
         String appSign = "e6f8ddc838dbef59456ef0fc412816fe41dc7aceea9de39606273e282a924238";  // yourAppSign
@@ -242,10 +246,10 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
                 config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
                     @Override
                     public void onDurationUpdate(long seconds) {
-                        com.zego.ve.Log.d(TAG,"onDurationUpdate() called with: second = ["+ seconds+ "]");
+                        com.zego.ve.Log.d(TAG, "onDurationUpdate() called with: second = [" + seconds + "]");
                     }
                 };
-                config.avatarViewProvider = new ZegoAvatarViewProvider(){
+                config.avatarViewProvider = new ZegoAvatarViewProvider() {
                     @Override
                     public View onUserIDUpdated(ViewGroup parent, ZegoUIKitUser zegoUIKitUser) {
                         ImageView imageView = new ImageView(parent.getContext());
@@ -269,36 +273,37 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         callInvitationConfig.innerText.incomingCallPageDeclineButton = "Decline";
         callInvitationConfig.innerText.incomingCallPageAcceptButton = "Accept";
 
-        ZegoUIKitPrebuiltCallService.init(getApplication(), appID, appSign, userID, userName,callInvitationConfig);
+        ZegoUIKitPrebuiltCallService.init(getApplication(), appID, appSign, userID, userName, callInvitationConfig);
 
         System.out.println("Đã tạo kết nối");
     }
 
-    private void getToken(){
+    private void getToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                String token =task.getResult();
+            if (task.isSuccessful()) {
+                String token = task.getResult();
                 FirebaseUtil.currentUserDetails().child("fcmToken").setValue(token);
             }
         });
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.nav_chat){
+        if (id == R.id.nav_chat) {
             mviewPager.setCurrentItem(0);
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
         if (id == R.id.nav_archive) {
-            AndroidUtil.showToast(MainScreen.this,"Archive");
+            AndroidUtil.showToast(MainScreen.this, "Archive");
         }
         if (id == R.id.nav_group_add) {
             Intent i = new Intent(MainScreen.this, CreateGroupChat.class);
             startActivity(i);
         }
 
-        if(id == R.id.nav_setting){
+        if (id == R.id.nav_setting) {
             Intent intent = new Intent(MainScreen.this, InfoUser.class);
             startActivity(intent);
         }
@@ -307,6 +312,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         }
         return true;
     }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -315,6 +321,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
             super.onBackPressed();
         }
     }
+
     private void showLogoutConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Bạn có chắc chắn muốn đăng xuất?")
@@ -325,7 +332,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
                         FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     FirebaseAuth.getInstance().signOut();
                                     Intent intent = new Intent(MainScreen.this, SplashActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -343,18 +350,19 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         AlertDialog alert = builder.create();
         alert.show();
     }
-    
-    private void loadDataNavigation(){
+
+    private void loadDataNavigation() {
         FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     User user = UserUtil.getUserFromSnapshot(snapshot);
                     Picasso.get().load(user.getProfilePicture()).into(imageView);
                     textViewName.setText(user.getUserName());
                     textViewEmail.setText(user.getEmail());
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -382,5 +390,48 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
     protected void onPause() {
         super.onPause();
         activityStatus("offline");
+    }
+
+    private void listenForFriendInvitations() {
+        List<FriendInvitation> listDetaiFriendInvitation = new ArrayList<>();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("friendInvitations").child(FirebaseUtil.currentUserId());
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listDetaiFriendInvitation.clear();
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String friendInvitationId = childSnapshot.getKey();
+                    FirebaseUtil.currentFriendInvitation().child(friendInvitationId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                String receiverId = snapshot.child("receiverId").getValue(String.class);
+                                String resendId = snapshot.child("senderId").getValue(String.class);
+                                String status = snapshot.child("status").getValue(String.class);
+                                if (status.equals("pending")) {
+                                    FriendInvitation fI = new FriendInvitation(resendId, receiverId, status, 10);
+                                    listDetaiFriendInvitation.add(fI);
+
+                                }
+                                int invitationCount = listDetaiFriendInvitation.size();
+                                if(invitationCount==0){
+                                    countFriendInvitation.setVisibility(View.GONE);
+                                }
+                                String invitationCountString = String.valueOf(invitationCount);
+                                countFriendInvitation.setText(invitationCountString);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Xử lý lỗi nếu có
+                            Log.e("FriendInvitationId", "Error: " + error.getMessage());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }

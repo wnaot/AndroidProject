@@ -1,10 +1,12 @@
 package com.example.androidproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,14 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
         holder.txtName.setText(itemUser.getUserName());
         Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
 
+        holder.layoutMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MessageBox.class);
+                intent.putExtra("FriendID",itemUser.getUserId());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -58,10 +68,13 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
         private ImageView imgAvatar;
         private TextView txtName;
 
+        private RelativeLayout layoutMessage;
+
         public ViewHolder(View itemView) {
             super(itemView);
             imgAvatar = itemView.findViewById(R.id.item_imgView1);
             txtName = itemView.findViewById(R.id.TextViewName1);
+            layoutMessage  = itemView.findViewById(R.id.layoutMessage);
         }
     }
 }

@@ -84,6 +84,15 @@ public class MessageBox extends AppCompatActivity {
                 finish();
             }
         });
+
+        imageInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessageBox.this, detailAccountActivity.class);
+                intent.putExtra("idFriend",idFriend);
+                startActivity(intent);
+            }
+        });
         chatData.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

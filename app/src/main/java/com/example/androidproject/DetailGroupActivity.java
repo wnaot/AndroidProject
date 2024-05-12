@@ -105,9 +105,7 @@ public class DetailGroupActivity extends AppCompatActivity {
         btnRemoveGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showRemoveGroupConfirmationDialog();
-                //removeRole();
-                checkCountAdmin();
+                showRemoveGroupConfirmationDialog();
             }
         });
 
@@ -256,25 +254,24 @@ public class DetailGroupActivity extends AppCompatActivity {
         });
     }
     public void addRole(){
-        List<String> listIdMember  = new ArrayList<>();
         FirebaseUtil.allGroupChat().child(groupChatId).child("members").
                 addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listIdMember.clear();
+                String firstMemberId = null; // Biến để lưu giữ giá trị memberId đầu tiên
                 for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
-                    String memberId = groupSnapshot.getValue(String.class);
-                    listIdMember.add(memberId);
+                    firstMemberId = groupSnapshot.getValue(String.class);
+                    break;
                 }
+                Map < String, Object > adminData = new HashMap<>();
+                adminData.put(firstMemberId, true);
+                FirebaseUtil.allGroupChat().child(groupChatId).child("admin").updateChildren(adminData);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-        Map < String, Object > adminData = new HashMap<>();
-        adminData.put(listIdMember.get(0), true);
-        FirebaseUtil.allGroupChat().child(groupChatId).child("admin").updateChildren(adminData);
+
     }
 
     public void checkCountAdmin(){
@@ -286,28 +283,17 @@ public class DetailGroupActivity extends AppCompatActivity {
                 for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
                     String adminID = groupSnapshot.getKey();
                     listIdAdmin.add(adminID);
-                    Log.i("StringId",adminID);
                 }
                 if(listIdAdmin.size() == 1){
                     if(listIdAdmin.contains(FirebaseUtil.currentUserId())){
-                        Log.i("Id Admin: ", listIdAdmin.get(0));
-//                        addRole();
-//                        removeRole();
+                        addRole();
+                        removeRole();
                     }
                 }
                 else{
-                    Log.i("Coutn Id Admin:", "nhiều hơn 1");
-//                    removeRole();
+                    removeRole();
                 }
-                // Kiểm tra danh sách sau khi đã điền
-                if (!listIdAdmin.isEmpty()) {
-                    // Bạn có thể thực hiện các hành động mong muốn với danh sách ở đây
-                    // Ví dụ: Log, xử lý logic, hiển thị UI, v.v.
-                    Log.i("ListSize", "Size of listIdAdmin: " + listIdAdmin.size());
-                    Log.i("FirstAdminID", "First admin ID: " + listIdAdmin.get(0));
-                } else {
-                    Log.i("ListEmpty", "listIdAdmin is empty");
-                }
+
             }
 
             @Override
@@ -330,6 +316,7 @@ public class DetailGroupActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                checkCountAdmin();
                                 finish();
                             }
                         }

@@ -9,7 +9,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20px"
         android:layout_marginRight="20px"
-        android:layout_marginBottom="20dp"
         android:id="@+id/simpleSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,8 +17,19 @@
         app:queryBackground="@null"
         android:layout_centerHorizontal="true"
         />
-
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/NoOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/simpleSearchView"
+        android:text="Hiện không có ai đang hoạt động"
+        android:padding="3dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+    </TextView>
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20px"
         android:layout_marginRight="20px"
         android:id="@+id/horizontalRecyclerView"

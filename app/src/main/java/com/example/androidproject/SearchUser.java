@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidproject.Model.FriendInvitation;
 import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.FirebaseUtil;
 import com.example.androidproject.Utils.UserUtil;
@@ -47,7 +48,7 @@ public class SearchUser extends AppCompatActivity {
 
     private List<User> listUsers;
     private boolean isFocused = false;
-    private TextView emptySearch;
+    private TextView emptySearch,countFriendInvitation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,7 @@ public class SearchUser extends AppCompatActivity {
         btnFriend = findViewById(R.id.btnFriend);
         btnFriendInvitation = findViewById(R.id.btnFriendInvitation);
         emptySearch = findViewById(R.id.searchNull);
+        countFriendInvitation = findViewById(R.id.img_on);
 
         fragmentArrayList.add(new ContactFragment());
 
@@ -65,6 +67,7 @@ public class SearchUser extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.i("haha",query);
                 SearchUserWithPhone(query);
                 return false;
             }
@@ -89,6 +92,9 @@ public class SearchUser extends AppCompatActivity {
         searchUserAdapter = new SearchUserAdapter();
         searchUserAdapter.setData(listUsers);
         rcvUserAdd.setAdapter(searchUserAdapter);
+
+        listenForFriendInvitations();
+
     }
     public void SearchUserWithPhone(String phone){
         Query query = usersRef.orderByChild("phone").equalTo(phone);
@@ -193,6 +199,48 @@ public class SearchUser extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
+            }
+        });
+    }
+    private void listenForFriendInvitations() {
+        List<FriendInvitation> listDetaiFriendInvitation = new ArrayList<>();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("friendInvitations").child(FirebaseUtil.currentUserId());
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listDetaiFriendInvitation.clear();
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String friendInvitationId = childSnapshot.getKey();
+                    FirebaseUtil.currentFriendInvitation().child(friendInvitationId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                String receiverId = snapshot.child("receiverId").getValue(String.class);
+                                String resendId = snapshot.child("senderId").getValue(String.class);
+                                String status = snapshot.child("status").getValue(String.class);
+                                if (status.equals("pending")) {
+                                    FriendInvitation fI = new FriendInvitation(resendId, receiverId, status, 10);
+                                    listDetaiFriendInvitation.add(fI);
+
+                                }
+                                int invitationCount = listDetaiFriendInvitation.size();
+                                if(invitationCount==0){
+                                    countFriendInvitation.setVisibility(View.GONE);
+                                }
+                                String invitationCountString = String.valueOf(invitationCount);
+                                countFriendInvitation.setText(invitationCountString);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Xử lý lỗi nếu có
+                            Log.e("FriendInvitationId", "Error: " + error.getMessage());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
