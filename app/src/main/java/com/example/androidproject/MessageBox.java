@@ -176,41 +176,41 @@ public class MessageBox extends AppCompatActivity {
         videoCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
     }
 
-    private void sendMessage() {
-        String messageText = et_message.getText().toString().trim();
-        String sender_id = mUser.getUid(); // ID của người gửi tin nhắn
-        String receiver_id = idFriend; // ID của người nhận tin nhắn
+//     private void sendMessage() {
+//         String messageText = et_message.getText().toString().trim();
+//         String sender_id = mUser.getUid(); // ID của người gửi tin nhắn
+//         String receiver_id = idFriend; // ID của người nhận tin nhắn
 
-        if (!messageText.isEmpty()) {
-            String messageId = chatData.push().getKey();
-            if (messageId != null) {
-                // Lấy thời gian hiện tại và định dạng
-                long currentTimeMillis = System.currentTimeMillis();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-                String formattedDateTime = dateFormat.format(new Date(currentTimeMillis));
-                Message message = new Message(receiver_id, sender_id, messageText, formattedDateTime);
-                chatData.child(messageId).setValue(message)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    // Tin nhắn được gửi thành công
-                                    et_message.setText(""); // Xóa nội dung tin nhắn trong EditText
-                                    // Thêm tin nhắn mới vào danh sách và cập nhật giao diện
-//                                    messageList.add(message);
-//                                    messageAdapter.setData(messageList);
-//                                    recyclerView.smoothScrollToPosition(messageList.size() - 1);
-                                } else {
-                                    // Xử lý nếu gửi tin nhắn không thành công
-                                    Toast.makeText(MessageBox.this, "Gửi tin nhắn không thành công", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            }
-        } else {
-            Toast.makeText(MessageBox.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
-        }
-    }
+//         if (!messageText.isEmpty()) {
+//             String messageId = chatData.push().getKey();
+//             if (messageId != null) {
+//                 // Lấy thời gian hiện tại và định dạng
+//                 long currentTimeMillis = System.currentTimeMillis();
+//                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+//                 String formattedDateTime = dateFormat.format(new Date(currentTimeMillis));
+//                 Message message = new Message(receiver_id, sender_id, messageText, formattedDateTime);
+//                 chatData.child(messageId).setValue(message)
+//                         .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                             @Override
+//                             public void onComplete(@NonNull Task<Void> task) {
+//                                 if (task.isSuccessful()) {
+//                                     // Tin nhắn được gửi thành công
+//                                     et_message.setText(""); // Xóa nội dung tin nhắn trong EditText
+//                                     // Thêm tin nhắn mới vào danh sách và cập nhật giao diện
+// //                                    messageList.add(message);
+// //                                    messageAdapter.setData(messageList);
+// //                                    recyclerView.smoothScrollToPosition(messageList.size() - 1);
+//                                 } else {
+//                                     // Xử lý nếu gửi tin nhắn không thành công
+//                                     Toast.makeText(MessageBox.this, "Gửi tin nhắn không thành công", Toast.LENGTH_SHORT).show();
+//                                 }
+//                             }
+//                         });
+//             }
+//         } else {
+//             Toast.makeText(MessageBox.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
+//         }
+//     }
 
     public void loadMessage() {
         messageRef = FirebaseDatabase.getInstance().getReference().child("Chats");
@@ -245,6 +245,42 @@ public class MessageBox extends AppCompatActivity {
                 // Xử lý lỗi nếu cần
             }
         });
+    }
+
+    private void sendMessage() {
+        String messageText = et_message.getText().toString().trim();
+        String sender_id = mUser.getUid(); // ID của người gửi tin nhắn
+        String receiver_id = idFriend; // ID của người nhận tin nhắn
+
+        if (!messageText.isEmpty()) {
+            String messageId = chatData.push().getKey();
+            if (messageId != null) {
+                // Lấy thời gian hiện tại và định dạng
+                long currentTimeMillis = System.currentTimeMillis();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                String formattedDateTime = dateFormat.format(new Date(currentTimeMillis));
+                Message message = new Message(receiver_id, sender_id, messageText, formattedDateTime);
+                chatData.child(messageId).setValue(message)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    // Tin nhắn được gửi thành công
+                                    et_message.setText(""); // Xóa nội dung tin nhắn trong EditText
+                                    // Thêm tin nhắn mới vào danh sách và cập nhật giao diện
+//                                    messageList.add(message);
+//                                    messageAdapter.setData(messageList);
+//                                    recyclerView.smoothScrollToPosition(messageList.size() - 1);
+                                } else {
+                                    // Xử lý nếu gửi tin nhắn không thành công
+                                    Toast.makeText(MessageBox.this, "Gửi tin nhắn không thành công", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        } else {
+            Toast.makeText(MessageBox.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
