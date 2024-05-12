@@ -342,6 +342,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         AlertDialog alert = builder.create();
         alert.show();
     }
+    
     // private void loadDataNavigation(){
     //     FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
     //         @Override
