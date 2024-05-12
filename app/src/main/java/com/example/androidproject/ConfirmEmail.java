@@ -157,7 +157,48 @@
             return randomString;
         }
 
-        public void register(String username, String email, String password, String phone, String address) {
+        // public void register(String username, String email, String password, String phone, String address) {
+        //     // Đăng ký người dùng với email và mật khẩu
+        //     mAuth.createUserWithEmailAndPassword(email, password)
+        //             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        //                 @Override
+        //                 public void onComplete(@NonNull Task<AuthResult> task) {
+        //                     if (task.isSuccessful()) {
+        //                         // Người dùng được đăng ký thành công
+        //                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        //                         if (firebaseUser != null) {
+        //                             // Lấy ID của người dùng
+        //                             String userId = firebaseUser.getUid();
+        //                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        //                             // Tạo một HashMap chứa thông tin của người dùng
+        //                             HashMap<String, String> userMap = new HashMap<>();
+        //                             userMap.put("userId", userId);
+        //                             userMap.put("userName", username);
+        //                             userMap.put("email", email);
+        //                             userMap.put("phone", phone);
+        //                             userMap.put("address", address);
+        //                             userMap.put("password", password);
+        //                             userMap.put("friendList", "");
+        //                             userMap.put("blockList", "");
+        //                             userMap.put("lastActive", "default");
+        //                             userMap.put("profilePicture", "https://firebasestorage.googleapis.com/v0/b/productappchat.appspot.com/o/images%2Favatar-default.png?alt=media&token=6b103445-3c5c-4f76-8ad6-d62fab194574");
+        //                             // Thêm thông tin người dùng vào collection "Users"
+        //                             reference.setValue(userMap);
+        //                         }
+        //                     } else {
+        //                         // Đăng ký người dùng thất bại
+        //                         Toast.makeText(ConfirmEmail.this, "You can't register with this email or password", Toast.LENGTH_SHORT).show();
+        //                     }
+        //                 }
+        //             });
+        // }
+
+        public void reSendEmail(String email, String subject, String body) {
+            SendEmailTask sendEmailTask = new SendEmailTask(email, subject, body);
+            sendEmailTask.execute();
+        }
+
+         public void register(String username, String email, String password, String phone, String address) {
             // Đăng ký người dùng với email và mật khẩu
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -192,11 +233,4 @@
                         }
                     });
         }
-
-        public void reSendEmail(String email, String subject, String body) {
-            SendEmailTask sendEmailTask = new SendEmailTask(email, subject, body);
-            sendEmailTask.execute();
-        }
-
-        
     }
