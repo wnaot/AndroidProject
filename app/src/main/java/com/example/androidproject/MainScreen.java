@@ -29,8 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 //
-//import com.bumptech.glide.Glide;
-//import com.bumptech.glide.request.RequestOptions;
+
 import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.AndroidUtil;
 import com.example.androidproject.Utils.FirebaseUtil;
@@ -54,17 +53,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
-//import com.zegocloud.uikit.components.audiovideo.ZegoAvatarViewProvider;
-//import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
-//import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
-//import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallService;
-//import com.zegocloud.uikit.prebuilt.call.config.DurationUpdateListener;
-//import com.zegocloud.uikit.prebuilt.call.config.ZegoCallDurationConfig;
-//import com.zegocloud.uikit.prebuilt.call.config.ZegoNotificationConfig;
-//import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
-//import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoCallInvitationData;
-//import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoUIKitPrebuiltCallConfigProvider;
-//import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.zegocloud.uikit.components.audiovideo.ZegoAvatarViewProvider;
+import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallService;
+import com.zegocloud.uikit.prebuilt.call.config.DurationUpdateListener;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoCallDurationConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoNotificationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         actionBarDrawerToggle.syncState();
         loadDataNavigation();
 
-//        initZego();
+        initZego();
 
         imgView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,91 +188,91 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
             }
         });
     }
-//    public void initZego(){
-//        if(FirebaseUtil.currentUserId().isEmpty()){
-//            return;
-//        } else {
-//            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseUtil.currentUserId());
-//
-//            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    if (snapshot.exists()) {
-//
-//                        String userName = snapshot.child("userName").getValue(String.class);
-//                        String avatarUrl = snapshot.child("profilePicture").getValue(String.class);
-//                        startService(FirebaseUtil.currentUserId(),userName, avatarUrl);
-//                    } else {
-//
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error){
-//                    Log.w("TAG", "Failed to read value.", error.toException());
-//                }
-//            });
-//        }
-//    }
+    public void initZego(){
+        if(FirebaseUtil.currentUserId().isEmpty()){
+            return;
+        } else {
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseUtil.currentUserId());
 
-//    public void startService(String userID, String userName, String avatarUrl){
-//        Application application = getApplication(); // Android's application context
-//        long appID = 242915274;   // yourAppID
-//        String appSign = "e6f8ddc838dbef59456ef0fc412816fe41dc7aceea9de39606273e282a924238";  // yourAppSign
-//
-//        ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
-//
-//        callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
-//            @Override
-//            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
-//                ZegoUIKitPrebuiltCallConfig config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
-//                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
-//                boolean isGroupCall = invitationData.invitees.size() > 1;
-//                if (isVideoCall && isGroupCall) {
-//                    config = ZegoUIKitPrebuiltCallConfig.groupVideoCall();
-//                } else if (!isVideoCall && isGroupCall) {
-//                    config = ZegoUIKitPrebuiltCallConfig.groupVoiceCall();
-//                } else if (!isVideoCall) {
-//                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
-//                } else {
-//                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
-//                }
-//
-//                config.durationConfig = new ZegoCallDurationConfig();
-//                config.durationConfig.isVisible = true;
-//                config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
-//                    @Override
-//                    public void onDurationUpdate(long seconds) {
-//                        com.zego.ve.Log.d(TAG,"onDurationUpdate() called with: second = ["+ seconds+ "]");
-//                    }
-//                };
-//                config.avatarViewProvider = new ZegoAvatarViewProvider(){
-//                    @Override
-//                    public View onUserIDUpdated(ViewGroup parent, ZegoUIKitUser zegoUIKitUser) {
-//                        ImageView imageView = new ImageView(parent.getContext());
-//                        if (!TextUtils.isEmpty(avatarUrl)) {
-//                            RequestOptions requestOptions = new RequestOptions().circleCrop();
-//                            Glide.with(parent.getContext()).load(avatarUrl).apply(requestOptions).into(imageView);
-//                        }
-//                        return imageView;
-//                    }
-//                };
-//                return config;
-//            }
-//        };
-//
-//        ZegoNotificationConfig notificationConfig = new ZegoNotificationConfig();
-//
-//        notificationConfig.sound = "zego_uikit_sound_call";
-//        notificationConfig.channelID = "CallInvitation";
-//        notificationConfig.channelName = "CallInvitation";
-//
-//        callInvitationConfig.innerText.incomingCallPageDeclineButton = "Decline";
-//        callInvitationConfig.innerText.incomingCallPageAcceptButton = "Accept";
-//
-//        ZegoUIKitPrebuiltCallService.init(getApplication(), appID, appSign, userID, userName,callInvitationConfig);
-//
-//        System.out.println("Đã tạo kết nối");
-//    }
+            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        String userName = snapshot.child("userName").getValue(String.class);
+                        String avatarUrl = snapshot.child("profilePicture").getValue(String.class);
+                        startService(FirebaseUtil.currentUserId(),userName, avatarUrl);
+                    } else {
+
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error){
+                    Log.w("TAG", "Failed to read value.", error.toException());
+                }
+            });
+        }
+    }
+
+    public void startService(String userID, String userName, String avatarUrl){
+        Application application = getApplication(); // Android's application context
+        long appID = 242915274;   // yourAppID
+        String appSign = "e6f8ddc838dbef59456ef0fc412816fe41dc7aceea9de39606273e282a924238";  // yourAppSign
+
+        ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
+
+        callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                boolean isGroupCall = invitationData.invitees.size() > 1;
+                if (isVideoCall && isGroupCall) {
+                    config = ZegoUIKitPrebuiltCallConfig.groupVideoCall();
+                } else if (!isVideoCall && isGroupCall) {
+                    config = ZegoUIKitPrebuiltCallConfig.groupVoiceCall();
+                } else if (!isVideoCall) {
+                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
+                } else {
+                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
+                }
+
+                config.durationConfig = new ZegoCallDurationConfig();
+                config.durationConfig.isVisible = true;
+                config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
+                    @Override
+                    public void onDurationUpdate(long seconds) {
+                        com.zego.ve.Log.d(TAG,"onDurationUpdate() called with: second = ["+ seconds+ "]");
+                    }
+                };
+                config.avatarViewProvider = new ZegoAvatarViewProvider(){
+                    @Override
+                    public View onUserIDUpdated(ViewGroup parent, ZegoUIKitUser zegoUIKitUser) {
+                        ImageView imageView = new ImageView(parent.getContext());
+                        if (!TextUtils.isEmpty(avatarUrl)) {
+                            RequestOptions requestOptions = new RequestOptions().circleCrop();
+                            Glide.with(parent.getContext()).load(avatarUrl).apply(requestOptions).into(imageView);
+                        }
+                        return imageView;
+                    }
+                };
+                return config;
+            }
+        };
+
+        ZegoNotificationConfig notificationConfig = new ZegoNotificationConfig();
+
+        notificationConfig.sound = "zego_uikit_sound_call";
+        notificationConfig.channelID = "CallInvitation";
+        notificationConfig.channelName = "CallInvitation";
+
+        callInvitationConfig.innerText.incomingCallPageDeclineButton = "Decline";
+        callInvitationConfig.innerText.incomingCallPageAcceptButton = "Accept";
+
+        ZegoUIKitPrebuiltCallService.init(getApplication(), appID, appSign, userID, userName,callInvitationConfig);
+
+        System.out.println("Đã tạo kết nối");
+    }
 
     private void getToken(){
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {

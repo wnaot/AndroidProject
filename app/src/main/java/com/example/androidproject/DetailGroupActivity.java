@@ -288,15 +288,17 @@ public class DetailGroupActivity extends AppCompatActivity {
                     listIdAdmin.add(adminID);
                     Log.i("StringId",adminID);
                 }
-//                if(listIdMember.size() == 1){
-//                    if(listIdMember.contains(FirebaseUtil.currentUserId())){
+                if(listIdAdmin.size() == 1){
+                    if(listIdAdmin.contains(FirebaseUtil.currentUserId())){
+                        Log.i("Id Admin: ", listIdAdmin.get(0));
 //                        addRole();
 //                        removeRole();
-//                    }
-//                }
-//                else{
+                    }
+                }
+                else{
+                    Log.i("Coutn Id Admin:", "nhiều hơn 1");
 //                    removeRole();
-//                }
+                }
                 // Kiểm tra danh sách sau khi đã điền
                 if (!listIdAdmin.isEmpty()) {
                     // Bạn có thể thực hiện các hành động mong muốn với danh sách ở đây

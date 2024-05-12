@@ -41,7 +41,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private List<User> listItemUser;
     Context context;
     private String groupChatId;
-    private boolean isBottomSheetDialogShown = false;
 
     public MemberAdapter(List<User> listItemUser, Context context,String groupChatId) {
         this.listItemUser = listItemUser;
@@ -73,9 +72,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.layoutList.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (!isBottomSheetDialogShown) {
-                    isBottomSheetDialogShown = true;
-
+                if(!itemUser.getUserId().equals(FirebaseUtil.currentUserId())){
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
                     bottomSheetDialog.setContentView(R.layout.action_admin);
                     bottomSheetDialog.show();
@@ -87,7 +84,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                         public void onClick(View v) {
                             showRemoveMemberConfirmationDialog(itemUser.getUserName(),itemUser.getUserId());
                             bottomSheetDialog.dismiss();
-                            isBottomSheetDialogShown = false;
+
                         }
                     });
                     RelativeLayout addRole = bottomSheetDialog.findViewById(R.id.btnAddRole);
@@ -96,11 +93,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                         public void onClick(View v) {
                             showAddRoleAdminConfirmationDialog(itemUser.getUserName(),itemUser.getUserId());
                             bottomSheetDialog.dismiss();
-                            isBottomSheetDialogShown = false;
                         }
                     });
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
     }

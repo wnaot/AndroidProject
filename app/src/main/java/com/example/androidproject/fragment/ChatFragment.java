@@ -124,7 +124,7 @@ public class ChatFragment extends Fragment {
                     String userId = dataSnapshot.child("userId").getValue(String.class);
                     String userName = dataSnapshot.child("userName").getValue(String.class);
                     String profilePicture = dataSnapshot.child("profilePicture").getValue(String.class);
-                    String status = snapshot.child("Status").getValue(String.class);
+                    String status = dataSnapshot.child("Status").getValue(String.class);
 
                     // Đã có id người bạn đã chat
                     // Check node id chat cuối cùng là mình với bạn mình để gán vào Object Chat

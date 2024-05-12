@@ -47,7 +47,7 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             return;
         }
 
-        if (itemUser.getStatus().equals("online")) {
+        if (itemUser.getStatus() != null && itemUser.getStatus().equals("online")) {
             holder.img_on.setVisibility(View.VISIBLE);
             holder.img_off.setVisibility(View.GONE);
         }
