@@ -220,37 +220,7 @@ public class CreateGroupChat extends AppCompatActivity {
             }
         });
     }
-    public void SearchUserWithName(String name){
 
-        Query query = usersRef.orderByChild("userName");
-        // Thực hiện truy vấn
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listUsers.clear();
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = UserUtil.getUserFromSnapshot(snapshot);
-                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
-                            listUsers.add(user);
-                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
-                        }
-                    }
-                    emptySearch.setVisibility(View.GONE);
-                    selectAdapter.notifyDataSetChanged();
-                }
-                if(listUsers.size() < 1){
-                    emptySearch.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Xử lý lỗi nếu có
-                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
-            }
-        });
-    }
     private void createGroupChat(List<User> listU, String groupname, String groupPicture){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("GroupChats");
         List<String> listIdUser = new ArrayList<>();
@@ -293,4 +263,78 @@ public class CreateGroupChat extends AppCompatActivity {
                 });
 
     }
+    
+    public void SearchUserWithName(String name){
+
+        Query query = usersRef.orderByChild("userName");
+        // Thực hiện truy vấn
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listUsers.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        User user = UserUtil.getUserFromSnapshot(snapshot);
+                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                            listUsers.add(user);
+                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
+                        }
+                    }
+                    emptySearch.setVisibility(View.GONE);
+                    selectAdapter.notifyDataSetChanged();
+                }
+                if(listUsers.size() < 1){
+                    emptySearch.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
+            }
+        });
+    }
+    // private void createGroupChat(List<User> listU, String groupname, String groupPicture){
+    //     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("GroupChats");
+    //     List<String> listIdUser = new ArrayList<>();
+    //     listIdUser.add(FirebaseUtil.currentUserId());
+    //     for(User i : listU){
+    //         listIdUser.add(i.getUserId());
+    //     }
+    // // Tạo một key mới cho GroupChat
+    //     String groupChatId = mDatabase.push().getKey();
+
+    // // Tạo một HashMap để lưu thông tin của GroupChat
+    //     Map<String, Object> groupChatMap = new HashMap<>();
+
+    //     Map<String, Boolean> admin = new HashMap<>();
+    //     admin.put(FirebaseUtil.currentUserId(),true);
+    //     groupChatMap.put("groupchatPicture", "https://firebasestorage.googleapis.com/v0/b/productappchat.appspot.com/o/images%2Fdefault-group.png?alt=media&token=0dbd74d8-326e-4e34-b55f-3ecd76a73316"); // Đặt giá trị ban đầu cho hình ảnh nhóm
+    //     groupChatMap.put("members", listIdUser);
+    //     groupChatMap.put("name", groupname);
+    //     groupChatMap.put("groupChatId",groupChatId);
+    //     groupChatMap.put("admin",admin);
+    //     // Đặt giá trị ban đầu cho tên nhóm
+
+    // // Đưa dữ liệu vào Firebase Database
+    //     mDatabase.child(groupChatId).setValue(groupChatMap)
+    //             .addOnSuccessListener(new OnSuccessListener<Void>() {
+    //                 @Override
+    //                 public void onSuccess(Void aVoid) {
+    //                     // Xử lý khi dữ liệu được thêm thành công vào Firebase Database
+    //                     Toast.makeText(CreateGroupChat.this,"GroupChat added successfully",Toast.LENGTH_SHORT).show();
+    //                     Log.d("CreateGroupChat", "GroupChat added successfully");
+    //                 }
+    //             })
+    //             .addOnFailureListener(new OnFailureListener() {
+    //                 @Override
+    //                 public void onFailure(@NonNull Exception e) {
+    //                     // Xử lý khi có lỗi xảy ra khi thêm dữ liệu vào Firebase Database
+    //                     Toast.makeText(CreateGroupChat.this,"GroupChat added failed",Toast.LENGTH_SHORT).show();
+    //                     Log.e("CreateGroupChat", "Error adding GroupChat to database", e);
+    //                 }
+    //             });
+
+    // }
 }
