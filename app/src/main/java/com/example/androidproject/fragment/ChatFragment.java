@@ -164,7 +164,7 @@ public class ChatFragment extends Fragment {
                         lastChat = listChat.get(lastIndex);
                     }
 
-                    User user = new User(userId, userName, profilePicture, lastChat, "status");
+                    User user = new User(userId, userName, profilePicture, lastChat, status);
 
 
                     for (String id : listIDFriendChat) {
