@@ -44,6 +44,62 @@ public class CallFragment extends Fragment {
         return view;
     }
 
+    // private void loadListGroups() {
+    //     FirebaseUtil.allGroupChat().addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             groupChatList.clear();
+    //             for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
+    //                 // Lấy giá trị của mỗi nhóm chat từ DataSnapshot
+    //                 String groupChatId = groupSnapshot.child("groupChatId").getValue(String.class);
+    //                 String groupchatPicture = groupSnapshot.child("groupchatPicture").getValue(String.class);
+    //                 String groupChatName = groupSnapshot.child("name").getValue(String.class);
+    //                 List<String> members = new ArrayList<>();
+    //                 for (DataSnapshot memberSnapshot : groupSnapshot.child("members").getChildren()) {
+    //                     // Thêm các thành viên vào danh sách
+    //                     String memberId = memberSnapshot.getValue(String.class);
+    //                     members.add(memberId);
+    //                 }
+    //                 List<MessageGroup> messageGroups = new ArrayList<>();
+    //                 for (DataSnapshot messageSnapshot : groupSnapshot.child("messageGroups").getChildren()) {
+    //                     // Lấy thông tin tin nhắn trong nhóm
+    //                     String messageId = messageSnapshot.getKey();
+    //                     String messageText = messageSnapshot.child("messageText").getValue(String.class);
+    //                     String senderID = messageSnapshot.child("senderID").getValue(String.class);
+    //                     String time = messageSnapshot.child("time").getValue(String.class);
+    //                     // Tạo đối tượng MessageGroup và thêm vào danh sách
+    //                     MessageGroup messageGroup = new MessageGroup(messageText, senderID, time);
+    //                     messageGroups.add(messageGroup);
+    //                 }
+    //                 // Kiểm tra xem người dùng hiện tại có là thành viên của nhóm không
+    //                 if (members.contains(FirebaseUtil.currentUserId())) {
+    //                     GroupChat groupChat = new GroupChat(groupchatPicture, members , groupChatName , messageGroups , groupChatId);
+    //                     groupChatList.add(groupChat);
+    //                 }
+    //             }
+    //             // Cập nhật RecyclerView sau khi đã lấy dữ liệu
+    //             groupAdapter.notifyDataSetChanged();
+    //         }
+
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
+    //             // Xử lý khi có lỗi
+    //         }
+    //     });
+    // }
+    private ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            // Gọi lại phương thức loadListGroups() để tải lại dữ liệu khi có thay đổi
+            loadListGroups();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            // Xử lý khi có lỗi
+        }
+    };
+
     private void loadListGroups() {
         FirebaseUtil.allGroupChat().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -87,18 +143,7 @@ public class CallFragment extends Fragment {
             }
         });
     }
-    private ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            // Gọi lại phương thức loadListGroups() để tải lại dữ liệu khi có thay đổi
-            loadListGroups();
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            // Xử lý khi có lỗi
-        }
-    };
+    
     @Override
     public void onStart() {
         super.onStart();
