@@ -264,37 +264,37 @@ public class CreateGroupChat extends AppCompatActivity {
 
     }
     
-    public void SearchUserWithName(String name){
+    // public void SearchUserWithName(String name){
 
-        Query query = usersRef.orderByChild("userName");
-        // Thực hiện truy vấn
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listUsers.clear();
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = UserUtil.getUserFromSnapshot(snapshot);
-                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
-                            listUsers.add(user);
-                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
-                        }
-                    }
-                    emptySearch.setVisibility(View.GONE);
-                    selectAdapter.notifyDataSetChanged();
-                }
-                if(listUsers.size() < 1){
-                    emptySearch.setVisibility(View.VISIBLE);
-                }
-            }
+    //     Query query = usersRef.orderByChild("userName");
+    //     // Thực hiện truy vấn
+    //     query.addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(DataSnapshot dataSnapshot) {
+    //             listUsers.clear();
+    //             if (dataSnapshot.exists()) {
+    //                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+    //                     User user = UserUtil.getUserFromSnapshot(snapshot);
+    //                     if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
+    //                         listUsers.add(user);
+    //                         Log.e("SearchUserWithPhone", "User: " + user.getUserName());
+    //                     }
+    //                 }
+    //                 emptySearch.setVisibility(View.GONE);
+    //                 selectAdapter.notifyDataSetChanged();
+    //             }
+    //             if(listUsers.size() < 1){
+    //                 emptySearch.setVisibility(View.VISIBLE);
+    //             }
+    //         }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Xử lý lỗi nếu có
-                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
-            }
-        });
-    }
+    //         @Override
+    //         public void onCancelled(DatabaseError databaseError) {
+    //             // Xử lý lỗi nếu có
+    //             Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
+    //         }
+    //     });
+    // }
     // private void createGroupChat(List<User> listU, String groupname, String groupPicture){
     //     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("GroupChats");
     //     List<String> listIdUser = new ArrayList<>();
@@ -337,4 +337,36 @@ public class CreateGroupChat extends AppCompatActivity {
     //             });
 
     // }
+
+    public void SearchUserWithName(String name){
+
+        Query query = usersRef.orderByChild("userName");
+        // Thực hiện truy vấn
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listUsers.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        User user = UserUtil.getUserFromSnapshot(snapshot);
+                        if (!user.getUserId().equals(FirebaseUtil.currentUserId()) && user.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                            listUsers.add(user);
+                            Log.e("SearchUserWithPhone", "User: " + user.getUserName());
+                        }
+                    }
+                    emptySearch.setVisibility(View.GONE);
+                    selectAdapter.notifyDataSetChanged();
+                }
+                if(listUsers.size() < 1){
+                    emptySearch.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("SearchUserWithPhone", "Error searching user with phone: " + databaseError.getMessage());
+            }
+        });
+    }
 }
