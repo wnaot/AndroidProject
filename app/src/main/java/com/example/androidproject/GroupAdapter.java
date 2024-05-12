@@ -48,6 +48,76 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
         return new ViewHolder(view);
     }
 
+    // @Override
+    // public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    //     GroupChat itemGroupChat = listGroupChat.get(position);
+    //     if(itemGroupChat == null) {
+    //         return;
+    //     }
+    //     List<MessageGroup> messageGroups = itemGroupChat.getMessageGroups();
+
+    //     // Kiểm tra và sử dụng danh sách messageGroups
+    //     if (messageGroups != null && !messageGroups.isEmpty()) {
+    //         MessageGroup lastMessageGroup = messageGroups.get(messageGroups.size() - 1);
+    //         String senderID = lastMessageGroup.getSenderID();
+    //         String messageText = lastMessageGroup.getMessageText();
+    //         String time = lastMessageGroup.getTime();
+
+    //         if(messageText.equals(FirebaseUtil.currentUserId())){
+    //             String newMess = senderID;
+    //             if(newMess.length() > 25) {
+    //                 newMess  = newMess.substring(0,15) + "...";
+    //             }
+    //             holder.txtChat.setText("Bạn: "+newMess);
+    //         }
+    //         else{
+    //             FirebaseUtil.allUserDatabaseReference().child(messageText).addListenerForSingleValueEvent(new ValueEventListener() {
+    //                 @Override
+    //                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //                     String name = snapshot.child("userName").getValue(String.class);
+    //                     String newMess = senderID;
+    //                     if(newMess.length() > 25) {
+    //                         newMess  = newMess.substring(0,15) + "...";
+    //                     }
+    //                     holder.txtChat.setText(name+": " + newMess);
+    //                 }
+    //                 @Override
+    //                 public void onCancelled(@NonNull DatabaseError error) {
+
+    //                 }
+    //             });
+    //         }
+    //         String[] parts = time.split(" ");
+    //         String dateLastMess = parts[0];
+    //         String timeLastMess = parts[1];
+    //         holder.txtTime.setText(dateLastMess);
+    //         holder.txtTimeMess.setText(timeLastMess);
+    //     } else {
+    //         holder.txtChat.setText("");
+    //         holder.txtTime.setText("");
+    //         holder.txtTimeMess.setText("");
+    //     }
+
+    //     holder.txtName.setText(itemGroupChat.getName());
+    //     Picasso.get().load(itemGroupChat.getGroupchatPicture()).into(holder.imgAvatar);
+    //     holder.itemView.setOnClickListener(new View.OnClickListener() {
+    //         @Override
+    //         public void onClick(View v) {
+    //             Intent intent = new Intent(v.getContext(), MessageBoxGroups.class);
+    //             intent.putExtra("groupChatId",itemGroupChat.getGroupChatId());
+    //             v.getContext().startActivity(intent);
+    //         }
+    //     });
+    // }
+
+    @Override
+    public int getItemCount() {
+        if(listGroupChat != null) {
+            return listGroupChat.size();
+        }
+        return 0;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GroupChat itemGroupChat = listGroupChat.get(position);
@@ -108,14 +178,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
                 v.getContext().startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        if(listGroupChat != null) {
-            return listGroupChat.size();
-        }
-        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
