@@ -95,6 +95,40 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
         });
     }
 
+    // public class ViewHolder extends RecyclerView.ViewHolder {
+    //     private ImageView imgAvatar;
+    //     private TextView txtName;
+    //     private TextView txtChat;
+    //     private TextView txtTime;
+
+    //     private TextView txtTimeMess;
+
+    //     private RelativeLayout layoutMessage;
+    //     private ImageView img_on;
+    //     private ImageView img_off;
+
+    //     public ViewHolder(@NonNull View itemView) {
+    //         super(itemView);
+
+    //         imgAvatar = itemView.findViewById(R.id.item_imgView);
+    //         txtName = itemView.findViewById(R.id.item_name);
+    //         txtChat = itemView.findViewById(R.id.item_desc);
+    //         txtTime = itemView.findViewById(R.id.item_time);
+    //         txtTimeMess = itemView.findViewById(R.id.time_mess);
+    //         layoutMessage = itemView.findViewById(R.id.layoutMessage);
+    //         img_on = itemView.findViewById(R.id.img_on);
+    //         img_off = itemView.findViewById(R.id.img_off);
+    //     }
+    // }
+
+    // @Override
+    // public int getItemCount() {
+    //     if(listItemUser != null) {
+    //         return listItemUser.size();
+    //     }
+    //     return 0;
+    // }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgAvatar;
         private TextView txtName;
