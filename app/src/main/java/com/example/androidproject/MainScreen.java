@@ -342,6 +342,46 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         AlertDialog alert = builder.create();
         alert.show();
     }
+    // private void loadDataNavigation(){
+    //     FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             if(snapshot.exists()){
+    //                 User user = UserUtil.getUserFromSnapshot(snapshot);
+    //                 Picasso.get().load(user.getProfilePicture()).into(imageView);
+    //                 textViewName.setText(user.getUserName());
+    //                 textViewEmail.setText(user.getEmail());
+    //             }
+    //         }
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
+
+    //         }
+    //     });
+    // }
+
+    // private void activityStatus(String status) {
+    //     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    //     if (firebaseUser != null) {
+    //         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+    //         HashMap<String, Object> hashMap = new HashMap<>();
+    //         hashMap.put("Status", status);
+    //         reference.updateChildren(hashMap);
+    //     }
+    // }
+
+    // @Override
+    // protected void onResume() {
+    //     super.onResume();
+    //     activityStatus("online");
+    // }
+
+    // @Override
+    // protected void onPause() {
+    //     super.onPause();
+    //     activityStatus("offline");
+    // }
+
     private void loadDataNavigation(){
         FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
