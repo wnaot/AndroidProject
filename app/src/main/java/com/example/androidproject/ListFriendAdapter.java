@@ -40,6 +40,57 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
         return new ListFriendAdapter.ViewHolder(view);
     }
 
+//     @Override
+//     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+//         int index_user = position;
+
+//         User user = listUser.get(position);
+
+//         if (user.getStatus().equals("online")) {
+//             holder.img_on.setVisibility(View.VISIBLE);
+//             holder.img_off.setVisibility(View.GONE);
+//         }
+//         else {
+//             holder.img_on.setVisibility(View.GONE);
+//             holder.img_off.setVisibility(View.VISIBLE);
+//         }
+
+//         Picasso.get().load(user.getProfilePicture()).into(holder.image);
+//         holder.itemName.setText(user.getUserName());
+
+//         holder.itemView.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View v) {
+// //              Toast.makeText(v.getContext(), listUser.get(index_user).getUserId(), Toast.LENGTH_SHORT).show();
+//                 Intent intent = new Intent(v.getContext(), MessageBox.class);
+//                 intent.putExtra("FriendID", listUser.get(index_user).getUserId());
+//                 v.getContext().startActivity(intent);
+//             }
+//         });
+//     }
+
+//     @Override
+//     public int getItemCount() {
+//         return listUser.size();
+//     }
+
+
+//     public class ViewHolder extends RecyclerView.ViewHolder {
+//         ImageView image;
+//         TextView itemName;
+//         ImageView img_on;
+//         ImageView img_off;
+//         ViewHolder(View itemView) {
+//             super(itemView);
+
+//             image = itemView.findViewById(R.id.item_imgViewLFriend);
+//             itemName = itemView.findViewById(R.id.item_nameLFriend);
+//             img_on = itemView.findViewById(R.id.img_on);
+//             img_off = itemView.findViewById(R.id.img_off);
+//         }
+//     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
