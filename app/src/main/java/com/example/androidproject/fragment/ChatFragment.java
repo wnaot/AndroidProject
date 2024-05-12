@@ -215,69 +215,69 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-    private void getUserChattedToChats(final String userId, final String userName, final String profilePicture,final String status) {
-        if (mUser == null) {
-            return;
-        }
-        mDatabase = FirebaseDatabase.getInstance().getReference("Chats");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listChat.clear();
-                if(snapshot.exists()){
-                        for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
-                            Chat chat = dataSnapshot1.getValue(Chat.class);
+    // private void getUserChattedToChats(final String userId, final String userName, final String profilePicture,final String status) {
+    //     if (mUser == null) {
+    //         return;
+    //     }
+    //     mDatabase = FirebaseDatabase.getInstance().getReference("Chats");
+    //     mDatabase.addValueEventListener(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             listChat.clear();
+    //             if(snapshot.exists()){
+    //                     for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+    //                         Chat chat = dataSnapshot1.getValue(Chat.class);
 
-                            if (mUser != null && mUser.getUid() != null && chat != null && chat.getReceiverID() != null && chat.getSenderID() != null && userId != null) {
-                                if (mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
-                                        userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
-                                    listChat.add(chat);
-                                }
-                            }
-                        }
+    //                         if (mUser != null && mUser.getUid() != null && chat != null && chat.getReceiverID() != null && chat.getSenderID() != null && userId != null) {
+    //                             if (mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
+    //                                     userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
+    //                                 listChat.add(chat);
+    //                             }
+    //                         }
+    //                     }
 
-                    if (!listChat.isEmpty()) {
-                        int lastIndex = listChat.size() - 1;
-                        lastChat = listChat.get(lastIndex);
-                    }
+    //                 if (!listChat.isEmpty()) {
+    //                     int lastIndex = listChat.size() - 1;
+    //                     lastChat = listChat.get(lastIndex);
+    //                 }
 
-                    User user = new User(userId, userName, profilePicture, lastChat, status);
-
-
-                    for (String id : listIDFriendChat) {
-                        if (id != null && user.getUserId() != null && user.getUserId().equals(id)) {
-                            if (listUserChat.size() != 0) {
-                                boolean userExists = false;
-                                for (User user1 : listUserChat) {
-                                    if (user1.getUserId() != null && user.getUserId().equals(user1.getUserId())) {
-                                        userExists = true;
-                                        break;
-                                    }
-                                }
-                                if (!userExists) {
-                                    listUserChat.add(user);
-                                }
-                            } else {
-                                listUserChat.add(user);
-                            }
-                        }
-                    }
+    //                 User user = new User(userId, userName, profilePicture, lastChat, status);
 
 
-                    itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
-                    rcvChat.setAdapter(itemUserAdapter);
+    //                 for (String id : listIDFriendChat) {
+    //                     if (id != null && user.getUserId() != null && user.getUserId().equals(id)) {
+    //                         if (listUserChat.size() != 0) {
+    //                             boolean userExists = false;
+    //                             for (User user1 : listUserChat) {
+    //                                 if (user1.getUserId() != null && user.getUserId().equals(user1.getUserId())) {
+    //                                     userExists = true;
+    //                                     break;
+    //                                 }
+    //                             }
+    //                             if (!userExists) {
+    //                                 listUserChat.add(user);
+    //                             }
+    //                         } else {
+    //                             listUserChat.add(user);
+    //                         }
+    //                     }
+    //                 }
 
 
-                }
+    //                 itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
+    //                 rcvChat.setAdapter(itemUserAdapter);
 
-            }
+
+    //             }
+
+    //         }
             
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
     private void listFriendHorizontal() {
         listIDFriend = new ArrayList<>();
         listFriend = new ArrayList<>();
@@ -332,6 +332,67 @@ public class ChatFragment extends Fragment {
     }
 
 
+    private void getUserChattedToChats(final String userId, final String userName, final String profilePicture,final String status) {
+        if (mUser == null) {
+            return;
+        }
+        mDatabase = FirebaseDatabase.getInstance().getReference("Chats");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listChat.clear();
+                if(snapshot.exists()){
+                        for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                            Chat chat = dataSnapshot1.getValue(Chat.class);
 
+                            if (mUser != null && mUser.getUid() != null && chat != null && chat.getReceiverID() != null && chat.getSenderID() != null && userId != null) {
+                                if (mUser.getUid().equals(chat.getReceiverID()) && userId.equals(chat.getSenderID()) ||
+                                        userId.equals(chat.getReceiverID()) && mUser.getUid().equals(chat.getSenderID())) {
+                                    listChat.add(chat);
+                                }
+                            }
+                        }
+
+                    if (!listChat.isEmpty()) {
+                        int lastIndex = listChat.size() - 1;
+                        lastChat = listChat.get(lastIndex);
+                    }
+
+                    User user = new User(userId, userName, profilePicture, lastChat, "status");
+
+
+                    for (String id : listIDFriendChat) {
+                        if (id != null && user.getUserId() != null && user.getUserId().equals(id)) {
+                            if (listUserChat.size() != 0) {
+                                boolean userExists = false;
+                                for (User user1 : listUserChat) {
+                                    if (user1.getUserId() != null && user.getUserId().equals(user1.getUserId())) {
+                                        userExists = true;
+                                        break;
+                                    }
+                                }
+                                if (!userExists) {
+                                    listUserChat.add(user);
+                                }
+                            } else {
+                                listUserChat.add(user);
+                            }
+                        }
+                    }
+
+
+                    itemUserAdapter = new ItemUserAdapter(listUserChat, getContext());
+                    rcvChat.setAdapter(itemUserAdapter);
+
+
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }
