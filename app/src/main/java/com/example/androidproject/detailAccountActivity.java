@@ -43,7 +43,7 @@ public class detailAccountActivity extends AppCompatActivity {
 
         btnPreviosAction = findViewById(R.id.btn_previos_action);
         userName = findViewById(R.id.user_name);
-        userImage = findViewById(R.id.user_image);
+//        userImage = findViewById(R.id.user_image);
 
         btnPreviosAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +52,7 @@ public class detailAccountActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnActionCustomCreateGroup = findViewById(R.id.btn_action_custom_create_group);
+//        btnActionCustomCreateGroup = findViewById(R.id.btn_action_custom_create_group);
 
         btnActionCustomCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override

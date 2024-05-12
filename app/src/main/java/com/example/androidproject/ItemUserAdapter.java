@@ -47,6 +47,14 @@ public class ItemUserAdapter extends RecyclerView.Adapter<ItemUserAdapter.ViewHo
             return;
         }
 
+        if (itemUser.getStatus().equals("online")) {
+            holder.img_on.setVisibility(View.VISIBLE);
+            holder.img_off.setVisibility(View.GONE);
+        }
+        else {
+            holder.img_on.setVisibility(View.GONE);
+            holder.img_off.setVisibility(View.VISIBLE);
+        }
 
         Picasso.get().load(itemUser.getProfilePicture()).into(holder.imgAvatar);
         holder.txtName.setText(itemUser.getUserName());

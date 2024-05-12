@@ -47,6 +47,14 @@ public class ListFriendAdapter extends RecyclerView.Adapter<ListFriendAdapter.Vi
 
         User user = listUser.get(position);
 
+        if (user.getStatus().equals("online")) {
+            holder.img_on.setVisibility(View.VISIBLE);
+            holder.img_off.setVisibility(View.GONE);
+        }
+        else {
+            holder.img_on.setVisibility(View.GONE);
+            holder.img_off.setVisibility(View.VISIBLE);
+        }
 
         Picasso.get().load(user.getProfilePicture()).into(holder.image);
         holder.itemName.setText(user.getUserName());
