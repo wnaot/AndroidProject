@@ -98,6 +98,85 @@ public class InfoUser extends AppCompatActivity {
 
         }
     }
+    // private void uploadImageToFirebaseStorage(Uri uri) {
+    //     progressDialog = new ProgressDialog(this);
+    //     progressDialog.setTitle("Uploading File.....");
+    //     progressDialog.show();
+
+    //     // Tham chiếu tới Firebase Storage
+    //     StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+    //     // Tạo tham chiếu tới ảnh trong Firebase Storage (có thể đặt tên ngẫu nhiên)
+    //     StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
+    //     try {
+    //         // Giảm kích thước của ảnh trước khi tải lên
+    //         Bitmap bitmap = scaleBitmapDown(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri), 1024, 1024);
+
+    //         // Chuyển đổi Bitmap thành dữ liệu byte
+    //         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    //         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+    //         byte[] imageData = baos.toByteArray();
+
+    //         // Upload ảnh từ dữ liệu byte đã được giảm kích thước
+    //         imageRef.putBytes(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    //             @Override
+    //             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+    //                 // Lấy URL của ảnh đã tải lên
+    //                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+    //                     @Override
+    //                     public void onSuccess(Uri uri) {
+    //                         // URL của ảnh đã tải lên
+    //                         String imageUrl = uri.toString();
+
+    //                         // Lưu URL của ảnh vào Firebase Realtime Database
+    //                         updateUserProfilePicture(FirebaseUtil.currentUserId(),imageUrl);
+
+    //                         Toast.makeText(InfoUser.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
+    //                         loadData();
+    //                     }
+    //                 });
+    //                 progressDialog.dismiss();
+
+    //                 // Hiển thị ảnh đã tải lên trên ImageView
+    //                 imageView.setImageBitmap(bitmap);
+    //             }
+    //         }).addOnFailureListener(new OnFailureListener() {
+    //             @Override
+    //             public void onFailure(@NonNull Exception e) {
+    //                 Toast.makeText(InfoUser.this, "Upload Failed!!", Toast.LENGTH_SHORT).show();
+    //                 progressDialog.dismiss();
+    //             }
+    //         });
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+    // Phương thức để lưu URL của ảnh vào Firebase Realtime Database
+    private void updateUserProfilePicture(String userId, String newProfilePictureUrl) {
+        // Tham chiếu tới Firebase Realtime Database
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+        // Tạo một HashMap để chứa thông tin cần cập nhật
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("profilePicture", newProfilePictureUrl);
+
+        // Cập nhật chỉ mục profilePicture cho người dùng
+        databaseRef.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // Xử lý khi cập nhật thành công
+                Toast.makeText(InfoUser.this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show();
+                loadData();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Xử lý khi cập nhật thất bại
+                Toast.makeText(InfoUser.this, "Failed to update profile picture!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void uploadImageToFirebaseStorage(Uri uri) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading File.....");
@@ -149,32 +228,6 @@ public class InfoUser extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    // Phương thức để lưu URL của ảnh vào Firebase Realtime Database
-    private void updateUserProfilePicture(String userId, String newProfilePictureUrl) {
-        // Tham chiếu tới Firebase Realtime Database
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-
-        // Tạo một HashMap để chứa thông tin cần cập nhật
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("profilePicture", newProfilePictureUrl);
-
-        // Cập nhật chỉ mục profilePicture cho người dùng
-        databaseRef.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // Xử lý khi cập nhật thành công
-                Toast.makeText(InfoUser.this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show();
-                loadData();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Xử lý khi cập nhật thất bại
-                Toast.makeText(InfoUser.this, "Failed to update profile picture!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     // Phương thức để giảm kích thước của ảnh
