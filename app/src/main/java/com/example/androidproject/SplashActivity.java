@@ -26,10 +26,8 @@ public class SplashActivity extends AppCompatActivity {
         ProgressBar spinner = findViewById(R.id.progressBar);
         spinner.getIndeterminateDrawable().setColorFilter(0xFF0C2EDF, android.graphics.PorterDuff.Mode.MULTIPLY);
 
-
-
         if(getIntent().getExtras() != null ){
-            Intent intent = new Intent(SplashActivity.this, FriendInvitationActivity.class);
+            Intent intent = new Intent(SplashActivity.this, MainScreen.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

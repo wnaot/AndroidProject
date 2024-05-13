@@ -40,7 +40,9 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/ic_camera_image"></ImageView>
+            android:background="@drawable/ic_image">
+
+        </ImageView>
 
         <TextView
             android:id="@+id/menu_item1"
@@ -58,40 +60,5 @@
             android:textColor="@color/black"
             />
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/btnRlayoutImage"
-        >
-
-        <ImageView
-            android:id="@+id/imageViewImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/ic_image"></ImageView>
-
-        <TextView
-            android:id="@+id/menu_item2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@+id/imageViewImage"
-            android:background="@color/white"
-            android:text="Chọn ảnh từ thư viện"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-
-    </RelativeLayout>
-
-
 
 </LinearLayout>

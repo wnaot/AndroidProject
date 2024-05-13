@@ -8,8 +8,8 @@
 
     <item
         android:id="@+id/action_calls"
-        android:title="@string/action_calls"
-        android:icon="@drawable/video"></item>
+        android:title="GroupChat"
+        android:icon="@drawable/ic_group"></item>
 
     <item
         android:id="@+id/action_contacts"
