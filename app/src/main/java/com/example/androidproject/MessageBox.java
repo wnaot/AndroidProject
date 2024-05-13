@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidproject.Model.Message;
 import com.example.androidproject.Model.User;
+import com.example.androidproject.Utils.FirebaseUtil;
+import com.example.androidproject.Utils.UserUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,12 +33,23 @@ import com.squareup.picasso.Picasso;
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MessageBox extends AppCompatActivity {
     ImageView imageInfo, imageBack, avatar_image;
@@ -193,7 +206,6 @@ public class MessageBox extends AppCompatActivity {
         if (!messageText.isEmpty()) {
             String messageId = chatData.push().getKey();
             if (messageId != null) {
-                // Lấy thời gian hiện tại và định dạng
                 long currentTimeMillis = System.currentTimeMillis();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
                 String formattedDateTime = dateFormat.format(new Date(currentTimeMillis));
@@ -203,12 +215,20 @@ public class MessageBox extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    // Tin nhắn được gửi thành công
-                                    et_message.setText(""); // Xóa nội dung tin nhắn trong EditText
-                                    // Thêm tin nhắn mới vào danh sách và cập nhật giao diện
-//                                    messageList.add(message);
-//                                    messageAdapter.setData(messageList);
-//                                    recyclerView.smoothScrollToPosition(messageList.size() - 1);
+                                    FirebaseUtil.allUserDatabaseReference().child(idFriend).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String token = snapshot.child("fcmToken").getValue(String.class);
+                                            et_message.setText("");
+                                            sendMessage(token,messageText);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
                                 } else {
                                     // Xử lý nếu gửi tin nhắn không thành công
                                     Toast.makeText(MessageBox.this, "Gửi tin nhắn không thành công", Toast.LENGTH_SHORT).show();
@@ -254,6 +274,62 @@ public class MessageBox extends AppCompatActivity {
                 // Xử lý lỗi nếu cần
             }
         });
+    }
+    void callApi(JSONObject jsonObject){
+        MediaType JSON = MediaType.get("application/json");
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization","Bearer AAAAikwt8ac:APA91bGG0Bya4SgXQtZ23p6EXIatM5n3cVnc57NYDWjZr6Nul_AXO5rn7cuzeGDFnXKjVfn9M_hGSElOWQ4bfcy1AJrOuh2o9KYdvG53yCoOXidwRXvNd1mHHG3DN77Nf83do6u_GNgz")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+            }
+        });
+    }
+
+    void sendMessage(String otherToken,String message){
+        FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    User currentUser = UserUtil.getUserFromSnapshot(snapshot);
+                    try{
+                        JSONObject jsonObject  = new JSONObject();
+
+                        JSONObject notificationObj = new JSONObject();
+                        notificationObj.put("title",currentUser.getUserName());
+                        notificationObj.put("body",message);
+
+                        JSONObject dataObj = new JSONObject();
+                        dataObj.put("userId",currentUser.getUserId());
+
+                        jsonObject.put("notification",notificationObj);
+                        jsonObject.put("data",dataObj);
+
+                        jsonObject.put("to",otherToken);
+
+                        callApi(jsonObject);
+                    }catch (Exception e) {
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
 }

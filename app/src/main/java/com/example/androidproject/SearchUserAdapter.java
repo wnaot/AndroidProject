@@ -144,39 +144,6 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             btnAddUser = itemView.findViewById(R.id.btnAddUser);
         }
     }
-    // void sendFriendInvitation(String otherToken){
-    //     FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
-    //         @Override
-    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
-    //             if(snapshot.exists()){
-    //                 User currentUser = UserUtil.getUserFromSnapshot(snapshot);
-    //                 try{
-    //                     JSONObject jsonObject  = new JSONObject();
-
-    //                     JSONObject notificationObj = new JSONObject();
-    //                     notificationObj.put("title",currentUser.getUserName());
-    //                     notificationObj.put("body",currentUser.getUserName() +" đã gửi lời mời kết bạn cho bạn");
-
-    //                     JSONObject dataObj = new JSONObject();
-    //                     dataObj.put("userId",currentUser.getUserId());
-
-    //                     jsonObject.put("notification",notificationObj);
-    //                     jsonObject.put("data",dataObj);
-
-    //                     jsonObject.put("to",otherToken);
-
-    //                     callApi(jsonObject);
-    //                 }catch (Exception e) {
-    //                 }
-    //                 }
-    //             }
-    //         @Override
-    //         public void onCancelled(@NonNull DatabaseError error) {
-
-    //         }
-    //     });
-
-    // }
     void callApi(JSONObject jsonObject){
         MediaType JSON = MediaType.get("application/json");
         OkHttpClient client = new OkHttpClient();

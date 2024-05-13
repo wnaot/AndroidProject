@@ -11,12 +11,6 @@
             >
         </item>
         <item
-            android:id="@+id/nav_archive"
-            android:icon="@drawable/nav_archive"
-            android:title="Kho lưu trữ"
-            >
-        </item>
-        <item
             android:id="@+id/nav_group_add"
             android:icon="@drawable/nav_group_add"
             android:title="Tạo nhóm"

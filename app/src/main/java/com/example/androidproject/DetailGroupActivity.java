@@ -69,7 +69,6 @@ public class DetailGroupActivity extends AppCompatActivity {
 
         btn_back = findViewById(R.id.btn_previos_action);
         image_Avatar = findViewById(R.id.imageViewGroup);
-        btn_more = findViewById(R.id.btn_more);
         txtName = findViewById(R.id.user_name);
         btnActionAddUser = findViewById(R.id.btn_action_seeProfile);
         btnMemberGroup = findViewById(R.id.btn_members_group);

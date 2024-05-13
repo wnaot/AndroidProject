@@ -295,9 +295,6 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
-        if (id == R.id.nav_archive) {
-            AndroidUtil.showToast(MainScreen.this, "Archive");
-        }
         if (id == R.id.nav_group_add) {
             Intent i = new Intent(MainScreen.this, CreateGroupChat.class);
             startActivity(i);

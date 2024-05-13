@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layoutMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_centerVertical="true"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:padding="5dp"
+            android:layout_marginStart="5dp"
+            android:id="@+id/imageLayout">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/item_imgView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dog"
+                app:shapeAppearanceOverlay="@style/circular"
+                app:strokeColor="#009688"
+                app:strokeWidth="1dp">
+            </com.google.android.material.imageview.ShapeableImageView>
+
+            <ImageView
+                android:id="@+id/img_on"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/circle_shape_onl"/>
+
+            <ImageView
+                android:id="@+id/img_off"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/circle_shape_off"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toRightOf="@id/imageLayout"
+            android:text="Kerry Lakin"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/imageLayout"
+            android:layout_below="@id/item_name"
+            android:id="@+id/item_desc"
+            android:textColor="#878787"
+            android:text="qqqqqqqqqqqqqqqqqqqqqqq ..."
+            android:layout_width="216dp"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="10/03/2024">
+        </TextView>
+
+        <TextView
+            android:layout_marginEnd="30dp"
+            android:text="23:12"
+            android:layout_below="@id/item_time"
+            android:layout_alignParentRight="true"
+            android:id="@+id/time_mess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+
+    <!--    app:strokeColor="#000"-->
+    <!--    app:strokeWidth="5dp"-->

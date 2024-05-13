@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidproject.Model.GroupChat;
 import com.example.androidproject.Model.Message;
 import com.example.androidproject.Model.MessageGroup;
+import com.example.androidproject.Model.User;
 import com.example.androidproject.Utils.FirebaseUtil;
+import com.example.androidproject.Utils.UserUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,12 +36,23 @@ import com.squareup.picasso.Picasso;
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MessageBoxGroups extends AppCompatActivity {
     ImageView imageInfo, imageBack, avatar_image;
@@ -200,8 +213,35 @@ public class MessageBoxGroups extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            // Tin nhắn đã được gửi thành công
                                             et_message.setText("");
+                                            List<String> listIdMember = new ArrayList<>();
+                                            FirebaseUtil.allGroupChat().child(groupChatId).child("members").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    listIdMember.clear();
+                                                    for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
+                                                        String memberId = groupSnapshot.getValue(String.class);
+                                                        listIdMember.add(memberId);
+                                                    }
+                                                    for(String id : listIdMember){
+                                                        FirebaseUtil.allUserDatabaseReference().child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                String token = snapshot.child("fcmToken").getValue(String.class);
+                                                                sendMessage(token,messageText);
+                                                            }
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
                                         } else {
                                             // Xử lý nếu gửi tin nhắn không thành công
                                             Toast.makeText(MessageBoxGroups.this, "Gửi tin nhắn không thành công", Toast.LENGTH_SHORT).show();
@@ -223,7 +263,62 @@ public class MessageBoxGroups extends AppCompatActivity {
             Toast.makeText(MessageBoxGroups.this, "groupChatId không hợp lệ", Toast.LENGTH_SHORT).show();
         }
     }
+    void callApi(JSONObject jsonObject){
+        MediaType JSON = MediaType.get("application/json");
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization","Bearer AAAAikwt8ac:APA91bGG0Bya4SgXQtZ23p6EXIatM5n3cVnc57NYDWjZr6Nul_AXO5rn7cuzeGDFnXKjVfn9M_hGSElOWQ4bfcy1AJrOuh2o9KYdvG53yCoOXidwRXvNd1mHHG3DN77Nf83do6u_GNgz")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+            }
+        });
+    }
+
+    void sendMessage(String otherToken,String message){
+        FirebaseUtil.currentUserDetails().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    User currentUser = UserUtil.getUserFromSnapshot(snapshot);
+                    try{
+                        JSONObject jsonObject  = new JSONObject();
+
+                        JSONObject notificationObj = new JSONObject();
+                        notificationObj.put("title",currentUser.getUserName());
+                        notificationObj.put("body",message);
+
+                        JSONObject dataObj = new JSONObject();
+                        dataObj.put("userId",currentUser.getUserId());
+
+                        jsonObject.put("notification",notificationObj);
+                        jsonObject.put("data",dataObj);
+
+                        jsonObject.put("to",otherToken);
+
+                        callApi(jsonObject);
+                    }catch (Exception e) {
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
 
 }
