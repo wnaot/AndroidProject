@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,9 +44,11 @@ import java.util.UUID;
 public class InfoUser extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     ShapeableImageView shapeableImageView,imageView;
-    private TextView userName;
+    private TextView userName,txtName,txtEmail,txtSDT,txtAddress,btnConfirm;
     ProgressDialog progressDialog;
     ImageView btnBack;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +58,12 @@ public class InfoUser extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         userName = findViewById(R.id.user_name);
         btnBack = findViewById(R.id.btn_previos_action);
+        txtName = findViewById(R.id.txtName);
+        txtAddress = findViewById(R.id.txtAddress);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtSDT = findViewById(R.id.txtSDT);
 
+        btnConfirm = findViewById(R.id.btnConfirm);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +93,15 @@ public class InfoUser extends AppCompatActivity {
             }
         });
 
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -259,6 +275,10 @@ public class InfoUser extends AppCompatActivity {
                     User user = UserUtil.getUserFromSnapshot(snapshot);
                     Picasso.get().load(user.getProfilePicture()).into(imageView);
                     userName.setText(user.getUserName());
+                    txtName.setText("Tên:             "+ user.getUserName());
+                    txtAddress.setText("Địa chỉ:        "+user.getAddress());
+                    txtSDT.setText("Phone:        "+user.getPhone());
+                    txtEmail.setText("Email:           "+user.getEmail());
                 }
             }
             @Override

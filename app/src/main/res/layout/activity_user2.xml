@@ -80,8 +80,44 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/txtName"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtSDT"
+            android:id="@+id/btnConfirm"
+            android:layout_width="105.333dp"
+            android:layout_height="37.333dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_button_confirm"
+            android:fontFamily="@font/inter_extrabold"
+            android:gravity="center"
+            android:text="Lưu"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.83"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtAddress"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtName"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="103dp"
+            android:layout_marginEnd="15dp"
+            android:drawablePadding="20dp"
+            android:padding="10dp"
+            android:text="Địa chỉ"
+            android:textColor="@color/app_text_color"
+            android:textSize="15dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="383dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -89,34 +125,40 @@
             android:padding="10dp"
             android:text="Tên"
             android:textColor="@color/app_text_color"
-            android:textSize="20dp">
+            android:textSize="15dp">
 
         </TextView>
+
         <TextView
             android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/txtName"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="15dp"
             android:drawablePadding="20dp"
             android:padding="10dp"
             android:text="Email"
             android:textColor="@color/app_text_color"
-            android:textSize="20dp"
-            android:layout_below="@+id/txtName">
+            android:textSize="15dp">
+
         </TextView>
+
         <TextView
             android:id="@+id/txtSDT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/txtName"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="187dp"
             android:layout_marginEnd="15dp"
             android:drawablePadding="20dp"
             android:padding="10dp"
-            android:text="Email"
+            android:text="Số điện thoại"
             android:textColor="@color/app_text_color"
-            android:textSize="20dp"
-            android:layout_below="@+id/txtName">
+            android:textSize="15dp">
+
         </TextView>
 
     </RelativeLayout>
