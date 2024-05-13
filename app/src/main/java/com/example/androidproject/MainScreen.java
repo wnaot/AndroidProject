@@ -2,6 +2,7 @@ package com.example.androidproject;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,6 +54,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.ExplainReasonCallback;
+import com.permissionx.guolindev.callback.RequestCallback;
+import com.permissionx.guolindev.request.ExplainScope;
 import com.squareup.picasso.Picasso;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -63,8 +68,14 @@ import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallService;
 import com.zegocloud.uikit.prebuilt.call.config.DurationUpdateListener;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoCallDurationConfig;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoNotificationConfig;
+import com.zegocloud.uikit.prebuilt.call.event.CallEndListener;
+import com.zegocloud.uikit.prebuilt.call.event.ZegoCallEndReason;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.IncomingCallButtonListener;
 import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoCallType;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoCallUser;
+import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoInvitationCallListener;
 import com.zegocloud.uikit.prebuilt.call.invite.internal.ZegoUIKitPrebuiltCallConfigProvider;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
@@ -119,6 +130,22 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         loadDataNavigation();
 
         initZego();
+
+
+        PermissionX.init(this).permissions(Manifest.permission.SYSTEM_ALERT_WINDOW)
+                .onExplainRequestReason(new ExplainReasonCallback() {
+                    @Override
+                    public void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList) {
+                        String message = "We need your consent for the following permissions in order to use the offline call function properly";
+                        scope.showRequestReasonDialog(deniedList, message, "Allow", "Deny");
+                    }
+                }).request(new RequestCallback() {
+                    @Override
+                    public void onResult(boolean allGranted, @NonNull List<String> grantedList,
+                                         @NonNull List<String> deniedList) {
+                    }
+                });
+
         listenForFriendInvitations();
         imgView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,8 +218,8 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         });
     }
 
-    public void initZego() {
-        if (FirebaseUtil.currentUserId().isEmpty()) {
+    public void initZego(){
+        if(FirebaseUtil.currentUserId().isEmpty()){
             return;
         } else {
             DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseUtil.currentUserId());
@@ -201,24 +228,22 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-
                         String userName = snapshot.child("userName").getValue(String.class);
                         String avatarUrl = snapshot.child("profilePicture").getValue(String.class);
-                        startService(FirebaseUtil.currentUserId(), userName, avatarUrl);
+                        startService(FirebaseUtil.currentUserId(),userName, avatarUrl);
                     } else {
 
                     }
                 }
-
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError error){
                     Log.w("TAG", "Failed to read value.", error.toException());
                 }
             });
         }
     }
 
-    public void startService(String userID, String userName, String avatarUrl) {
+    public void startService(String userID, String userName, String avatarUrl){
         Application application = getApplication(); // Android's application context
         long appID = 242915274;   // yourAppID
         String appSign = "e6f8ddc838dbef59456ef0fc412816fe41dc7aceea9de39606273e282a924238";  // yourAppSign
@@ -240,16 +265,15 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
                 } else {
                     config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
                 }
-
                 config.durationConfig = new ZegoCallDurationConfig();
                 config.durationConfig.isVisible = true;
                 config.durationConfig.durationUpdateListener = new DurationUpdateListener() {
                     @Override
                     public void onDurationUpdate(long seconds) {
-                        com.zego.ve.Log.d(TAG, "onDurationUpdate() called with: second = [" + seconds + "]");
+                        com.zego.ve.Log.d(TAG,"onDurationUpdate() called with: second = ["+ seconds+ "]");
                     }
                 };
-                config.avatarViewProvider = new ZegoAvatarViewProvider() {
+                config.avatarViewProvider = new ZegoAvatarViewProvider(){
                     @Override
                     public View onUserIDUpdated(ViewGroup parent, ZegoUIKitUser zegoUIKitUser) {
                         ImageView imageView = new ImageView(parent.getContext());
@@ -260,9 +284,11 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
                         return imageView;
                     }
                 };
+
                 return config;
             }
         };
+
 
         ZegoNotificationConfig notificationConfig = new ZegoNotificationConfig();
 
@@ -273,9 +299,59 @@ public class MainScreen extends AppCompatActivity implements NavigationView.OnNa
         callInvitationConfig.innerText.incomingCallPageDeclineButton = "Decline";
         callInvitationConfig.innerText.incomingCallPageAcceptButton = "Accept";
 
-        ZegoUIKitPrebuiltCallService.init(getApplication(), appID, appSign, userID, userName, callInvitationConfig);
+        ZegoUIKitPrebuiltCallService.init(getApplication(), appID, appSign, userID, userName,callInvitationConfig);
 
-        System.out.println("Đã tạo kết nối");
+        ZegoUIKitPrebuiltCallService.events.callEvents.setCallEndListener(new CallEndListener() {
+            @Override
+            public void onCallEnd(ZegoCallEndReason callEndReason, String jsonObject) {
+                System.out.println("onCallEnd() called with: callEndReason = [" + callEndReason + "], jsonObject = [" + jsonObject
+                        + "]");
+            }
+        });
+
+        ZegoUIKitPrebuiltCallService.events.invitationEvents.setIncomingCallButtonListener(new IncomingCallButtonListener() {
+            @Override
+            public void onIncomingCallDeclineButtonPressed() {
+                System.out.println("Cuộc gọi đến bị từ chối");
+            }
+
+            @Override
+            public void onIncomingCallAcceptButtonPressed() {
+            }
+        });
+
+        ZegoUIKitPrebuiltCallService.events.invitationEvents.setInvitationListener(new ZegoInvitationCallListener() {
+            @Override
+            public void onIncomingCallReceived(String callID, ZegoCallUser caller, ZegoCallType callType, List<ZegoCallUser> callees) {
+            }
+            @Override
+            public void onIncomingCallCanceled(String callID, ZegoCallUser caller) {
+                System.out.println("Nhá máy" + caller.getName());
+            }
+            @Override
+            public void onIncomingCallTimeout(String callID, ZegoCallUser caller) {
+                System.out.println("Cuộc gọi bị từ chối");
+            }
+            @Override
+            public void onOutgoingCallAccepted(String callID, ZegoCallUser callee) {
+            }
+
+            @Override
+            public void onOutgoingCallRejectedCauseBusy(String callID, ZegoCallUser callee) {
+                System.out.println("Cuộc gọi bị huỷ");
+            }
+
+            @Override
+            public void onOutgoingCallDeclined(String callID, ZegoCallUser callee) {
+                System.out.println("Cuộc gọi bị từ chối");
+            }
+
+            @Override
+            public void onOutgoingCallTimeout(String callID, List<ZegoCallUser> callee) {
+                System.out.println("Cuộc gọi bị nhỡ");
+            }
+        });
+        System.out.println("Da tao ket noi");
     }
 
     private void getToken() {

@@ -188,13 +188,13 @@ public class MessageBox extends AppCompatActivity {
 
     private void setVoiceCall(String targetUserID){
         voiceCallBtn.setIsVideoCall(false);
-        voiceCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        voiceCallBtn.setResourceID("zego_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
         voiceCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
     }
 
     private void setVideoCall(String targetUserID){
         videoCallBtn.setIsVideoCall(true);
-        videoCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
+        videoCallBtn.setResourceID("zego_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
         videoCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
     }
 

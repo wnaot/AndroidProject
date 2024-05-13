@@ -31,6 +31,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
@@ -87,12 +88,31 @@ public class MessageBoxGroups extends AppCompatActivity {
         recyclerView.setAdapter(chatGroupAdapter);
         LoadDataGroupChat();
 
-        voiceCallBtn = findViewById(R.id.voice_call_btn);
-        videoCallBtn = findViewById(R.id.video_call_btn);
+        System.out.println("Group chat ID: "+groupChatId);
+        DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child("GroupChats").child(groupChatId).child("members");
 
-//        setVoiceCall(idFriend);
-//        setVideoCall(idFriend);
-
+        membersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<ZegoUIKitUser> users = new ArrayList<>();
+                    for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+                        String memberId = memberSnapshot.getKey();
+                        String memberValue = memberSnapshot.getValue(String.class);
+                        if(!memberValue.equals(FirebaseUtil.currentUserId())) {
+                            users.add(new ZegoUIKitUser(memberValue));
+                        }
+                    }
+                    initVoiceButton(users);
+                    initVideoButton(users);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle errors
+                Log.e("Firebase", "Error fetching members: " + databaseError.getMessage());
+            }
+        });
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,16 +177,22 @@ public class MessageBoxGroups extends AppCompatActivity {
 
     }
 
-    private void setVoiceCall(String targetUserID){
-        voiceCallBtn.setIsVideoCall(false);
-        voiceCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
-        voiceCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+    private void initVoiceButton(List<ZegoUIKitUser> users) {
+        ZegoSendCallInvitationButton newVoiceCall = findViewById(R.id.voice_call_btn);
+        newVoiceCall.setResourceID("zego_call");//
+        newVoiceCall.setIsVideoCall(false);
+        newVoiceCall.setOnClickListener(v -> {
+            newVoiceCall.setInvitees(users);
+        });
     }
 
-    private void setVideoCall(String targetUserID){
-        videoCallBtn.setIsVideoCall(true);
-        videoCallBtn.setResourceID("zego_uikit_call"); // Please fill in the resource ID name that has been configured in the ZEGOCLOUD's console here.
-        videoCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+    private void initVideoButton(List<ZegoUIKitUser> users) {
+        ZegoSendCallInvitationButton newVideoCall = findViewById(R.id.video_call_btn);
+        newVideoCall.setResourceID("zego_call");//
+        newVideoCall.setIsVideoCall(true);
+        newVideoCall.setOnClickListener(v -> {
+            newVideoCall.setInvitees(users);
+        });
     }
 
     private void sendMessage() {
