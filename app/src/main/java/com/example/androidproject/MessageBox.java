@@ -198,10 +198,10 @@ public class MessageBox extends AppCompatActivity {
         videoCallBtn.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
     }
 
-    private void sendMessage() {
-        String messageText = et_message.getText().toString().trim();
-        String sender_id = mUser.getUid(); // ID của người gửi tin nhắn
-        String receiver_id = idFriend; // ID của người nhận tin nhắn
+     private void sendMessage() {
+         String messageText = et_message.getText().toString().trim();
+         String sender_id = mUser.getUid(); // ID của người gửi tin nhắn
+         String receiver_id = idFriend; // ID của người nhận tin nhắn
 
         if (!messageText.isEmpty()) {
             String messageId = chatData.push().getKey();
@@ -331,5 +331,6 @@ public class MessageBox extends AppCompatActivity {
         });
 
     }
+
 
 }

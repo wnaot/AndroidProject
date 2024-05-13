@@ -147,42 +147,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         AlertDialog alert = builder.create();
         alert.show();
     }
-    private void showRemoveMemberConfirmationDialog(String name,String userId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Bạn có xóa "+name+" ra khỏi nhóm")
-                .setCancelable(true)
-                .setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        FirebaseUtil.allGroupChat().child(groupChatId).child("members").orderByValue().equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot ds : snapshot.getChildren()) {
-                                    ds.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                AndroidUtil.showToast(context, "Bạn đã " + name + " ra khỏi nhóm");
-                                                loadListData();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-    public void loadListData() {
+
+     public void loadListData() {
         List<String> listIdMember = new ArrayList<>();
         List<User> listUserAll = new ArrayList<>();
         FirebaseUtil.allGroupChat().child(groupChatId).child("members").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -228,5 +194,87 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
             }
         });
     }
+    
+    private void showRemoveMemberConfirmationDialog(String name,String userId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Bạn có xóa "+name+" ra khỏi nhóm")
+                .setCancelable(true)
+                .setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        FirebaseUtil.allGroupChat().child(groupChatId).child("members").orderByValue().equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    ds.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                AndroidUtil.showToast(context, "Bạn đã " + name + " ra khỏi nhóm");
+                                                loadListData();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    // public void loadListData() {
+    //     List<String> listIdMember = new ArrayList<>();
+    //     List<User> listUserAll = new ArrayList<>();
+    //     FirebaseUtil.allGroupChat().child(groupChatId).child("members").addListenerForSingleValueEvent(new ValueEventListener() {
+    //         @Override
+    //         public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //             listIdMember.clear();
+    //             for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
+    //                 String memberId = groupSnapshot.getValue(String.class);
+    //                 if (!memberId.equals(FirebaseUtil.currentUserId())) {
+    //                     listIdMember.add(memberId);
+    //                 }
+    //             }
+    //             // Khởi tạo CountDownLatch với số lượng request từ Firebase
+    //             CountDownLatch latch = new CountDownLatch(listIdMember.size());
+
+    //             for (String id : listIdMember) {
+    //                 FirebaseUtil.allUserDatabaseReference().child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+    //                     @Override
+    //                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+    //                         String userID = id;
+    //                         String userName = snapshot.child("userName").getValue(String.class);
+    //                         String avatar = snapshot.child("profilePicture").getValue(String.class);
+    //                         String status = snapshot.child("Status").getValue(String.class);
+
+    //                         User user = new User(userID, userName, avatar, status);
+    //                         listUserAll.add(user);
+    //                         latch.countDown();
+
+    //                         setData(listUserAll);
+    //                         if (latch.getCount() == 0) {
+    //                         }
+    //                     }
+    //                     @Override
+    //                     public void onCancelled(@NonNull DatabaseError error) {
+    //                         latch.countDown();
+    //                     }
+    //                 });
+    //             }
+    //         }
+
+    //         @Override
+    //         public void onCancelled(@NonNull DatabaseError error) {
+    //         }
+    //     });
+    // }
 }
 
