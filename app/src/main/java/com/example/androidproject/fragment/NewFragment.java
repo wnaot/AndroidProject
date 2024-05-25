@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidproject.Model.ApiResponse;
-import com.example.androidproject.Model.Article;
-import com.example.androidproject.NewsApdapter;
+import com.example.androidproject.model.ApiResponse;
+import com.example.androidproject.model.Article;
+import com.example.androidproject.adapter.NewsApdapter;
 import com.example.androidproject.R;
 import com.example.androidproject.api.ApiService;
 

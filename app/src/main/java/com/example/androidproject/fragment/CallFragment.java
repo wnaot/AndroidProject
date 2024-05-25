@@ -11,17 +11,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidproject.GroupAdapter;
-import com.example.androidproject.ItemUserAdapter;
-import com.example.androidproject.Model.Chat;
-import com.example.androidproject.Model.GroupChat;
-import com.example.androidproject.Model.MessageGroup;
-import com.example.androidproject.Model.User;
+import com.example.androidproject.adapter.GroupAdapter;
+import com.example.androidproject.model.GroupChat;
+import com.example.androidproject.model.MessageGroup;
 import com.example.androidproject.R;
-import com.example.androidproject.Utils.FirebaseUtil;
+import com.example.androidproject.utils.FirebaseUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;

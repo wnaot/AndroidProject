@@ -1,6 +1,6 @@
 package com.example.androidproject.api;
 
-import com.example.androidproject.Model.ApiResponse;
+import com.example.androidproject.model.ApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

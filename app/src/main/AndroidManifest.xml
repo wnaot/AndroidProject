@@ -34,43 +34,43 @@
             android:exported="true"
             />
         <activity
-            android:name=".ConfirmEmail"
+            android:name=".activity.ConfirmEmail"
             android:exported="true"
             />
         <activity
-            android:name=".DetailGroupActivity"
+            android:name=".activity.DetailGroupActivity"
             android:exported="true"
             />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".activity.ForgotPassword"
             android:exported="true"
             />
         <activity
-            android:name=".MainScreen"
+            android:name=".activity.MainScreen"
             android:exported="true"
             />
         <activity
-            android:name=".detailAccountActivity"
+            android:name=".activity.detailAccountActivity"
             android:exported="true"
             />
         <activity
-            android:name=".MessageBox"
+            android:name=".activity.MessageBox"
             android:exported="true"
             />
         <activity
-            android:name=".MessageBoxGroups"
+            android:name=".activity.MessageBoxGroups"
             android:exported="true"
             />
         <activity
-            android:name=".AddUserInGroup"
+            android:name=".activity.AddUserInGroup"
             android:exported="true"
             />
         <activity
-            android:name=".SearchUser"
+            android:name=".activity.SearchUser"
             android:exported="true"
             />
         <activity
-            android:name=".InfoUser"
+            android:name=".activity.InfoUser"
             android:exported="true"
             />
         <activity
@@ -78,15 +78,15 @@
             android:exported="true"
             />
         <activity
-            android:name=".FriendInvitationActivity"
+            android:name=".activity.FriendInvitationActivity"
             android:exported="true"
             />
         <activity
-            android:name=".MemberActivity"
+            android:name=".activity.MemberActivity"
             android:exported="true"
             />
         <activity
-            android:name=".CreateGroupChat"
+            android:name=".activity.CreateGroupChat"
             android:exported="true"
             />
         <activity
@@ -99,7 +99,7 @@
 
         </activity>
         <service
-            android:name=".FCMNotificationService" android:exported="false">
+            android:name=".serivice.FCMNotificationService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

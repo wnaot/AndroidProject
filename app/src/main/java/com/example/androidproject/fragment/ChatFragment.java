@@ -1,12 +1,10 @@
 package com.example.androidproject.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 
@@ -16,15 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidproject.HorizontalAdapter;
-import com.example.androidproject.ItemUserAdapter;
-import com.example.androidproject.ListFriendAdapter;
-import com.example.androidproject.MainScreen;
-import com.example.androidproject.Model.Chat;
+import com.example.androidproject.adapter.HorizontalAdapter;
+import com.example.androidproject.adapter.ItemUserAdapter;
+import com.example.androidproject.activity.MainScreen;
+import com.example.androidproject.model.Chat;
 import com.example.androidproject.R;
-import com.example.androidproject.Model.User;
-import com.example.androidproject.Utils.AndroidUtil;
-import com.example.androidproject.Utils.FirebaseUtil;
+import com.example.androidproject.model.User;
+import com.example.androidproject.utils.FirebaseUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,12 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class ChatFragment extends Fragment {

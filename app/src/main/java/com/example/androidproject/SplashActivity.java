@@ -5,17 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.androidproject.Utils.AndroidUtil;
-import com.example.androidproject.Utils.FirebaseUtil;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Map;
+import com.example.androidproject.activity.MainScreen;
+import com.example.androidproject.utils.FirebaseUtil;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
